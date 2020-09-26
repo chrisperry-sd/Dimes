@@ -1,11 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {ScrollView, View, Text, FlatList, StyleSheet} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
 export default function ChildrenScroll({navigation, data, summed}) {
-  const [child, setChild] = useState([]);
-
   return (
     <ScrollView>
       <View style={styles.container}>

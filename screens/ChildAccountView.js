@@ -2,13 +2,11 @@ import React, {useState, useCallback} from 'react';
 import {
   View,
   Text,
-  Image,
   StyleSheet,
   ScrollView,
   StatusBar,
   SafeAreaView,
   RefreshControl,
-  TouchableOpacity,
 } from 'react-native';
 
 import ChildBalance from '../components/childComponents/ChildBalance';
@@ -17,7 +15,7 @@ import Categories from '../components/childComponents/Categories';
 import NextAllowance from '../components/childComponents/NextAllowance';
 import ChildAccountBudgetDisplay from '../components/childComponents/ChildAccountBudgetDisplay';
 
-export default function ChildAccountView({data, budget}) {
+export default function ChildAccountView({data, budget, summed}) {
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const wait = (timeout) => {
@@ -29,6 +27,7 @@ export default function ChildAccountView({data, budget}) {
     setIsRefreshing(true);
     wait(2000).then(() => setIsRefreshing(false));
   }, []);
+
   return (
     <View style={styles.bg}>
       <SafeAreaView style={styles.screen}>
@@ -54,10 +53,10 @@ export default function ChildAccountView({data, budget}) {
             <ChildAccountBudgetDisplay data={data} budget={budget} />
           </View>
           <View>
-            <ChildBalance data={data} />
+            <ChildBalance summed={summed} />
           </View>
           <View>
-            <Savings data={data} />
+            <Savings summed={summed} />
           </View>
           <View>
             <Text style={styles.text}>

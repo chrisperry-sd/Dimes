@@ -9,60 +9,66 @@ export default function ChildAccountBudgetDisplay({
   summed,
 }) {
   const transactions = data[0].transactions;
+  // .filter(
+  //   (transaction) =>
+  //     new Date(transaction.Date).getTime() -
+  //       new Date(budgett[i].Date).getTime() <=
+  //     0,
+  // )
 
-  function getFirstDayOfWeek() {
-    const curr = new Date();
-    const firstday = new Date(curr.setDate(curr.getDate() - curr.getDay()));
-    return firstday.getTime();
-  }
-
-  function showThisWeeksTransactions() {
-    const thisWeeksTransactions = [];
-    for (let i = 0; i < transactions.length; i++) {
-      if (getFirstDayOfWeek() - new Date(transactions[i].Date).getTime() <= 0) {
-        thisWeeksTransactions.push(transactions[i]);
-      }
-    }
-    return thisWeeksTransactions;
-  }
-  const thisWeeksTrans = showThisWeeksTransactions();
-
+  // this function takes array of budgets and it filters all current transactions by catgeories matching to budget category
+  // so we end up with an array of objects which are transactions of the same catgeory as the budgets.
+  const filteredTransactionsByCategory = [];
   function filterTransByCategory(budgett) {
-    const categories = [];
     for (let i = 0; i < budgett.length; i++) {
       const cat = budgett[i].category.toLowerCase();
-      categories.push(
-        thisWeeksTrans.filter(
-          (transaction) => transaction.category.toLowerCase() === cat,
-        ),
-      );
+      // console.log('new Date(budgett[i].Date).getTime(): ', transactions[i].Date);
+      const trans = transactions
+        .filter((transaction) => transaction.category.toLowerCase() === cat)
+        .filter(
+          (transs) =>
+            new Date(budgett[i].date).getTime() -
+              new Date(transs.Date).getTime() <=
+            0,
+        );
+      if (trans.length > 0) {
+        filteredTransactionsByCategory.push(trans);
+      }
     }
-    return categories;
+    return filteredTransactionsByCategory;
   }
-  const cats = filterTransByCategory(budget);
-  const sums = [];
+  const cats = filterTransByCategory(budget); // this holds an array of transaction objects that took place after the budget was set..
+  console.log('cats: ', cats); // should be empty
+
+  const sums = []; // sum of all the transaction that took place after the budget was set
   for (let i = 0; i < cats.length; i++) {
     let catName = cats[i][0].category;
     let sum = cats[i].reduce((acc, current) => acc + current.amount, 0);
     sums[i] = {category: catName, amount: parseInt(sum.toFixed(2), 10)};
   }
-  const budgets = [];
+  const budgets = []; // probably dont need to do this but formats it nicer..
   for (let i = 0; i < budget.length; i++) {
     let catName = budget[i].category;
     let sum = budget[i].budget;
     budgets[i] = {category: catName, amount: sum};
   }
+
   const budgetsArray = [];
-  for (let i = 0; i < sums.length; i++) {
+  for (let i = 0; i < budgets.length; i++) {
     let catName = budgets[i].category;
-
     let sum = budgets[i].amount;
-
-    if (sums[i].category.toLowerCase() === budgets[i].category.toLowerCase()) {
-      const summd = budgets[i].amount + sums[i].amount;
-      budgetsArray[i] = {category: catName, amount: sum, remaining: summd};
+    if (!sums[i]) {
+      budgetsArray[i] = {category: catName, amount: sum, remaining: sum};
+    } else {
+      if (
+        sums[i].category.toLowerCase() === budgets[i].category.toLowerCase()
+      ) {
+        const summd = budgets[i].amount + sums[i].amount;
+        budgetsArray[i] = {category: catName, amount: sum, remaining: summd};
+      }
     }
   }
+  console.log('budgetsArray: ', budgetsArray);
   const renderBudget = ({item, index}) => {
     return (
       <TouchableOpacity>
@@ -78,7 +84,6 @@ export default function ChildAccountBudgetDisplay({
               <Text style={styles.small}>
                 You have £{item.remaining} left of budget
               </Text>
-              <Text style={styles.small}>progress bar?</Text>
             </View>
           </View>
         </View>

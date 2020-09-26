@@ -45,7 +45,7 @@ export default function ChildParentView({navigation, data, summed, budget}) {
           <Text style={styles.text}>Balances</Text>
         </View>
         <View>
-          <BallanceChild summed={summed} />
+          <BallanceChild summed={summed} navigation={navigation} data={data} />
         </View>
         <View>
           <Text style={styles.text}>Budgets</Text>

@@ -2,18 +2,22 @@ import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
-export default function Balance({navigation, summed}) {
+export default function BalanceChild({navigation, summed, data}) {
   return (
-    <TouchableOpacity
-      style={styles.box}
-      onPress={() => navigation.navigate('ChildView')}>
+    <View style={styles.box}>
       <View>
         <Text style={styles.balanceTitle}>Total Balance</Text>
       </View>
       <View>
         <Text style={styles.balance}>£ {summed}</Text>
       </View>
-    </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('IndividualAccountTransactions', {data})}>
+        <View>
+          <Text style={styles.text}>View all transactions</Text>
+        </View>
+      </TouchableOpacity>
+    </View>
   );
 }
 
@@ -37,6 +41,14 @@ const styles = StyleSheet.create({
     // marginTop: 20,
     marginLeft: 20,
     fontSize: 40,
+    fontFamily: 'Raleway-Regular',
+    color: 'white',
+  },
+  text: {
+    marginBottom: 50,
+    // marginTop: 20,
+    marginLeft: 20,
+    fontSize: 20,
     fontFamily: 'Raleway-Regular',
     color: 'white',
   },

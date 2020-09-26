@@ -12,6 +12,8 @@ import BudgetChild from './components/BudgetChild';
 import MockTransactions from './screens/MockTransactions';
 import ChildAccountBudgetDisplay from './components/childComponents/ChildAccountBudgetDisplay';
 import Categories from './components/childComponents/Categories';
+import IndividualAccountTransactions from './screens/IndividualAccountTransactions';
+import BalanceChild from './components/BalanceChild';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -39,7 +41,7 @@ export default function App() {
     (accumulator, current) => accumulator + current.amount,
     0,
   );
-  const summed = summ.toFixed(2);
+  const summed = summ.toFixed(2); // sum of all transactions
 
   function getFirstDayOfWeek() {
     const curr = new Date();
@@ -56,7 +58,7 @@ export default function App() {
     }
     return thisWeeksTransactions;
   }
-  const thisWeeksTrans = showThisWeeksTransactions();
+  const thisWeeksTrans = showThisWeeksTransactions(); // all transactions taken place this week
 
   const thisWeeksSum = thisWeeksTrans.reduce(
     (accumulator, current) => accumulator + current.amount,
@@ -81,6 +83,7 @@ export default function App() {
             />
           )}
         </Stack.Screen>
+
         <Stack.Screen
           name="ChildAccountBudgetDisplay"
           options={{headerShown: false}}>
@@ -139,6 +142,30 @@ export default function App() {
         <Stack.Screen name="MockTransactions" options={{headerShown: false}}>
           {(props) => (
             <MockTransactions
+              data={data}
+              {...props}
+              summed={summed}
+              createBudget={createBudget}
+            />
+          )}
+        </Stack.Screen>
+
+        <Stack.Screen
+          name="IndividualAccountTransactions"
+          options={{headerShown: false}}>
+          {(props) => (
+            <IndividualAccountTransactions
+              data={data}
+              {...props}
+              summed={summed}
+              createBudget={createBudget}
+            />
+          )}
+        </Stack.Screen>
+
+        <Stack.Screen name="BalanceChild" options={{headerShown: false}}>
+          {(props) => (
+            <BalanceChild
               data={data}
               {...props}
               summed={summed}

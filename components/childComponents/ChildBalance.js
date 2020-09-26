@@ -2,13 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
-export default function Balance({transactions, data}) {
-  const trans = data[0].transactions;
-  const summ = trans.reduce(
-    (accumulator, current) => accumulator + current.amount,
-    0,
-  );
-  const summed = summ.toFixed(2);
+export default function Balance({transactions, summed}) {
   return (
     <TouchableOpacity style={styles.box}>
       <View>
@@ -40,14 +34,14 @@ const styles = StyleSheet.create({
     color: 'white',
     padding: 10,
     marginTop: 10,
-    fontSize: 18,
+    fontSize: 24,
     fontFamily: 'Chilanka-Regular',
   },
   balance: {
     marginBottom: 50,
     // marginTop: 20,
     marginLeft: 20,
-    fontSize: 40,
+    fontSize: 36,
     fontFamily: 'Chilanka-Regular',
     color: 'white',
   },

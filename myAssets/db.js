@@ -113,6 +113,13 @@ const data = [
         merchant: 'Cinema',
         category: 'Cinema',
       },
+      {
+        id: 14,
+        Date: randomDate(new Date(2020, 8, 15), new Date()),
+        amount: -8.97,
+        merchant: 'Cinema',
+        category: 'Cinema',
+      },
     ],
   },
 ];
