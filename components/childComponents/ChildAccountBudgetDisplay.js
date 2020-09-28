@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ScrollView, View, Text, FlatList, StyleSheet, Alert } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function ChildAccountBudgetDisplay ({ budget, data }) {
   const [show, setshow] = useState([]);
+  const [budgetss, setbudgets] = useState([]);
 
   const createAlert = () =>
     Alert.alert(
@@ -26,7 +27,7 @@ export default function ChildAccountBudgetDisplay ({ budget, data }) {
     }
     this[a.category].amount += a.budget;
   }, Object.create(null));
-  console.log('budgets: ', budgets);
+
   // this function takes array of the budgets budgets and filters all current transactions by catgeories matching to the budget category.
   // then filters that array by all transactions that happened after the budget was set..
   const filteredTransactionsByCategory = [];
@@ -48,15 +49,14 @@ export default function ChildAccountBudgetDisplay ({ budget, data }) {
     return filteredTransactionsByCategory;
   }
   const cats = filterTransByCategory(budgets); // this holds an array of transaction objects that took place after the budget was set..
-  console.log('cats: ', cats);
+
   const sums = []; // sum of all the transaction that took place after the budget was set
   for (let i = 0; i < cats.length; i++) {
     let catName = cats[i][0].category;
     let sum = cats[i].reduce((acc, current) => acc + current.amount, 0);
     sums[i] = { category: catName, amount: sum.toFixed(2), id: cats[i]._id };
   }
-  // if budgets[i]. expiry date has expired or its a new week set display to false, else show etc...
-  // if (new Date(date.now()) - new Date(budget[i]expiry) < 0) budget[i].display = false
+  console.log('sums: ', sums);
   const budgetsArray = [];
   for (let i = 0; i < budgets.length; i++) {
     let catName = budgets[i].category;
@@ -67,7 +67,7 @@ export default function ChildAccountBudgetDisplay ({ budget, data }) {
     }
     if (!sums[i]) {
       if (budgets[i].display) {
-        budgetsArray[i] = { category: catName, amount: sum, remaining: sum, display: budgets[i].display, expiry: budgets[i].expiry };
+        budgetsArray[i] = { category: catName, amount: sum, remaining: sum, display: budgets[i].display, expiry: budgets[i].expiry }; //add id
       }
     } else {
       if (
@@ -80,11 +80,15 @@ export default function ChildAccountBudgetDisplay ({ budget, data }) {
         if (summd < 0) {
           minusAlert();
         }
-        budgetsArray[i] = { category: catName, amount: sum, remaining: summd, display: budgets[i].display, expiry: budgets[i].expiry };
+        budgetsArray[i] = { category: catName, amount: sum, remaining: summd, display: budgets[i].display, expiry: budgets[i].expiry }; //add id
       }
       else return null;
     }
   }
+  useEffect(() => {
+    setbudgets(budgetsArray)
+  }, [])
+
   const renderBudget = ({ item, index }) => {
     return (
       <TouchableOpacity>

@@ -8,9 +8,9 @@ import {
   Image,
 } from 'react-native';
 import moment from 'moment';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
-export default function IndividualAccountTransactions ({ navigation, data }) {
+
+export default function IndividualAccountTransactions ({ data }) {
   const renderCategory = ({ item }) => {
     return (
       <View style={styles.list}>

@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   list: {
-    backgroundColor: '#985f6f',
+    backgroundColor: '#A34861',
     marginRight: 10,
     height: 100,
     borderRadius: 8,

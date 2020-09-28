@@ -22,24 +22,20 @@ const remaining = remaninigAfterBudgetSpent.toFixed(2);
         <View style={styles.savingView}>
         {budget.length > 0 ? 
           <Text style={styles.savings}>
-            Save your remaining budget and have
+            Save your remaining budget and have £ {summed}
           </Text> :  <Text style={styles.savings}>
           See how much you can save!
         </Text> }
           <View style={styles.remaining}>
           {budget.length > 0 ?
-            <Text style={styles.savingsLarge}>£{summed}</Text> 
+            null
             : 
             <Text style={styles.savingsLarge}> You have £{summed}</Text>}
             {budget.length > 0 ? 
-            <Text style={styles.savingsLeft}>at the end of the week..</Text>
+            <Text style={styles.savings}>at the end of the week..</Text>
             :
             null}
           </View>
-        </View>
-        <View style={{width: 200,}}>
-        {budget.length > 0 ?
-          <Text style={styles.balance}>Spend all your budget and have £{remaining} left at the end of the week</Text> : null}
         </View>
       </View>
     </TouchableOpacity>
@@ -61,10 +57,13 @@ const styles = StyleSheet.create({
   },
   savingView: {
     marginBottom: 10,
+    width: 350,
   },
   remaining: {
     flexDirection: 'row',
     alignItems: 'center',
+    width: 250,
+    // margin: 10,
   },
   balanceTitle: {
     color: 'white',
@@ -81,19 +80,18 @@ const styles = StyleSheet.create({
   },
   savings: {
     marginLeft: 20,
-    fontSize: 16,
+    fontSize: 24,
     fontFamily: 'Chilanka-Regular',
     color: '#BBE1C3',
   },
-  savingsLeft: {
-    // marginLeft: 20,
-    fontSize: 16,
-    fontFamily: 'Chilanka-Regular',
-    color: '#BBE1C3',
-  },
+  // savingsLeft: {
+  //   fontSize: 24,
+  //   fontFamily: 'Chilanka-Regular',
+  //   color: '#BBE1C3',
+  // },
   savingsLarge: {
     margin: 10,
-    fontSize: 24,
+    fontSize: 32,
     fontFamily: 'Chilanka-Regular',
     color: '#BBE1C3',
   },
