@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, {useState, useEffect} from 'react';
-import {SafeAreaView, StatusBar, StyleSheet, View} from 'react-native';
+import {StyleSheet} from 'react-native';
 
 import ParentDashboard from './screens/ParentDashboardOpt';
 import ChildParentView from './screens/ChildParentView';
@@ -9,7 +9,6 @@ import AddChild from './screens/AddChild';
 import ChildAccountView from './screens/ChildAccountView';
 import AddBudget from './screens/AddBudget';
 import BudgetChild from './components/BudgetChild';
-import MockTransactions from './screens/MockTransactions';
 import ChildAccountBudgetDisplay from './components/childComponents/ChildAccountBudgetDisplay';
 import Categories from './components/childComponents/Categories';
 import IndividualAccountTransactions from './screens/IndividualAccountTransactions';
@@ -25,46 +24,49 @@ const Stack = createStackNavigator();
 
 export default function App() {
   const [childBudget, setChildBudget] = useState({});
+  const [transactions, setTransactions] = useState({});
 
   useEffect(() => {
     ApiService.getBudgets().then((budgets) => setChildBudget(budgets));
   }, []);
-
-  function createBudget(category, budget) {
-    ApiService.postBudget({category, budget}).then((budgets) => {
+  useEffect(() => {
+    ApiService.getTransactions().then((trans) => setTransactions(trans));
+  }, []);
+  function createBudget(category, budget, date) {
+    ApiService.postBudget({category, budget, date}).then((budgets) => {
       // eslint-disable-next-line no-shadow
       setChildBudget((childBudget) => [...childBudget, budgets]);
     });
   }
-  const trans = data[0].transactions;
-  const summ = trans.reduce(
-    (accumulator, current) => accumulator + current.amount,
-    0,
-  );
-  const summed = summ.toFixed(2); // sum of all transactions
-
+  function getSum() {
+  if (transactions.length) {
+    const summ = transactions.reduce(
+      (accumulator, current) => accumulator + current.amount,
+      0,
+      );
+       return summ.toFixed(2);
+    }
+  }
+  const summed = getSum(); // sum of all transactions to display current balance
   function getFirstDayOfWeek() {
     const curr = new Date();
     const firstday = new Date(curr.setDate(curr.getDate() - curr.getDay()));
     return firstday.getTime();
   }
-
-  function showThisWeeksTransactions() {
-    const thisWeeksTransactions = [];
-    for (let i = 0; i < trans.length; i++) {
-      if (getFirstDayOfWeek() - new Date(trans[i].Date).getTime() <= 0) {
-        thisWeeksTransactions.push(trans[i]);
+  function thisWeeksTrans() {
+    if (transactions.length) {
+    return transactions.filter(transaction => (getFirstDayOfWeek() - new Date(transaction.date).getTime() <= 0));
+    };
+  };
+    const thisWeeksTransactions = thisWeeksTrans()
+  function thisWeeksSum() {
+    if (thisWeeksTransactions) {
+      return thisWeeksTransactions.reduce( // sum of all transactions this week
+        (accumulator, current) => accumulator + current.amount,
+        0).toFixed(2);
       }
-    }
-    return thisWeeksTransactions;
-  }
-  const thisWeeksTrans = showThisWeeksTransactions(); // all transactions taken place this week
-
-  const thisWeeksSum = thisWeeksTrans.reduce(
-    (accumulator, current) => accumulator + current.amount,
-    0,
-  );
-  const thisWeekSum = thisWeeksSum.toFixed(2);
+  } 
+  const WeeksSum = thisWeeksSum()
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -76,7 +78,8 @@ export default function App() {
         <Stack.Screen name="ChildAccountView" options={{headerShown: false}}>
           {(props) => (
             <ChildAccountView
-              data={data}
+            transactions={transactions}
+            data={data}
               {...props}
               summed={summed}
               budget={childBudget}
@@ -89,7 +92,7 @@ export default function App() {
           options={{headerShown: false}}>
           {(props) => (
             <ChildAccountBudgetDisplay
-              data={data}
+              data={transactions}
               {...props}
               summed={summed}
               budget={childBudget}
@@ -101,10 +104,11 @@ export default function App() {
           {(props) => (
             <ParentDashboard
               data={data}
+              transactions={transactions}
               {...props}
               summed={summed}
-              thisWeekSum={thisWeekSum}
-              thisWeeksTrans={thisWeeksTrans}
+              thisWeekSum={WeeksSum}
+              thisWeeksTrans={thisWeeksTransactions}
             />
           )}
         </Stack.Screen>
@@ -116,7 +120,7 @@ export default function App() {
         <Stack.Screen name="ChildParentView" options={{headerShown: false}}>
           {(props) => (
             <ChildParentView
-              data={data}
+              data={transactions}
               {...props}
               summed={summed}
               budget={childBudget}
@@ -125,24 +129,13 @@ export default function App() {
         </Stack.Screen>
 
         <Stack.Screen name="AddChild" options={{headerShown: false}}>
-          {(props) => <AddChild data={data} {...props} summed={summed} />}
+          {(props) => <AddChild data={transactions} {...props} summed={summed} />}
         </Stack.Screen>
 
         <Stack.Screen name="AddBudget" options={{headerShown: false}}>
           {(props) => (
             <AddBudget
-              data={data}
-              {...props}
-              summed={summed}
-              createBudget={createBudget}
-            />
-          )}
-        </Stack.Screen>
-
-        <Stack.Screen name="MockTransactions" options={{headerShown: false}}>
-          {(props) => (
-            <MockTransactions
-              data={data}
+              data={transactions}
               {...props}
               summed={summed}
               createBudget={createBudget}
@@ -155,7 +148,7 @@ export default function App() {
           options={{headerShown: false}}>
           {(props) => (
             <IndividualAccountTransactions
-              data={data}
+              data={transactions}
               {...props}
               summed={summed}
               createBudget={createBudget}
@@ -166,7 +159,7 @@ export default function App() {
         <Stack.Screen name="BalanceChild" options={{headerShown: false}}>
           {(props) => (
             <BalanceChild
-              data={data}
+              data={transactions}
               {...props}
               summed={summed}
               createBudget={createBudget}
@@ -175,7 +168,7 @@ export default function App() {
         </Stack.Screen>
 
         <Stack.Screen name="BudgetChild" options={{headerShown: false}}>
-          {(props) => <BudgetChild data={data} {...props} summed={summed} />}
+          {(props) => <BudgetChild data={transactions} {...props} summed={summed} />}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>

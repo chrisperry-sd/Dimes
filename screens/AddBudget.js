@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -7,18 +7,34 @@ import {
   TextInput,
   SafeAreaView,
   StatusBar,
+  Button,
 } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
-export default function AddBudget({navigation, createBudget}) {
+export default function AddBudget ({ navigation, createBudget }) {
   const [category, setCategory] = useState('');
   const [budget, setBudget] = useState('');
 
-  function handleOnPress(event) {
+  const [date, setDate] = useState(Date.now());
+
+  const [show, setShow] = useState(false);
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setShow(Platform.OS === 'ios');
+    setDate(currentDate);
+  };
+  const showMode = (currentMode) => {
+    setShow(!show);
+  };
+  const showDatepicker = () => {
+    showMode('date');
+  };
+  function handleOnPress (event) {
     event.preventDefault();
-    createBudget(category, budget);
+    createBudget(category, budget, date);
     navigation.navigate('ChildParentView');
   }
-
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar />
@@ -43,14 +59,35 @@ export default function AddBudget({navigation, createBudget}) {
           />
         </View>
         <View style={styles.centerbtn}>
-          <TouchableOpacity onPress={handleOnPress} style={styles.btnContainer}>
+          <TouchableOpacity onPress={showDatepicker} style={styles.dateBtnContainer}>
             <View style={styles.btn}>
-              <Text style={styles.text}>Add Budget</Text>
+              <Text style={styles.text}>Add an expiry date here</Text>
             </View>
           </TouchableOpacity>
         </View>
+        <View>
+          {show && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              // mode={'datetime'}
+              value={date}
+              is24Hour={true}
+              display="spinner"
+              onChange={onChange}
+              textColor="white"
+            />
+          )}
+        </View>
+
       </View>
-    </SafeAreaView>
+      <View style={styles.centerbtn}>
+        <TouchableOpacity onPress={handleOnPress} style={styles.btnContainer}>
+          <View style={styles.btn}>
+            <Text style={styles.text}>Add Budget</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView >
   );
 }
 
@@ -80,6 +117,10 @@ const styles = StyleSheet.create({
   btnContainer: {
     margin: 50,
     width: 250,
+  },
+  dateBtnContainer: {
+    margin: 10,
+    width: 350,
   },
   centerbtn: {
     alignItems: 'center',

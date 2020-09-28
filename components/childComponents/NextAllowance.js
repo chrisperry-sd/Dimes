@@ -14,7 +14,7 @@ const daysLeft = getMonthDaysLeft();
 export default function NextAllowance() {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>{daysLeft} days until next allowance</Text>
+      <Text style={styles.text}>{daysLeft} days until your next allowance</Text>
     </View>
   );
 }

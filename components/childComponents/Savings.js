@@ -1,9 +1,17 @@
+import { CurrentRenderContext } from '@react-navigation/native';
 import React from 'react';
 import {View, Text, StyleSheet, Image} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import pig from '../../myAssets/images/pig1-removebg-preview.png';
 
-export default function Savings({summed}) {
+export default function Savings({summed, budget, data}) {
+  const budgetAmounts = budget.reduce(
+    (accumulator, current) => accumulator + current.budget,
+    0,
+  );
+const remaninigAfterBudgetSpent = summed - budgetAmounts;
+const remaining = remaninigAfterBudgetSpent.toFixed(2);
+
   return (
     <TouchableOpacity style={styles.box}>
       <View>
@@ -20,9 +28,9 @@ export default function Savings({summed}) {
             <Text style={styles.savings}>at the end of the week..</Text>
           </View>
         </View>
-        <View>
-          <Text style={styles.balance}>Spend all your budget and have</Text>
-          <Text style={styles.balance}>$ at the end of the week</Text>
+        <View style={{width: 200,}}>
+          <Text style={styles.balance}>Spend all your budget and only have</Text>
+          <Text style={styles.balance}>$ {remaining} left at the end of the week</Text>
         </View>
       </View>
     </TouchableOpacity>

@@ -14,8 +14,9 @@ import Savings from '../components/childComponents/Savings';
 import Categories from '../components/childComponents/Categories';
 import NextAllowance from '../components/childComponents/NextAllowance';
 import ChildAccountBudgetDisplay from '../components/childComponents/ChildAccountBudgetDisplay';
+import ChartComp from '../components/childComponents/ChartComp';
 
-export default function ChildAccountView({data, budget, summed}) {
+export default function ChildAccountView({data, budget, summed, transactions}) {
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const wait = (timeout) => {
@@ -41,30 +42,33 @@ export default function ChildAccountView({data, budget, summed}) {
             />
           }>
           <View>
-            <Text style={styles.textBold}>Hi {data[0].Name}</Text>
+            <Text style={styles.textBold}>Hey {data[0].Name}</Text>
           </View>
           <View>
-            <NextAllowance data={data} />
+            <NextAllowance data={transactions} />
           </View>
           <View>
-            <Text style={styles.text}>budgets</Text>
+            <Text style={styles.text}>Budgets</Text>
           </View>
           <View>
-            <ChildAccountBudgetDisplay data={data} budget={budget} />
+            <ChildAccountBudgetDisplay data={transactions} budget={budget} />
           </View>
           <View>
             <ChildBalance summed={summed} />
           </View>
           <View>
-            <Savings summed={summed} />
+            <Savings summed={summed} budget={budget} data={transactions}/>
           </View>
           <View>
             <Text style={styles.text}>
               Look what you've spent money on this week
             </Text>
             <View style={styles.categories}>
-              <Categories data={data} />
+              <Categories data={transactions} />
             </View>
+          </View>
+          <View>
+            <ChartComp />
           </View>
           <View>
             <Text />

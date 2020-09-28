@@ -39,7 +39,7 @@ export default function ChildParentView({navigation, data, summed, budget}) {
         }>
         <StatusBar barStyle="light-content" />
         <View style={styles.centerText}>
-          <Text style={styles.textLarge}>{data[0].Name}</Text>
+          <Text style={styles.textLarge}>James</Text>
         </View>
         <View>
           <Text style={styles.text}>Balances</Text>

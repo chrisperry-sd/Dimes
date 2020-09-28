@@ -3,7 +3,7 @@ import {ScrollView, View, Text, FlatList, StyleSheet} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
 export default function BudgetChild({navigation, budget}) {
-  const renderBudget = ({item, index}) => {
+  const renderBudget = ({item}) => {
     return (
       <TouchableOpacity>
         <View style={styles.list}>
@@ -77,7 +77,6 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     margin: 10,
-    // flexDirection: 'row',
   },
   addBudgetContainer: {
     margin: 10,

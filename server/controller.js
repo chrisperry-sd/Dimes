@@ -1,4 +1,5 @@
 const Budgets = require('./budgetSchema');
+const Transactions = require('./transactionSchema');
 
 exports.getAllBudgets = async function (req, res) {
   try {
@@ -12,8 +13,8 @@ exports.getAllBudgets = async function (req, res) {
 };
 exports.createBudget = async function (req, res) {
   try {
-    const {category, budget} = req.body;
-    const newBudget = await Budgets.create({category, budget});
+    const {category, budget, date} = req.body;
+    const newBudget = await Budgets.create({category, budget, date});
     res.status(200);
     res.send(newBudget);
   } catch (error) {
@@ -21,3 +22,25 @@ exports.createBudget = async function (req, res) {
     res.status(500);
   }
 };
+exports.getAllTransactions = async function (req, res) {
+  try {
+    const transaction = await Transactions.find();
+    res.status(200);
+    res.send(transaction);
+  } catch (error) {
+    console.log('get all budgets error: ', error);
+    res.status(500);
+  }
+};
+exports.createTransaction = async function (req, res) {
+  try {
+    const {category, amount, date, merchant} = req.body;
+    const newTransaction = await Transactions.create({category, amount, date, merchant});
+    res.status(200);
+    res.send(newTransaction);
+  } catch (error) {
+    console.log('create budget error: ', error);
+    res.status(500);
+  }
+};
+

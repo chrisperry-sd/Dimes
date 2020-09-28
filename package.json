@@ -10,6 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@react-native-community/datetimepicker": "^3.0.2",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-navigation/native": "^5.7.3",
     "@react-navigation/stack": "^5.9.0",
@@ -20,8 +21,10 @@
     "react": "16.13.1",
     "react-native": "0.63.2",
     "react-native-chart-kit": "^6.6.1",
+    "react-native-date-picker": "^3.2.3",
     "react-native-gesture-handler": "^1.8.0",
     "react-native-linear-gradient": "^2.5.6",
+    "react-native-modal-datetime-picker": "^9.0.0",
     "react-native-navigation": "^7.0.0",
     "react-native-reanimated": "^1.13.0",
     "react-native-safe-area-context": "^3.1.8",
