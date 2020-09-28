@@ -45,7 +45,7 @@ export default function Categories({data}) {
     );
   };
   return (
-    <ScrollView>
+    <View>
       <View style={styles.container}>
         <FlatList
           style={styles.flatListBorder}
@@ -55,7 +55,7 @@ export default function Categories({data}) {
           renderItem={renderCategory}
         />
       </View>
-    </ScrollView>
+    </View>
   );
 }
 

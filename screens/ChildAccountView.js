@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   View,
   Text,
@@ -14,9 +14,8 @@ import Savings from '../components/childComponents/Savings';
 import Categories from '../components/childComponents/Categories';
 import NextAllowance from '../components/childComponents/NextAllowance';
 import ChildAccountBudgetDisplay from '../components/childComponents/ChildAccountBudgetDisplay';
-import ChartComp from '../components/childComponents/ChartComp';
 
-export default function ChildAccountView({data, budget, summed, transactions}) {
+export default function ChildAccountView ({ data, budget, summed, transactions, thisWeeksTransactions }) {
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const wait = (timeout) => {
@@ -28,7 +27,6 @@ export default function ChildAccountView({data, budget, summed, transactions}) {
     setIsRefreshing(true);
     wait(2000).then(() => setIsRefreshing(false));
   }, []);
-
   return (
     <View style={styles.bg}>
       <SafeAreaView style={styles.screen}>
@@ -42,36 +40,34 @@ export default function ChildAccountView({data, budget, summed, transactions}) {
             />
           }>
           <View>
-            <Text style={styles.textBold}>Hey {data[0].Name}</Text>
+            <Text style={styles.textBold}>Hey, {data[0].Name}</Text>
           </View>
           <View>
             <NextAllowance data={transactions} />
           </View>
           <View>
-            <Text style={styles.text}>Budgets</Text>
-          </View>
-          <View>
-            <ChildAccountBudgetDisplay data={transactions} budget={budget} />
-          </View>
-          <View>
             <ChildBalance summed={summed} />
           </View>
+          {budget.length > 0 ? <View style={{flexDirection:'row'}}>
+            <Text style={styles.text}>Budgets</Text>
+          </View> : null}
           <View>
-            <Savings summed={summed} budget={budget} data={transactions}/>
+            {budget.length > 0 ?
+              <ChildAccountBudgetDisplay data={transactions} budget={budget} /> : <Text style={styles.text}>No budgets have been set this week, see how much you can save.. </Text>}
           </View>
           <View>
+            <Savings summed={summed} budget={budget} data={transactions} />
+          </View>
+          <View>
+            {thisWeeksTransactions == undefined ?
             <Text style={styles.text}>
+                You've spent nothing so far this week!
+          </Text> : <Text style={styles.text}> 
               Look what you've spent money on this week
-            </Text>
+            </Text>}
             <View style={styles.categories}>
               <Categories data={transactions} />
             </View>
-          </View>
-          <View>
-            <ChartComp />
-          </View>
-          <View>
-            <Text />
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -92,6 +88,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 32,
     color: 'white',
+    margin: 10,
   },
   categories: {
     marginTop: 20,

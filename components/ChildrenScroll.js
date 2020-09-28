@@ -5,7 +5,7 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 
 export default function ChildrenScroll({navigation, data, summed}) {
   return (
-    <ScrollView>
+    <View>
       <View style={styles.container}>
         <FlatList
           style={styles.flatListBorder}
@@ -24,7 +24,7 @@ export default function ChildrenScroll({navigation, data, summed}) {
           )}
         />
       </View>
-    </ScrollView>
+    </View>
   );
 }
 

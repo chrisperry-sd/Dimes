@@ -8,16 +8,22 @@ import {
   Image,
 } from 'react-native';
 import moment from 'moment';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-export default function IndividualAccountTransactions({navigation, data}) {
-  const renderCategory = ({item}) => {
+export default function IndividualAccountTransactions ({ navigation, data }) {
+  const renderCategory = ({ item }) => {
     return (
       <View style={styles.list}>
         <View style={styles.listContainer}>
-          <View style={styles.budgetText}>
-            <Text style={styles.bold}>{item.merchant}</Text>
+          <View style={{flexDirection: 'row', justifyContent:'space-between', alignItems: 'center'}}>
+            <View style={styles.budgetText}>
+              <Text style={styles.bold}>{item.merchant}</Text>
+            </View>
+            <View style={styles.budgetText}>
+              <Text style={styles.boldSmall}>{item.category}</Text>
+            </View>
           </View>
+
           <View style={styles.balAndDate}>
             <Text style={styles.text}>£ {item.amount}</Text>
             <Text style={styles.text}>{moment(item.date).format('ddd MMM Do')}</Text>
@@ -27,7 +33,7 @@ export default function IndividualAccountTransactions({navigation, data}) {
     );
   };
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.view}>
         <FlatList
           style={styles.flatListBorder}
@@ -38,7 +44,7 @@ export default function IndividualAccountTransactions({navigation, data}) {
           renderItem={renderCategory}
         />
       </View>
-    </ScrollView>
+    </View>
   );
 }
 
@@ -57,7 +63,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     width: 350,
     shadowColor: '#000',
-    shadowOffset: {width: 1, height: 0},
+    shadowOffset: { width: 1, height: 0 },
     shadowOpacity: 0.8,
     shadowRadius: 3,
     elevation: 1,
@@ -81,6 +87,12 @@ const styles = StyleSheet.create({
     color: 'white',
     paddingHorizontal: 2,
     fontSize: 24,
+    fontWeight: 'bold',
+  },
+  boldSmall: {
+    color: 'white',
+    paddingHorizontal: 2,
+    fontSize: 16,
     fontWeight: 'bold',
   },
   balAndDate: {

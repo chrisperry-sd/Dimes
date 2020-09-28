@@ -16,6 +16,14 @@ const budgetSchema = new mongoose.Schema({
   expiry: {
     type: Date,
     required: true,
+  },
+  display: {
+    type: Boolean,
+    default: true,
+  },
+  alerted: {
+    type: Boolean,
+    default: false,
   }
 }, {collection: 'budgets'});
 

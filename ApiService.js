@@ -1,5 +1,7 @@
-const BASE_URL = 'http://localhost:3001';
 // const BASE_URL = 'http://10.153.107.221:3001';
+const BASE_URL = 'http://localhost:3001';
+// const BASE_URL = 'http://172.20.10.4:3001';
+
 
 function fetchRequest(path, options) {
   return fetch(BASE_URL + path, options)
@@ -29,18 +31,16 @@ function postBudget(body) {
     body: JSON.stringify(body),
   });
 }
-// function postTransaction(body) {
-//   return fetchRequest('/transactions', {
-//     method: 'POST',
-//     headers: {
-//       'Content-type': 'application/json',
-//     },
-//     body: JSON.stringify(body),
-//   });
-// }
+
+function deleteBudget (id) {
+  return fetchRequest(`/budgets/${id}`, {
+    method: 'DELETE'
+  })
+}
 
 module.exports = {
   getBudgets,
   postBudget,
   getTransactions,
+  deleteBudget,
 };

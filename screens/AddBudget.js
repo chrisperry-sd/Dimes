@@ -30,6 +30,7 @@ export default function AddBudget ({ navigation, createBudget }) {
   };
   function handleOnPress (event) {
     event.preventDefault();
+    if (category.length == 0 || budget.length == 0 || expiry.length == 0) return Alert.alert(' Input field empty/incorrect')
     createBudget(category, budget, expiry);
     navigation.navigate('ChildParentView');
   }
@@ -37,7 +38,7 @@ export default function AddBudget ({ navigation, createBudget }) {
     <SafeAreaView style={styles.container}>
       <StatusBar />
       <View style={styles.accountSetup}>
-        <Text style={styles.header}>Add Child Budget</Text>
+        <Text style={styles.header}>Add Budget</Text>
       </View>
       <View style={styles.inputContainer}>
         <View>
@@ -59,7 +60,7 @@ export default function AddBudget ({ navigation, createBudget }) {
         <View style={styles.centerbtn}>
           <TouchableOpacity onPress={showDatepicker} style={styles.dateBtnContainer}>
             <View style={styles.btn}>
-              <Text style={styles.text}>Add an expiry date here</Text>
+              <Text style={styles.text}>Add expiry date here</Text>
             </View>
           </TouchableOpacity>
         </View>

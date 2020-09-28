@@ -1,7 +1,7 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
-function getMonthDaysLeft() {
+function getMonthDaysLeft () {
   const date = new Date();
   return (
     new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate() -
@@ -11,24 +11,27 @@ function getMonthDaysLeft() {
 
 const daysLeft = getMonthDaysLeft();
 
-export default function NextAllowance() {
+export default function NextAllowance () {
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>{daysLeft} days until your next allowance</Text>
+    <View style={{flexDirection: 'row', alignItems:'center'}}>
+      <View style={styles.container}>
+        <Text style={styles.text}>{daysLeft}</Text>
+      </View>
+      <View>
+      <Text  style={styles.text}>Days until your next allowance</Text>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    // margin: 10,
-    // borderWidth: 2,
     backgroundColor: 'hsl(218, 32%, 43%)',
     borderColor: 'grey',
     borderRadius: 8,
     margin: 10,
     shadowColor: '#000',
-    shadowOffset: {width: 0, height: 0},
+    shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.8,
     shadowRadius: 3,
     elevation: 1,
@@ -37,6 +40,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontFamily: 'Chilanka-Regular',
     fontSize: 32,
-    padding: 10,
+    padding: 20,
   },
 });

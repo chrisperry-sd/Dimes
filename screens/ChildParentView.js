@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 
 import BallanceChild from '../components/BalanceChild';
-import BudgetChild from '../components/BudgetChild';
+import NewBudgetChild from '../components/NewBudgetChild'
 
 const wait = (timeout) => {
   return new Promise((resolve) => {
@@ -19,7 +19,7 @@ const wait = (timeout) => {
   });
 };
 
-export default function ChildParentView({navigation, data, summed, budget}) {
+export default function ChildParentView({navigation, data, summed, budget, deleteBudget}) {
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const onRefresh = useCallback(() => {
@@ -51,7 +51,7 @@ export default function ChildParentView({navigation, data, summed, budget}) {
           <Text style={styles.text}>Budgets</Text>
         </View>
         <View style={styles.budgets}>
-          <BudgetChild navigation={navigation} budget={budget} />
+          <NewBudgetChild navigation={navigation} budget={budget} data={data} deleteBudget={deleteBudget}/>
         </View>
         <View style={styles.addBut}>
           <TouchableOpacity onPress={() => navigation.navigate('AddBudget')}>

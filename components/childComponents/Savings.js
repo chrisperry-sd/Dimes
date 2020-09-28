@@ -20,17 +20,26 @@ const remaining = remaninigAfterBudgetSpent.toFixed(2);
       <View>
         <Image source={pig} style={styles.chart} />
         <View style={styles.savingView}>
+        {budget.length > 0 ? 
           <Text style={styles.savings}>
             Save your remaining budget and have
-          </Text>
+          </Text> :  <Text style={styles.savings}>
+          See how much you can save!
+        </Text> }
           <View style={styles.remaining}>
-            <Text style={styles.savingsLarge}>£{summed}</Text>
-            <Text style={styles.savings}>at the end of the week..</Text>
+          {budget.length > 0 ?
+            <Text style={styles.savingsLarge}>£{summed}</Text> 
+            : 
+            <Text style={styles.savingsLarge}> You have £{summed}</Text>}
+            {budget.length > 0 ? 
+            <Text style={styles.savingsLeft}>at the end of the week..</Text>
+            :
+            null}
           </View>
         </View>
         <View style={{width: 200,}}>
-          <Text style={styles.balance}>Spend all your budget and have £{remaining}</Text>
-          <Text style={styles.balance}>left at the end of the week</Text>
+        {budget.length > 0 ?
+          <Text style={styles.balance}>Spend all your budget and have £{remaining} left at the end of the week</Text> : null}
         </View>
       </View>
     </TouchableOpacity>
@@ -76,8 +85,14 @@ const styles = StyleSheet.create({
     fontFamily: 'Chilanka-Regular',
     color: '#BBE1C3',
   },
+  savingsLeft: {
+    // marginLeft: 20,
+    fontSize: 16,
+    fontFamily: 'Chilanka-Regular',
+    color: '#BBE1C3',
+  },
   savingsLarge: {
-    marginLeft: 20,
+    margin: 10,
     fontSize: 24,
     fontFamily: 'Chilanka-Regular',
     color: '#BBE1C3',
