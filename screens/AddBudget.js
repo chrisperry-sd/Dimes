@@ -7,22 +7,20 @@ import {
   TextInput,
   SafeAreaView,
   StatusBar,
-  Button,
+  Alert,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 export default function AddBudget ({ navigation, createBudget }) {
   const [category, setCategory] = useState('');
   const [budget, setBudget] = useState('');
-
-  const [date, setDate] = useState(Date.now());
-
+  const [expiry, setExpiry] = useState(Date.now());
   const [show, setShow] = useState(false);
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
     setShow(Platform.OS === 'ios');
-    setDate(currentDate);
+    setExpiry(currentDate);
   };
   const showMode = (currentMode) => {
     setShow(!show);
@@ -32,7 +30,7 @@ export default function AddBudget ({ navigation, createBudget }) {
   };
   function handleOnPress (event) {
     event.preventDefault();
-    createBudget(category, budget, date);
+    createBudget(category, budget, expiry);
     navigation.navigate('ChildParentView');
   }
   return (
@@ -69,8 +67,7 @@ export default function AddBudget ({ navigation, createBudget }) {
           {show && (
             <DateTimePicker
               testID="dateTimePicker"
-              // mode={'datetime'}
-              value={date}
+              value={expiry}
               is24Hour={true}
               display="spinner"
               onChange={onChange}

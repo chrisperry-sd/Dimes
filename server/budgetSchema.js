@@ -11,8 +11,12 @@ const budgetSchema = new mongoose.Schema({
   },
   date: {
     type: Date,
-    required: true,
+    default: Date.now(),
   },
+  expiry: {
+    type: Date,
+    required: true,
+  }
 }, {collection: 'budgets'});
 
 module.exports = mongoose.model('budgetSchema', budgetSchema);

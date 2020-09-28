@@ -12,6 +12,7 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import cash from '../../myAssets/images/cash-removebg-preview.png';
 
 export default function Categories({data}) {
+
   const trans = data;
   function getFirstDayOfWeek() {
     const curr = new Date();
@@ -21,7 +22,7 @@ export default function Categories({data}) {
   function showThisWeeksTransactions() {
     const thisWeeksTransactions = [];
     for (let i = 0; i < trans.length; i++) {
-      if (getFirstDayOfWeek() - new Date(trans[i].Date).getTime() <= 0) {
+      if (getFirstDayOfWeek() - new Date(trans[i].date).getTime() <= 0) {
         thisWeeksTransactions.push(trans[i]);
       }
     }

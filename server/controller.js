@@ -13,8 +13,8 @@ exports.getAllBudgets = async function (req, res) {
 };
 exports.createBudget = async function (req, res) {
   try {
-    const {category, budget, date} = req.body;
-    const newBudget = await Budgets.create({category, budget, date});
+    const {category, budget, expiry} = req.body;
+    const newBudget = await Budgets.create({category, budget, expiry});
     res.status(200);
     res.send(newBudget);
   } catch (error) {

@@ -32,8 +32,8 @@ export default function App() {
   useEffect(() => {
     ApiService.getTransactions().then((trans) => setTransactions(trans));
   }, []);
-  function createBudget(category, budget, date) {
-    ApiService.postBudget({category, budget, date}).then((budgets) => {
+  function createBudget(category, budget, expiry) {
+    ApiService.postBudget({category, budget, expiry}).then((budgets) => {
       // eslint-disable-next-line no-shadow
       setChildBudget((childBudget) => [...childBudget, budgets]);
     });

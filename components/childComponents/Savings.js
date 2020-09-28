@@ -29,8 +29,8 @@ const remaining = remaninigAfterBudgetSpent.toFixed(2);
           </View>
         </View>
         <View style={{width: 200,}}>
-          <Text style={styles.balance}>Spend all your budget and only have</Text>
-          <Text style={styles.balance}>$ {remaining} left at the end of the week</Text>
+          <Text style={styles.balance}>Spend all your budget and have £{remaining}</Text>
+          <Text style={styles.balance}>left at the end of the week</Text>
         </View>
       </View>
     </TouchableOpacity>

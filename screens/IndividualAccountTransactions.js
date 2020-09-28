@@ -7,11 +7,10 @@ import {
   StyleSheet,
   Image,
 } from 'react-native';
+import moment from 'moment';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
 export default function IndividualAccountTransactions({navigation, data}) {
-  const transactions = data[0].transactions;
-  console.log('transactions: ', transactions);
   const renderCategory = ({item}) => {
     return (
       <View style={styles.list}>
@@ -21,7 +20,7 @@ export default function IndividualAccountTransactions({navigation, data}) {
           </View>
           <View style={styles.balAndDate}>
             <Text style={styles.text}>£ {item.amount}</Text>
-            <Text style={styles.text}>{item.Date}</Text>
+            <Text style={styles.text}>{moment(item.date).format('ddd MMM Do')}</Text>
           </View>
         </View>
       </View>
@@ -32,7 +31,7 @@ export default function IndividualAccountTransactions({navigation, data}) {
       <View style={styles.view}>
         <FlatList
           style={styles.flatListBorder}
-          data={transactions.sort((a, b) => {
+          data={data.sort((a, b) => {
             return new Date(b.Date) - new Date(a.Date);
           })}
           keyExtractor={(item) => item.id}

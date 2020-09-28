@@ -1,34 +1,26 @@
 import React from 'react';
-import {ScrollView, View, Text, FlatList, StyleSheet, Alert} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import { ScrollView, View, Text, FlatList, StyleSheet, Alert } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-export default function ChildAccountBudgetDisplay({
-  navigation,
-  budget,
-  data,
-  summed,
-}) {
+export default function ChildAccountBudgetDisplay ({budget, data,}) {
   const createAlert = () =>
-  Alert.alert(
-    "No budget left 😱",
-    [
-      {
-        text: "Cancel",
-        onPress: () => console.log("Cancel Pressed"),
-        style: "cancel"
-      },
-      { text: "OK", onPress: () => console.log("OK Pressed") }
-    ],
-    { cancelable: false }
-  );
-  console.log('data: ', data);
-  console.log('budget: ', budget);
-  
-  // this function takes array of budgets and it filters all current transactions by catgeories matching to budget category.
+    Alert.alert(
+      "No budget left 😱",
+    );
+
+const budgets = []
+    budget.forEach(function (a) {
+      if (!this[a.category]) {
+        this[a.category] = { category: a.category, amount: 0, date: a.date, expiry: a.expiry };
+        budgets.push(this[a.category]);
+      }
+      this[a.category].amount += a.budget;
+    }, Object.create(null));
+
+  // this function takes array of the budgets budgets and filters all current transactions by catgeories matching to the budget category.
   // then filters that array by all transactions that happened after the budget was set..
-  // so we end up with an array of objects which are transactions of the same category as the budgets.
   const filteredTransactionsByCategory = [];
-  function filterTransByCategory(budgett) {
+  function filterTransByCategory (budgett) {
     for (let i = 0; i < budgett.length; i++) {
       const cat = budgett[i].category.toLowerCase();
       const trans = data
@@ -36,7 +28,7 @@ export default function ChildAccountBudgetDisplay({
         .filter(
           (transs) =>
             new Date(budgett[i].date).getTime() -
-              new Date(transs.date).getTime() <=
+            new Date(transs.date).getTime() <=
             0,
         );
       if (trans.length > 0) {
@@ -45,43 +37,33 @@ export default function ChildAccountBudgetDisplay({
     }
     return filteredTransactionsByCategory;
   }
-  const cats = filterTransByCategory(budget); // this holds an array of transaction objects that took place after the budget was set..
-console.log('filteredTransactionsByCategory: ', filteredTransactionsByCategory);
-  console.log('cats: ', cats);
+  const cats = filterTransByCategory(budgets); // this holds an array of transaction objects that took place after the budget was set..
+
   const sums = []; // sum of all the transaction that took place after the budget was set
   for (let i = 0; i < cats.length; i++) {
     let catName = cats[i][0].category;
     let sum = cats[i].reduce((acc, current) => acc + current.amount, 0);
-    sums[i] = {category: catName, amount: sum.toFixed(2)};
-  }
-
-  console.log('sums: ', sums);
-  const budgets = []; // probably dont need to do this but formats it nicer..
-  for (let i = 0; i < budget.length; i++) {
-    let catName = budget[i].category;
-    let sum = budget[i].budget;
-
-    budgets[i] = {category: catName, amount: sum};
-  }
+    sums[i] = { category: catName, amount: sum.toFixed(2) };
+  }  
 
   const budgetsArray = [];
   for (let i = 0; i < budgets.length; i++) {
     let catName = budgets[i].category;
     let sum = budgets[i].amount;
     if (!sums[i]) {
-      budgetsArray[i] = {category: catName, amount: sum, remaining: sum};
+      budgetsArray[i] = { category: catName, amount: sum, remaining: sum };
     } else {
       if (
         sums[i].category.toLowerCase() === budgets[i].category.toLowerCase()
       ) {
-        const summd = parseInt(budgets[i].amount, 10) + parseInt(sums[i].amount, 10);
-        if (summd >= 0) createAlert();
-        budgetsArray[i] = {category: catName, amount: sum, remaining: summd};
+        const summd = parseInt(budgets[i].amount, 10) - parseInt(sums[i].amount, 10);
+        if (summd <= 0) createAlert();
+        budgetsArray[i] = { category: catName, amount: sum, remaining: summd };
       }
     }
   }
 
-  const renderBudget = ({item, index}) => {
+  const renderBudget = ({ item, index }) => {
     return (
       <TouchableOpacity onPress={createAlert}>
         <View style={item.remaining > 0 ? styles.list : styles.listNegative}>
@@ -134,7 +116,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     width: 'auto',
     shadowColor: 'grey',
-    shadowOffset: {width: 0, height: 0},
+    shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.8,
     shadowRadius: 3,
     elevation: 1,
@@ -146,7 +128,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     width: 'auto',
     shadowColor: 'grey',
-    shadowOffset: {width: 0, height: 0},
+    shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.8,
     shadowRadius: 3,
     elevation: 1,
