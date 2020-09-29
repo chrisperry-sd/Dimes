@@ -10,7 +10,7 @@ export default function Savings({summed, budget, data}) {
     0,
   );
 const remaninigAfterBudgetSpent = summed - budgetAmounts;
-const remaining = remaninigAfterBudgetSpent.toFixed(2);
+
 
   return (
     <TouchableOpacity style={styles.box}>

@@ -136,7 +136,7 @@ export default function ChildAccountBudgetDisplay ({ budget, data, alerted, setA
         style={styles.container}
         numColumns={2}
         data={budgetsArray}
-        keyExtractor={(item) => item.id}
+        keyExtractor={ (item, index) => index.toString() }
         renderItem={renderBudget}
       />
 

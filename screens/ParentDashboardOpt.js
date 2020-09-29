@@ -14,7 +14,6 @@ import {
 
 import Spent from '../components/Spent';
 import ChildrenScroll from '../components/ChildrenScroll';
-import DateTimePicker from '@react-native-community/datetimepicker';
 
 export default function ParentDashboard({
   navigation,

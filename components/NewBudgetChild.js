@@ -136,7 +136,7 @@ export default function ChildAccountBudgetDisplay ({ budget, data, deleteBudget,
           style={styles.flatListBorder}
           horizontal={true}
           data={budgetsArray}
-          keyExtractor={(item) => item.id}
+          keyExtractor={ (item, index) => index.toString() }
           renderItem={renderBudget}
         />
       </View>

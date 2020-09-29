@@ -49,7 +49,7 @@ export default function Categories({data}) {
           style={styles.flatListBorder}
           horizontal={true}
           data={thisWeeksTrans}
-          keyExtractor={(item) => item.id}
+          keyExtractor={ (item, index) => index.toString() }
           renderItem={renderCategory}
         />
   );

@@ -11,7 +11,7 @@ export default function ChildrenScroll({navigation, data, summed}) {
           style={styles.flatListBorder}
           horizontal={true}
           data={data}
-          keyExtractor={(item) => item.id}
+          keyExtractor={ (item, index) => index.toString() }
           renderItem={({item}) => (
             <TouchableOpacity
               onPress={() => navigation.navigate('ChildParentView', {summed})}>

@@ -14,7 +14,7 @@ export default function SpentItems({data, thisWeeksTrans}) {
           data={thisWeeksTrans ? thisWeeksTrans.sort((a, b) => {
             return new Date(b.date) - new Date(a.date) ;
           }) : null}
-          keyExtractor={(item) => item.id}
+          keyExtractor={ (item, index) => index.toString() }
           renderItem={({item}) => (
             <TouchableOpacity>
               <View style={styles.list}>
