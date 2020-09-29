@@ -24,14 +24,18 @@ const Stack = createStackNavigator();
 export default function App () {
 
   const [alerted, setAlerted] = useState(false)
+  const [parentAlerted, setParentAlerted] = useState(false)
 
   const [childBudget, setChildBudget] = useState({});
   const [transactions, setTransactions] = useState({});
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isEnabled, setIsEnabled] = useState(false);
 
-  function setAlertToBeTrue() {
+  function setAlertToBeTrue () {
     setAlerted(true);
+  }
+  function setParentAlertToBeTrue () {
+    setParentAlerted(true);
   }
   const wait = (timeout) => {
     return new Promise((resolve) => {
@@ -154,6 +158,8 @@ export default function App () {
         <Stack.Screen name="ChildParentView" options={{ headerShown: false }}>
           {(props) => (
             <ChildParentView
+              setParentAlertToBeTrue={setParentAlertToBeTrue}
+              parentAlerted={parentAlerted}
               isRefreshing={isRefreshing}
               onRefresh={onRefresh}
               data={transactions}

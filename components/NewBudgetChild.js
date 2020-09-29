@@ -2,20 +2,34 @@ import React, { useState, useEffect } from 'react';
 import { ScrollView, View, Text, FlatList, StyleSheet, Alert } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-export default function ChildAccountBudgetDisplay ({ budget, data, deleteBudget }) {
-  const [alerted, setAlerted] = useState(false)
-  const createAlert = () => {
+export default function ChildAccountBudgetDisplay ({ budget, data, deleteBudget, parentAlerted, setParentAlertToBeTrue}) {
+  function alertedNoBudget () {
+    wait(1000).then(() => createAlert());
+  }
+  function alertedMinusBudget () {
+    wait(1000).then(() => minusAlert());
+  }
+  const wait = (timeout) => {
+    return new Promise((resolve) => {
+      setTimeout(resolve, timeout);
+    });
+  };
+  const createAlert = () =>
     Alert.alert(
-      "Used up all available budget",
+      "Alert",
+      "0 remaiining budget",
+      [
+        { text: "OK", onPress: () => setParentAlertToBeTrue()}
+      ],
     );
-  }
-
-  const minusAlert = () => {
-    if (!alerted) {
-      setAlerted(true)
-      Alert.alert("Over Spent");
-    }
-  }
+  const minusAlert = () =>
+  Alert.alert(
+    "Alert!",
+    "James has over spent",
+    [
+      { text: "OK", onPress: () => setParentAlertToBeTrue() }
+    ],
+  );
 
   const budgets = []
   budget.forEach(function (a) {
@@ -72,14 +86,11 @@ export default function ChildAccountBudgetDisplay ({ budget, data, deleteBudget 
         sums[i].category.toLowerCase() === budgets[i].category.toLowerCase()
       ) {
         const summd = parseInt(budgets[i].amount, 10) + parseInt(sums[i].amount, 10);
-        if (summd === 0) {
-          // setTimeout(() => {createAlert()}, 1000)
-          // budgets[i].display = false;
+        if (summd === 0 && !parentAlerted) {
+          alertedNoBudget();
         }
-        if (summd < 0) {
-          // setTimeout(() => {minusAlert()}, 1000)
-          // budgets[i].display = false;
-
+        if (summd < 0 && !parentAlerted) {
+          alertedMinusBudget()
         }
         budgetsArray[i] = { category: catName, amount: sum, remaining: summd, display: budgets[i].display, expiry: budgets[i].expiry, id: budgets[i].id };
       }

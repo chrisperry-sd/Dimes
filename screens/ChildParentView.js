@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   View,
   Text,
@@ -19,7 +19,7 @@ const wait = (timeout) => {
   });
 };
 
-export default function ChildParentView({navigation, data, summed, budget, deleteBudget, isRefreshing, onRefresh}) {
+export default function ChildParentView ({ navigation, data, summed, budget, deleteBudget, isRefreshing, onRefresh, parentAlerted, setParentAlertToBeTrue }) {
   return (
     <SafeAreaView style={styles.bg}>
       <ScrollView
@@ -38,13 +38,22 @@ export default function ChildParentView({navigation, data, summed, budget, delet
           <Text style={styles.text}>Balances</Text>
         </View>
         <View>
-          <BallanceChild summed={summed} navigation={navigation} data={data} />
+          <BallanceChild
+            summed={summed}
+            navigation={navigation}
+            data={data} />
         </View>
         <View>
           <Text style={styles.text}>Budgets</Text>
         </View>
         <View style={styles.budgets}>
-          <NewBudgetChild navigation={navigation} budget={budget} data={data} deleteBudget={deleteBudget}/>
+          <NewBudgetChild
+            navigation={navigation}
+            budget={budget}
+            data={data}
+            deleteBudget={deleteBudget}
+            parentAlerted={parentAlerted}
+            setParentAlertToBeTrue={setParentAlertToBeTrue} />
         </View>
         <View style={styles.addBut}>
           <TouchableOpacity onPress={() => navigation.navigate('AddBudget')}>

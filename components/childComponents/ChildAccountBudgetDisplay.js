@@ -32,7 +32,6 @@ export default function ChildAccountBudgetDisplay ({ budget, data, alerted, setA
     ],
   );
 
-
   const budgets = []
   budget.forEach(function (a) {
     if (!this[a.category]) {
