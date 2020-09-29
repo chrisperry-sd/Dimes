@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { StyleSheet } from 'react-native';
 
 import ParentDashboard from './screens/ParentDashboardOpt';
@@ -22,8 +22,28 @@ import ApiService from './ApiService';
 const Stack = createStackNavigator();
 
 export default function App () {
+
+  const [alerted, setAlerted] = useState(false)
+
   const [childBudget, setChildBudget] = useState({});
   const [transactions, setTransactions] = useState({});
+
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isEnabled, setIsEnabled] = useState(false);
+
+  function setAlertToBeTrue() {
+    setAlerted(true);
+  }
+  const wait = (timeout) => {
+    return new Promise((resolve) => {
+      setTimeout(resolve, timeout);
+    });
+  };
+  const onRefresh = useCallback(async () => {
+    setIsRefreshing(true);
+    wait(2000).then(() => ApiService.getTransactions().then((trans) => setTransactions(trans)).then(() => setIsRefreshing(false)))
+    // setIsRefreshing(false)
+  }, [isRefreshing]);
 
   useEffect(() => {
     ApiService.getBudgets().then((budgets) => setChildBudget(budgets));
@@ -40,9 +60,9 @@ export default function App () {
 
   function deleteBudget (id) {
     ApiService.deleteBudget(id)
-    .then(() => {
-      setChildBudget(budgets => budgets.filter(budget => budget._id !== id))
-    }) 
+      .then(() => {
+        setChildBudget(budgets => budgets.filter(budget => budget._id !== id))
+      })
   }
 
   function getSum () {
@@ -70,7 +90,7 @@ export default function App () {
   function thisWeeksSum () {
     if (thisWeeksTransactions) {
       return thisWeeksTransactions.filter((trans) => trans.merchant !== 'Bank')
-      .reduce((accumulator, current) => accumulator + current.amount,0).toFixed(2);
+        .reduce((accumulator, current) => accumulator + current.amount, 0).toFixed(2);
     }
   }
   const WeeksSum = thisWeeksSum()
@@ -86,6 +106,10 @@ export default function App () {
         <Stack.Screen name="ChildAccountView" options={{ headerShown: false }}>
           {(props) => (
             <ChildAccountView
+              alerted={alerted}
+              setAlertToBeTrue={setAlertToBeTrue}
+              isRefreshing={isRefreshing}
+              onRefresh={onRefresh}
               transactions={transactions}
               data={data}
               {...props}
@@ -112,6 +136,8 @@ export default function App () {
         <Stack.Screen name="ParentDashboard" options={{ headerShown: false }}>
           {(props) => (
             <ParentDashboard
+              isRefreshing={isRefreshing}
+              onRefresh={onRefresh}
               data={data}
               transactions={transactions}
               {...props}
@@ -129,6 +155,8 @@ export default function App () {
         <Stack.Screen name="ChildParentView" options={{ headerShown: false }}>
           {(props) => (
             <ChildParentView
+              isRefreshing={isRefreshing}
+              onRefresh={onRefresh}
               data={transactions}
               {...props}
               summed={summed}

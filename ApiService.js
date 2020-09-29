@@ -1,5 +1,5 @@
-// const BASE_URL = 'http://10.153.107.221:3001';
-const BASE_URL = 'http://localhost:3001';
+const BASE_URL = 'http://10.153.108.242:3001';
+// const BASE_URL = 'http://localhost:3001';
 // const BASE_URL = 'http://172.20.10.4:3001';
 
 

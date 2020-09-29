@@ -19,14 +19,7 @@ const wait = (timeout) => {
   });
 };
 
-export default function ChildParentView({navigation, data, summed, budget, deleteBudget}) {
-  const [isRefreshing, setIsRefreshing] = useState(false);
-
-  const onRefresh = useCallback(() => {
-    setIsRefreshing(true);
-    wait(2000).then(() => setIsRefreshing(false));
-  }, []);
-
+export default function ChildParentView({navigation, data, summed, budget, deleteBudget, isRefreshing, onRefresh}) {
   return (
     <SafeAreaView style={styles.bg}>
       <ScrollView

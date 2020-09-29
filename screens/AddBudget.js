@@ -17,6 +17,11 @@ export default function AddBudget ({ navigation, createBudget }) {
   const [expiry, setExpiry] = useState(Date.now());
   const [show, setShow] = useState(false);
 
+  const createAlert = () => {
+    Alert.alert(
+      "Budget Added",
+    );
+  }
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
     setShow(Platform.OS === 'ios');
@@ -32,8 +37,10 @@ export default function AddBudget ({ navigation, createBudget }) {
     event.preventDefault();
     if (category.length == 0 || budget.length == 0 || expiry.length == 0) return Alert.alert(' Input field empty/incorrect')
     createBudget(category, budget, expiry);
-    navigation.navigate('ChildParentView');
+    setTimeout(() => {createAlert()}, 500)
+    setTimeout(() => {navigation.navigate('ChildParentView')}, 1000);
   }
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar />

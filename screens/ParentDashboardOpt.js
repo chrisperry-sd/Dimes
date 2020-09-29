@@ -15,11 +15,6 @@ import {
 import Spent from '../components/Spent';
 import ChildrenScroll from '../components/ChildrenScroll';
 import DateTimePicker from '@react-native-community/datetimepicker';
-const wait = (timeout) => {
-  return new Promise((resolve) => {
-    setTimeout(resolve, timeout);
-  });
-};
 
 export default function ParentDashboard({
   navigation,
@@ -27,18 +22,13 @@ export default function ParentDashboard({
   summed,
   thisWeekSum,
   thisWeeksTrans,
+  onRefresh,
+  isRefreshing
 }) {
-  const [isRefreshing, setIsRefreshing] = useState(false);
-  const [isEnabled, setIsEnabled] = useState(false);
-
-  const onRefresh = useCallback(() => {
-    setIsRefreshing(true);
-    wait(2000).then(() => setIsRefreshing(false));
-  }, []);
 
   return (
     <SafeAreaView style={styles.bg}>
-      <ScrollView
+    <ScrollView
         refreshControl={
           <RefreshControl
             refreshing={isRefreshing}

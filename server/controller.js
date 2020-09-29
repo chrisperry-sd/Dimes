@@ -13,8 +13,8 @@ exports.getAllBudgets = async function (req, res) {
 };
 exports.createBudget = async function (req, res) {
   try {
-    const {category, budget, expiry} = req.body;
-    const newBudget = await Budgets.create({category, budget, expiry});
+    const { category, budget, expiry } = req.body;
+    const newBudget = await Budgets.create({ category, budget, expiry });
     res.status(200);
     res.send(newBudget);
   } catch (error) {
@@ -35,11 +35,21 @@ exports.getAllTransactions = async function (req, res) {
 exports.deleteBudget = async function (req, res) {
   try {
     const { _id } = req.params;
-    await Budgets.findByIdAndDelete({_id})
+    await Budgets.findByIdAndDelete({ _id })
     res.sendStatus(204);
   } catch (error) {
     console.log('error: ', error);
     res.status(500);
   }
 };
-
+exports.addTransaction = async function (req, res) {
+  try {
+    const { amount, merchant, category } = req.body;
+    const newTransaction = Transactions.create({ amount, merchant, category });
+    res.status(200);
+    res.send(newTransaction)
+  } catch (error) {
+    console.log('error: ', error);
+    res.status(500)
+  }
+};

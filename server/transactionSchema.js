@@ -4,7 +4,7 @@ const transactionSchema = new mongoose.Schema({
 
   date: {
     type: Date,
-    default: Date.now(),
+    default: new Date(Date.now()),
   },
   amount: {
     type: Number,

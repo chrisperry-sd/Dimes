@@ -18,7 +18,8 @@ export default function NextAllowance () {
         <Text style={styles.text}>{daysLeft}</Text>
       </View>
       <View>
-      <Text  style={styles.text}>Days until your next allowance</Text>
+      {daysLeft === 1 ? 
+      <Text  style={styles.text}>Day until your next allowance</Text> : <Text  style={styles.text}>Days until your next allowance</Text>}
       </View>
     </View>
   );

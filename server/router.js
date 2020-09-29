@@ -6,6 +6,7 @@ router.post('/budgets', budgets.createBudget);
 router.delete('/budgets/:_id', budgets.deleteBudget);
 
 router.get('/transactions', budgets.getAllTransactions);
+router.post('/transactions', budgets.addTransaction);
 
 
 module.exports = router;

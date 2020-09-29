@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ScrollView, View, Text, FlatList, StyleSheet, Alert } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
@@ -6,7 +6,7 @@ export default function ChildAccountBudgetDisplay ({ budget, data, deleteBudget 
   const [alerted, setAlerted] = useState(false)
   const createAlert = () => {
     Alert.alert(
-      "Gone over budget",
+      "Used up all available budget",
     );
   }
 
@@ -64,28 +64,30 @@ export default function ChildAccountBudgetDisplay ({ budget, data, deleteBudget 
 
     }
     if (!sums[i]) {
-      if (budgets[i].display) {
+      
         budgetsArray[i] = { category: catName, amount: sum, remaining: sum, display: budgets[i].display, expiry: budgets[i].expiry, id: budgets[i].id };
-      }
+      
     } else {
       if (
-        sums[i].category.toLowerCase() === budgets[i].category.toLowerCase() && budgets[i].display
+        sums[i].category.toLowerCase() === budgets[i].category.toLowerCase()
       ) {
         const summd = parseInt(budgets[i].amount, 10) + parseInt(sums[i].amount, 10);
         if (summd === 0) {
-          createAlert();
-
+          // setTimeout(() => {createAlert()}, 1000)
+          // budgets[i].display = false;
         }
         if (summd < 0) {
-          minusAlert();
+          // setTimeout(() => {minusAlert()}, 1000)
+          // budgets[i].display = false;
+
         }
         budgetsArray[i] = { category: catName, amount: sum, remaining: summd, display: budgets[i].display, expiry: budgets[i].expiry, id: budgets[i].id };
       }
       else return null;
     }
-  }
-
+  }  
   const renderBudget = ({ item, index }) => {
+    if (item.display) {
     return (
       <View>
         <View style={styles.listNegative}>
@@ -104,14 +106,17 @@ export default function ChildAccountBudgetDisplay ({ budget, data, deleteBudget 
               <Text style={styles.textNegative}>£ {item.amount}</Text>
             </View>
             <View style={styles.budgetText}>
+            {item.remaining > 0 ?
               <Text style={styles.negative}>
                 James has £{item.remaining} left of budget
-              </Text>
+              </Text> : <Text style={styles.negative}>
+              James has spent £ {item.remaining.toString().slice(1)} too much 
+            </Text>}
             </View>
           </View>
         </View>
       </View>
-    );
+    )};
   };
   return (
     <View>

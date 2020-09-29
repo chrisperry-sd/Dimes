@@ -20,18 +20,18 @@ const remaining = remaninigAfterBudgetSpent.toFixed(2);
       <View>
         <Image source={pig} style={styles.chart} />
         <View style={styles.savingView}>
-        {budget.length > 0 ? 
+        {budget.length > 0 && summed > 0 ? 
           <Text style={styles.savings}>
             Save your remaining budget and have £ {summed}
           </Text> :  <Text style={styles.savings}>
-          See how much you can save!
+          Ahh, you've over spent. Try to save until your next allowance!
         </Text> }
           <View style={styles.remaining}>
           {budget.length > 0 ?
             null
             : 
             <Text style={styles.savingsLarge}> You have £{summed}</Text>}
-            {budget.length > 0 ? 
+            {budget.length > 0 && summed > 0? 
             <Text style={styles.savings}>at the end of the week..</Text>
             :
             null}

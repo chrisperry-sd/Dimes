@@ -56,9 +56,10 @@ const styles = StyleSheet.create({
   view: {
     margin: 10,
     alignItems: 'center',
+    flex: 1,
   },
   list: {
-    backgroundColor: '#985f6f',
+    backgroundColor: '#A34861',
     margin: 10,
     borderRadius: 8,
     width: 350,

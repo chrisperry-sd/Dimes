@@ -1,11 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, View, Text, FlatList, StyleSheet, Alert } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { View, Text, FlatList, StyleSheet, Alert } from 'react-native';
 
-export default function ChildAccountBudgetDisplay ({ budget, data }) {
-  const [show, setshow] = useState([]);
-  const [budgetss, setbudgets] = useState([]);
 
+export default function ChildAccountBudgetDisplay ({ budget, data, alerted, setAlerted}) {
+  
+  function alertedNoBudget () {
+    wait(1000).then(() => createAlert());
+    setAlerted();
+  }
+  function alertedMinusBudget () {
+    wait(1000).then(() => minusAlert());
+    setAlerted();
+  }
+  const wait = (timeout) => {
+    return new Promise((resolve) => {
+      setTimeout(resolve, timeout);
+    });
+  };
   const createAlert = () =>
     Alert.alert(
       "No budget left 😱",
@@ -14,15 +25,11 @@ export default function ChildAccountBudgetDisplay ({ budget, data }) {
     Alert.alert(
       "You've over spent.. lets talk about it later",
     );
-  const alertExpiry = () =>
-    Alert.alert(
-      "One of your budgets expired.. Well done on not over spending!!",
-    );
 
   const budgets = []
   budget.forEach(function (a) {
     if (!this[a.category]) {
-      this[a.category] = { category: a.category, amount: 0, date: a.date, expiry: a.expiry, display: a.display, alerted: a.alerted };
+      this[a.category] = { category: a.category, amount: 0, date: a.date, expiry: a.expiry, display: a.display, alerted: a.alerted, id: a._id };
       budgets.push(this[a.category]);
     }
     this[a.category].amount += a.budget;
@@ -56,7 +63,7 @@ export default function ChildAccountBudgetDisplay ({ budget, data }) {
     let sum = cats[i].reduce((acc, current) => acc + current.amount, 0);
     sums[i] = { category: catName, amount: sum.toFixed(2), id: cats[i]._id };
   }
-  console.log('sums: ', sums);
+
   const budgetsArray = [];
   for (let i = 0; i < budgets.length; i++) {
     let catName = budgets[i].category;
@@ -67,31 +74,28 @@ export default function ChildAccountBudgetDisplay ({ budget, data }) {
     }
     if (!sums[i]) {
       if (budgets[i].display) {
-        budgetsArray[i] = { category: catName, amount: sum, remaining: sum, display: budgets[i].display, expiry: budgets[i].expiry }; //add id
+        budgetsArray[i] = { category: catName, amount: sum, remaining: sum, display: budgets[i].display, expiry: budgets[i].expiry, id: budgets[i].id}; //add id
       }
     } else {
       if (
-        sums[i].category.toLowerCase() === budgets[i].category.toLowerCase() && budgets[i].display
+        sums[i].category.toLowerCase() === budgets[i].category.toLowerCase()
       ) {
-        const summd = parseInt(budgets[i].amount, 10) + parseInt(sums[i].amount, 10);
-        if (summd === 0) {
-          createAlert();
+        let summd = parseInt(budgets[i].amount, 10) + parseInt(sums[i].amount, 10);
+        // if(summd < 0) summd = parseInt(summd.toString().slice(1))
+        if (summd === 0 && !alerted) {
+          // alertedNoBudget();
         }
-        if (summd < 0) {
-          minusAlert();
+        if (summd < 0 && !alerted) {
+          // alertedMinusBudget()
         }
-        budgetsArray[i] = { category: catName, amount: sum, remaining: summd, display: budgets[i].display, expiry: budgets[i].expiry }; //add id
+        budgetsArray[i] = { category: catName, amount: sum, remaining: summd, display: budgets[i].display, expiry: budgets[i].expiry, id: budgets[i].id }; //add id
       }
       else return null;
     }
   }
-  useEffect(() => {
-    setbudgets(budgetsArray)
-  }, [])
-
   const renderBudget = ({ item, index }) => {
+    if (item.display) {
     return (
-      <TouchableOpacity>
         <View style={item.remaining > 0 ? styles.list : styles.listNegative}>
           <View style={styles.listContainer}>
             <View style={styles.budgetText}>
@@ -101,25 +105,27 @@ export default function ChildAccountBudgetDisplay ({ budget, data }) {
               <Text style={item.remaining > 0 ? styles.text : styles.textNegative}>£ {item.amount}</Text>
             </View>
             <View style={styles.budgetText}>
+          {item.remaining > 0 ?
               <Text style={item.remaining > 0 ? styles.small : styles.negative}>
                 You have £{item.remaining} left of budget
-              </Text>
+              </Text> : <Text style={item.remaining > 0 ? styles.small : styles.negative}>
+              You've spent £ {item.remaining.toString().slice(1)} too much 
+            </Text>}
             </View>
           </View>
         </View>
-      </TouchableOpacity>
     );
-  };
+  }
+}
   return (
-    <View style={styles.container}>
       <FlatList
-        style={styles.flatListBorder}
+        style={styles.container}
         numColumns={2}
         data={budgetsArray}
         keyExtractor={(item) => item.id}
         renderItem={renderBudget}
       />
-    </View>
+
   );
 }
 
@@ -129,9 +135,6 @@ const styles = StyleSheet.create({
     // margin: 10,
     borderRadius: 8,
     flexDirection: 'row',
-  },
-  flatListBorder: {
-    borderRadius: 8,
   },
   list: {
     backgroundColor: '#BBE1C3',

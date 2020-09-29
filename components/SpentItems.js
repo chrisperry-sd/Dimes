@@ -5,7 +5,6 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 // filter our data by the last 30 days...
 
 export default function SpentItems({data, thisWeeksTrans}) {
-  console.log('thisWeeksTrans: ', thisWeeksTrans);
   return (
     <View>
       <View style={styles.container}>
@@ -13,7 +12,7 @@ export default function SpentItems({data, thisWeeksTrans}) {
           style={styles.flatListBorder}
           horizontal={true}
           data={thisWeeksTrans ? thisWeeksTrans.sort((a, b) => {
-            return new Date(a.date) - new Date(b.date) ;
+            return new Date(b.date) - new Date(a.date) ;
           }) : null}
           keyExtractor={(item) => item.id}
           renderItem={({item}) => (

@@ -26,12 +26,12 @@ export default function Categories({data}) {
         thisWeeksTransactions.push(trans[i]);
       }
     }
-    return thisWeeksTransactions;
+    return thisWeeksTransactions.sort((a, b) => new Date(b.date) - new Date(a.date));
   }
   const thisWeeksTrans = showThisWeeksTransactions();
   const renderCategory = ({item}) => {
     return (
-      <TouchableOpacity>
+      <TouchableOpacity style={styles.container}>
         <View style={styles.list}>
           <View style={styles.listContainer}>
             <View style={styles.budgetText}>
@@ -45,8 +45,6 @@ export default function Categories({data}) {
     );
   };
   return (
-    <View>
-      <View style={styles.container}>
         <FlatList
           style={styles.flatListBorder}
           horizontal={true}
@@ -54,14 +52,12 @@ export default function Categories({data}) {
           keyExtractor={(item) => item.id}
           renderItem={renderCategory}
         />
-      </View>
-    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 8,
+    // marginHorizontal: 8,
     borderRadius: 8,
     flexDirection: 'row',
   },
