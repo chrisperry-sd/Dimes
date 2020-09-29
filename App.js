@@ -25,12 +25,16 @@ export default function App () {
 
   const [alerted, setAlerted] = useState(false)
   const [parentAlerted, setParentAlerted] = useState(false)
+  const [alertExpiry, setAlertExpiry] = useState(false)
 
   const [childBudget, setChildBudget] = useState({});
   const [transactions, setTransactions] = useState({});
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isEnabled, setIsEnabled] = useState(false);
 
+  function setAlertExpiryToTrue () {
+    setAlertExpiry(true);
+  }
   function setAlertToBeTrue () {
     setAlerted(true);
   }
@@ -109,6 +113,8 @@ export default function App () {
         <Stack.Screen name="ChildAccountView" options={{ headerShown: false }}>
           {(props) => (
             <ChildAccountView
+              setAlertExpiryToTrue={setAlertExpiryToTrue}
+              alertExpiry={alertExpiry}
               alerted={alerted}
               setAlertToBeTrue={setAlertToBeTrue}
               isRefreshing={isRefreshing}

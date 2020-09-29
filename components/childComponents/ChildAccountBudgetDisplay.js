@@ -2,13 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet, Alert } from 'react-native';
 
 
-export default function ChildAccountBudgetDisplay ({ budget, data, alerted, setAlertToBeTrue}) {
+export default function ChildAccountBudgetDisplay ({ budget, data, alerted, setAlertToBeTrue, setAlertExpiryToTrue, alertExpiry}) {
   
   function alertedNoBudget () {
     wait(1000).then(() => createAlert());
   }
   function alertedMinusBudget () {
     wait(1000).then(() => minusAlert());
+  }
+  function alertedBudgetExpiry () {
+    wait(1000).then(() => expiryAlert());
   }
   const wait = (timeout) => {
     return new Promise((resolve) => {
@@ -29,6 +32,14 @@ export default function ChildAccountBudgetDisplay ({ budget, data, alerted, setA
     "Looks like you've over spent, let's talk about it later",
     [
       { text: "OK", onPress: () => setAlertToBeTrue() }
+    ],
+  );
+  const expiryAlert = () =>
+  Alert.alert(
+    "Alert!",
+    "A budget has expired 😀",
+    [
+      { text: "OK", onPress: () => setAlertExpiryToTrue() }
     ],
   );
 
@@ -74,10 +85,6 @@ export default function ChildAccountBudgetDisplay ({ budget, data, alerted, setA
   for (let i = 0; i < budgets.length; i++) {
     let catName = budgets[i].category;
     let sum = budgets[i].amount;
-    if (new Date().getTime() - new Date(budget[i].expiry).getTime() >= 0) { // atm if any expire dont display
-      alertExpiry();
-      return null;
-    }
     if (!sums[i]) {
       if (budgets[i].display) {
         budgetsArray[i] = { category: catName, amount: sum, remaining: sum, display: budgets[i].display, expiry: budgets[i].expiry, id: budgets[i].id}; //add id
@@ -99,7 +106,9 @@ export default function ChildAccountBudgetDisplay ({ budget, data, alerted, setA
     }
   }
   const renderBudget = ({ item, index }) => {
-    if (item.display) {
+    if (new Date().getTime() - new Date(item.expiry).getTime() >= 0 && !alertExpiry) {
+      return alertedBudgetExpiry();
+    } else {
     return (
         <View style={item.remaining > 0 ? styles.list : styles.listNegative}>
           <View style={styles.listContainer}>
