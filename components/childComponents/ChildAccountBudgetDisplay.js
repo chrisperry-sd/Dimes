@@ -2,15 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet, Alert } from 'react-native';
 
 
-export default function ChildAccountBudgetDisplay ({ budget, data, alerted, setAlerted}) {
+export default function ChildAccountBudgetDisplay ({ budget, data, alerted, setAlertToBeTrue}) {
   
   function alertedNoBudget () {
     wait(1000).then(() => createAlert());
-    setAlerted();
   }
   function alertedMinusBudget () {
     wait(1000).then(() => minusAlert());
-    setAlerted();
   }
   const wait = (timeout) => {
     return new Promise((resolve) => {
@@ -19,12 +17,21 @@ export default function ChildAccountBudgetDisplay ({ budget, data, alerted, setA
   };
   const createAlert = () =>
     Alert.alert(
+      "Alert",
       "No budget left 😱",
+      [
+        { text: "OK", onPress: () => setAlertToBeTrue()}
+      ],
     );
   const minusAlert = () =>
-    Alert.alert(
-      "You've over spent.. lets talk about it later",
-    );
+  Alert.alert(
+    "Alert!",
+    "Looks like you've over spent, let's talk about it later",
+    [
+      { text: "OK", onPress: () => setAlertToBeTrue() }
+    ],
+  );
+
 
   const budgets = []
   budget.forEach(function (a) {
@@ -81,12 +88,11 @@ export default function ChildAccountBudgetDisplay ({ budget, data, alerted, setA
         sums[i].category.toLowerCase() === budgets[i].category.toLowerCase()
       ) {
         let summd = parseInt(budgets[i].amount, 10) + parseInt(sums[i].amount, 10);
-        // if(summd < 0) summd = parseInt(summd.toString().slice(1))
         if (summd === 0 && !alerted) {
-          // alertedNoBudget();
+          alertedNoBudget();
         }
         if (summd < 0 && !alerted) {
-          // alertedMinusBudget()
+          alertedMinusBudget()
         }
         budgetsArray[i] = { category: catName, amount: sum, remaining: summd, display: budgets[i].display, expiry: budgets[i].expiry, id: budgets[i].id }; //add id
       }
@@ -174,6 +180,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 2,
     fontSize: 18,
     fontFamily: 'Chilanka-Regular',
+    textDecorationLine: 'line-through'
   },
   small: {
     color: 'navy',

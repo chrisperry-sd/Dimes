@@ -27,7 +27,6 @@ export default function App () {
 
   const [childBudget, setChildBudget] = useState({});
   const [transactions, setTransactions] = useState({});
-
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isEnabled, setIsEnabled] = useState(false);
 

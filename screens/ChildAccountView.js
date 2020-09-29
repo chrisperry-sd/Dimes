@@ -15,7 +15,7 @@ import Categories from '../components/childComponents/Categories';
 import NextAllowance from '../components/childComponents/NextAllowance';
 import ChildAccountBudgetDisplay from '../components/childComponents/ChildAccountBudgetDisplay';
 
-export default function ChildAccountView ({ data, budget, summed, transactions, thisWeeksTransactions, isRefreshing, onRefresh }) {
+export default function ChildAccountView ({ data, budget, summed, transactions, thisWeeksTransactions, isRefreshing, onRefresh, alerted, setAlertToBeTrue }) {
   return (
 
     <ScrollView style={styles.bg}
@@ -42,7 +42,7 @@ export default function ChildAccountView ({ data, budget, summed, transactions, 
       </View> : null}
       <View>
         {budget.length > 0 ?
-          <ChildAccountBudgetDisplay data={transactions} budget={budget} /> : <Text style={styles.text}>No budgets have been set this week, see how much you can save.. </Text>}
+          <ChildAccountBudgetDisplay setAlertToBeTrue={setAlertToBeTrue} alerted={alerted} data={transactions} budget={budget} /> : <Text style={styles.text}>No budgets have been set this week, see how much you can save.. </Text>}
       </View>
       <View>
         <Savings summed={summed} budget={budget} data={transactions} />
