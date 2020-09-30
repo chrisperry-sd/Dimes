@@ -71,7 +71,7 @@ export default function ChildAccountView ({
               <Text style={styles.text}>
                 You've spent nothing so far this week!
           </Text> : <Text style={styles.text}>
-                Look what you've spent money on this week
+                Look what's happened in your account this week
             </Text>}
             <View style={styles.categories}>
               <Categories data={transactions} />

@@ -12,7 +12,7 @@ export default function SpentItems({data, thisWeeksTrans}) {
           style={styles.flatListBorder}
           horizontal={true}
           data={thisWeeksTrans ? thisWeeksTrans.sort((a, b) => {
-            return new Date(b.date) - new Date(a.date) ;
+            return new Date(b.date).getTime() - new Date(a.date).getTime() ;
           }) : null}
           keyExtractor={ (item, index) => index.toString() }
           renderItem={({item}) => (

@@ -10,6 +10,8 @@ export default function Savings({summed, budget, data}) {
     0,
   );
 const remaninigAfterBudgetSpent = summed - budgetAmounts;
+console.log('budget: ', budget);
+console.log('budget: ', summed);
 
 
   return (
