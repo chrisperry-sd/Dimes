@@ -1,5 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, {useState, useCallback, useEffect} from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -22,12 +21,11 @@ export default function ParentDashboard({
   thisWeekSum,
   thisWeeksTrans,
   onRefresh,
-  isRefreshing
+  isRefreshing,
 }) {
-
   return (
     <SafeAreaView style={styles.bg}>
-    <ScrollView
+      <ScrollView
         refreshControl={
           <RefreshControl
             refreshing={isRefreshing}
@@ -62,12 +60,12 @@ export default function ParentDashboard({
             thisWeeksTrans={thisWeeksTrans}
           />
         </View>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <View style={styles.toggleBtn}>
             <Text style={styles.text}>Childs View</Text>
             <Switch
               style={styles.toggleBtn}
-              trackColor={{false: '#767577', true: '#A34861'}}
+              trackColor={{ false: '#767577', true: '#A34861' }}
               onValueChange={() => navigation.navigate('ChildAccountView')}
             />
           </View>

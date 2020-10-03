@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 
 import BallanceChild from '../components/BalanceChild';
-import NewBudgetChild from '../components/NewBudgetChild'
+import NewBudgetChild from '../components/NewBudgetChild';
 
 const wait = (timeout) => {
   return new Promise((resolve) => {
@@ -19,7 +19,17 @@ const wait = (timeout) => {
   });
 };
 
-export default function ChildParentView ({ navigation, data, summed, budget, deleteBudget, isRefreshing, onRefresh, parentAlerted, setParentAlertToBeTrue }) {
+export default function ChildParentView({
+  navigation,
+  data,
+  summed,
+  budget,
+  deleteBudget,
+  isRefreshing,
+  onRefresh,
+  parentAlerted,
+  setParentAlertToBeTrue,
+}) {
   return (
     <SafeAreaView style={styles.bg}>
       <ScrollView
@@ -38,10 +48,7 @@ export default function ChildParentView ({ navigation, data, summed, budget, del
           <Text style={styles.text}>Balances</Text>
         </View>
         <View>
-          <BallanceChild
-            summed={summed}
-            navigation={navigation}
-            data={data} />
+          <BallanceChild summed={summed} navigation={navigation} data={data} />
         </View>
         <View>
           <Text style={styles.text}>Budgets</Text>
@@ -53,7 +60,8 @@ export default function ChildParentView ({ navigation, data, summed, budget, del
             data={data}
             deleteBudget={deleteBudget}
             parentAlerted={parentAlerted}
-            setParentAlertToBeTrue={setParentAlertToBeTrue} />
+            setParentAlertToBeTrue={setParentAlertToBeTrue}
+          />
         </View>
         <View style={styles.addBut}>
           <TouchableOpacity onPress={() => navigation.navigate('AddBudget')}>

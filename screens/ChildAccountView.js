@@ -15,7 +15,7 @@ import Categories from '../components/childComponents/Categories';
 import NextAllowance from '../components/childComponents/NextAllowance';
 import ChildAccountBudgetDisplay from '../components/childComponents/ChildAccountBudgetDisplay';
 
-export default function ChildAccountView ({
+export default function ChildAccountView({
   data,
   budget,
   summed,
@@ -26,19 +26,21 @@ export default function ChildAccountView ({
   alerted,
   setAlertToBeTrue,
   alertExpiry,
-  setAlertExpiryToTrue }) {
-
+  setAlertExpiryToTrue,
+}) {
   return (
-    <ScrollView style={styles.bg}
-      refreshControl={<RefreshControl
-        refreshing={isRefreshing}
-        onRefresh={onRefresh}
-        tintColor="white"
-      />}>
+    <ScrollView
+      style={styles.bg}
+      refreshControl={
+        <RefreshControl
+          refreshing={isRefreshing}
+          onRefresh={onRefresh}
+          tintColor="white"
+        />
+      }>
       <SafeAreaView style={styles.screen}>
         <StatusBar />
-        <View
-          showsVerticalScrollIndicator={false}>
+        <View showsVerticalScrollIndicator={false}>
           <View>
             <Text style={styles.textBold}>Hey, {data[0].Name}</Text>
           </View>
@@ -48,38 +50,47 @@ export default function ChildAccountView ({
           <View>
             <ChildBalance summed={summed} />
           </View>
-          {budget.length > 0 ? <View style={{ flexDirection: 'row' }}>
-            <Text style={styles.text}>Budgets</Text>
-          </View> : null}
+          {budget.length > 0 ? (
+            <View style={{ flexDirection: 'row' }}>
+              <Text style={styles.text}>Budgets</Text>
+            </View>
+          ) : null}
           <View>
-            {budget.length > 0 ?
+            {budget.length > 0 ? (
               <ChildAccountBudgetDisplay
                 alertExpiry={alertExpiry}
                 setAlertExpiryToTrue={setAlertExpiryToTrue}
                 setAlertToBeTrue={setAlertToBeTrue}
                 alerted={alerted}
                 data={transactions}
-                budget={budget} />
-              :
-              <Text style={styles.text}>No budgets have been set this week, see how much you can save.. </Text>}
+                budget={budget}
+              />
+            ) : (
+              <Text style={styles.text}>
+                No budgets have been set this week, see how much you can save..{' '}
+              </Text>
+            )}
           </View>
           <View>
             <Savings summed={summed} budget={budget} data={transactions} />
           </View>
           <View>
-            {thisWeeksTransactions == undefined ?
+            {thisWeeksTransactions == undefined ? (
               <Text style={styles.text}>
                 You've spent nothing so far this week!
-          </Text> : <Text style={styles.text}>
+              </Text>
+            ) : (
+              <Text style={styles.text}>
                 Look what's happened in your account this week
-            </Text>}
+              </Text>
+            )}
             <View style={styles.categories}>
               <Categories data={transactions} />
             </View>
           </View>
         </View>
       </SafeAreaView>
-    </ScrollView >
+    </ScrollView>
   );
 }
 

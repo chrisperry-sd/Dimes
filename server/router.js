@@ -1,12 +1,11 @@
 const router = require('express').Router();
-const budgets = require('./controller');
+const controller = require('./controller');
 
-router.get('/budgets', budgets.getAllBudgets);
-router.post('/budgets', budgets.createBudget);
-router.delete('/budgets/:_id', budgets.deleteBudget);
+router.get('/budgets', controller.getAllBudgets);
+router.post('/budgets', controller.createBudget);
+router.delete('/budgets/:_id', controller.deleteBudget);
 
-router.get('/transactions', budgets.getAllTransactions);
-router.post('/transactions', budgets.addTransaction);
-
+router.get('/transactions', controller.getAllTransactions);
+router.post('/transactions', controller.addTransaction);
 
 module.exports = router;

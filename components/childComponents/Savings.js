@@ -1,18 +1,17 @@
 import { CurrentRenderContext } from '@react-navigation/native';
 import React from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import { View, Text, StyleSheet, Image } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import pig from '../../myAssets/images/pig1-removebg-preview.png';
 
-export default function Savings({summed, budget, data}) {
+export default function Savings({ summed, budget, data }) {
   const budgetAmounts = budget.reduce(
     (accumulator, current) => accumulator + current.budget,
     0,
   );
-const remaninigAfterBudgetSpent = summed - budgetAmounts;
-console.log('budget: ', budget);
-console.log('budget: ', summed);
-
+  const remaninigAfterBudgetSpent = summed - budgetAmounts;
+  console.log('budget: ', budget);
+  console.log('budget: ', summed);
 
   return (
     <TouchableOpacity style={styles.box}>
@@ -22,21 +21,22 @@ console.log('budget: ', summed);
       <View>
         <Image source={pig} style={styles.chart} />
         <View style={styles.savingView}>
-        {budget.length > 0 && summed > 0 ? 
-          <Text style={styles.savings}>
-            Save your remaining budget and have £ {summed}
-          </Text> :  <Text style={styles.savings}>
-          Ahh, you've over spent. Try to save until your next allowance!
-        </Text> }
+          {budget.length > 0 && summed > 0 ? (
+            <Text style={styles.savings}>
+              Save your remaining budget and have £ {summed}
+            </Text>
+          ) : (
+            <Text style={styles.savings}>
+              Ahh, you've over spent. Try to save until your next allowance!
+            </Text>
+          )}
           <View style={styles.remaining}>
-          {budget.length > 0 ?
-            null
-            : 
-            <Text style={styles.savingsLarge}> You have £{summed}</Text>}
-            {budget.length > 0 && summed > 0? 
-            <Text style={styles.savings}>at the end of the week..</Text>
-            :
-            null}
+            {budget.length > 0 ? null : (
+              <Text style={styles.savingsLarge}> You have £{summed}</Text>
+            )}
+            {budget.length > 0 && summed > 0 ? (
+              <Text style={styles.savings}>at the end of the week..</Text>
+            ) : null}
           </View>
         </View>
       </View>
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     backgroundColor: 'hsl(218, 32%, 43%)',
     shadowColor: '#000',
-    shadowOffset: {width: 0, height: 0},
+    shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.8,
     shadowRadius: 3,
     elevation: 1,

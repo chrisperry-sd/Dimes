@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -9,7 +9,7 @@ import {
   StatusBar,
 } from 'react-native';
 
-export default function AddChild({navigation, setChild}) {
+export default function AddChild({ navigation, setChild }) {
   const [name, setName] = useState('');
 
   return (

@@ -21,24 +21,23 @@ import ApiService from './ApiService';
 
 const Stack = createStackNavigator();
 
-export default function App () {
-
-  const [alerted, setAlerted] = useState(false)
-  const [parentAlerted, setParentAlerted] = useState(false)
-  const [alertExpiry, setAlertExpiry] = useState(false)
+export default function App() {
+  const [alerted, setAlerted] = useState(false);
+  const [parentAlerted, setParentAlerted] = useState(false);
+  const [alertExpiry, setAlertExpiry] = useState(false);
 
   const [childBudget, setChildBudget] = useState({});
   const [transactions, setTransactions] = useState({});
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isEnabled, setIsEnabled] = useState(false);
 
-  function setAlertExpiryToTrue () {
+  function setAlertExpiryToTrue() {
     setAlertExpiry(true);
   }
-  function setAlertToBeTrue () {
+  function setAlertToBeTrue() {
     setAlerted(true);
   }
-  function setParentAlertToBeTrue () {
+  function setParentAlertToBeTrue() {
     setParentAlerted(true);
   }
   const wait = (timeout) => {
@@ -48,9 +47,12 @@ export default function App () {
   };
   const onRefresh = useCallback(async () => {
     setIsRefreshing(true);
-    wait(2000).then(() => ApiService.getTransactions().then((trans) => setTransactions(trans)).then(() => setIsRefreshing(false)))
-    // setIsRefreshing(false)
-  }, [isRefreshing]);
+    wait(2000).then(() =>
+      ApiService.getTransactions()
+        .then((trans) => setTransactions(trans))
+        .then(() => setIsRefreshing(false)),
+    );
+  }, []);
 
   useEffect(() => {
     ApiService.getBudgets().then((budgets) => setChildBudget(budgets));
@@ -58,21 +60,22 @@ export default function App () {
   useEffect(() => {
     ApiService.getTransactions().then((trans) => setTransactions(trans));
   }, []);
-  function createBudget (category, budget, expiry) {
+  function createBudget(category, budget, expiry) {
     ApiService.postBudget({ category, budget, expiry }).then((budgets) => {
       // eslint-disable-next-line no-shadow
       setChildBudget((childBudget) => [...childBudget, budgets]);
     });
   }
 
-  function deleteBudget (id) {
-    ApiService.deleteBudget(id)
-      .then(() => {
-        setChildBudget(budgets => budgets.filter(budget => budget._id !== id))
-      })
+  function deleteBudget(id) {
+    ApiService.deleteBudget(id).then(() => {
+      setChildBudget((budgets) =>
+        budgets.filter((budget) => budget._id !== id),
+      );
+    });
   }
 
-  function getSum () {
+  function getSum() {
     if (transactions.length) {
       const summ = transactions.reduce(
         (accumulator, current) => accumulator + current.amount,
@@ -82,25 +85,30 @@ export default function App () {
     }
   }
   const summed = getSum(); // sum of all transactions to display current balance
-  function getFirstDayOfWeek () {
+  function getFirstDayOfWeek() {
     const curr = new Date();
     const firstday = new Date(curr.setDate(curr.getDate() - curr.getDay()));
     return firstday.getTime();
   }
-  function thisWeeksTrans () {
+  function thisWeeksTrans() {
     if (transactions.length) {
-      return transactions.filter(transaction => (getFirstDayOfWeek() - new Date(transaction.date).getTime() <= 0));
-    };
-  };
-  const thisWeeksTransactions = thisWeeksTrans();
-
-  function thisWeeksSum () {
-    if (thisWeeksTransactions) {
-      return thisWeeksTransactions.filter((trans) => trans.merchant !== 'Bank')
-        .reduce((accumulator, current) => accumulator + current.amount, 0).toFixed(2);
+      return transactions.filter(
+        (transaction) =>
+          getFirstDayOfWeek() - new Date(transaction.date).getTime() <= 0,
+      );
     }
   }
-  const WeeksSum = thisWeeksSum()
+  const thisWeeksTransactions = thisWeeksTrans();
+
+  function thisWeeksSum() {
+    if (thisWeeksTransactions) {
+      return thisWeeksTransactions
+        .filter((trans) => trans.merchant !== 'Bank')
+        .reduce((accumulator, current) => accumulator + current.amount, 0)
+        .toFixed(2);
+    }
+  }
+  const WeeksSum = thisWeeksSum();
 
   return (
     <NavigationContainer>
@@ -178,7 +186,9 @@ export default function App () {
         </Stack.Screen>
 
         <Stack.Screen name="AddChild" options={{ headerShown: false }}>
-          {(props) => <AddChild data={transactions} {...props} summed={summed} />}
+          {(props) => (
+            <AddChild data={transactions} {...props} summed={summed} />
+          )}
         </Stack.Screen>
 
         <Stack.Screen name="AddBudget" options={{ headerShown: false }}>
