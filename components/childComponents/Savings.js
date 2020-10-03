@@ -1,18 +1,10 @@
-import { CurrentRenderContext } from '@react-navigation/native';
 import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import pig from '../../myAssets/images/pig1-removebg-preview.png';
+import { colors } from '../../theme';
 
 export default function Savings({ summed, budget, data }) {
-  const budgetAmounts = budget.reduce(
-    (accumulator, current) => accumulator + current.budget,
-    0,
-  );
-  const remaninigAfterBudgetSpent = summed - budgetAmounts;
-  console.log('budget: ', budget);
-  console.log('budget: ', summed);
-
   return (
     <TouchableOpacity style={styles.box}>
       <View>
@@ -50,8 +42,8 @@ const styles = StyleSheet.create({
     margin: 10,
     height: 200,
     marginTop: 10,
-    backgroundColor: 'hsl(218, 32%, 43%)',
-    shadowColor: '#000',
+    backgroundColor: colors.blue,
+    shadowColor: colors.black,
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.8,
     shadowRadius: 3,
@@ -65,37 +57,25 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     width: 250,
-    // margin: 10,
   },
   balanceTitle: {
-    color: 'white',
+    color: colors.white,
     padding: 10,
     marginTop: 10,
     fontSize: 24,
     fontFamily: 'Chilanka-Regular',
   },
-  balance: {
-    marginLeft: 20,
-    fontSize: 16,
-    fontFamily: 'Chilanka-Regular',
-    color: 'white',
-  },
   savings: {
     marginLeft: 20,
     fontSize: 24,
     fontFamily: 'Chilanka-Regular',
-    color: '#BBE1C3',
+    color: colors.green,
   },
-  // savingsLeft: {
-  //   fontSize: 24,
-  //   fontFamily: 'Chilanka-Regular',
-  //   color: '#BBE1C3',
-  // },
   savingsLarge: {
     margin: 10,
     fontSize: 32,
     fontFamily: 'Chilanka-Regular',
-    color: '#BBE1C3',
+    color: colors.green,
   },
   chart: {
     position: 'absolute',

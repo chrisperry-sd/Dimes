@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Items from './SpentItems';
+import { colors } from '../theme';
 
 import chart from '../myAssets/images/barchat.png';
 
@@ -30,10 +31,10 @@ const styles = StyleSheet.create({
     margin: 10,
     height: 200,
     marginTop: 30,
-    backgroundColor: 'hsl(218, 32%, 60%)',
+    backgroundColor: colors.purple,
   },
   balanceTitle: {
-    color: 'white',
+    color: colors.white,
     padding: 10,
     marginTop: 10,
     fontSize: 18,
@@ -44,7 +45,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     fontSize: 40,
     fontFamily: 'Raleway-Regular',
-    color: 'white',
+    color: colors.white,
   },
   itemsStyleMargin: {
     margin: 10,

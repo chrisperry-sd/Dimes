@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -9,15 +9,10 @@ import {
   RefreshControl,
   TouchableOpacity,
 } from 'react-native';
+import { colors } from '../theme';
 
 import BallanceChild from '../components/BalanceChild';
 import NewBudgetChild from '../components/NewBudgetChild';
-
-const wait = (timeout) => {
-  return new Promise((resolve) => {
-    setTimeout(resolve, timeout);
-  });
-};
 
 export default function ChildParentView({
   navigation,
@@ -75,13 +70,13 @@ export default function ChildParentView({
 
 const styles = StyleSheet.create({
   text: {
-    color: 'white',
+    color: colors.white,
     marginTop: 10,
     paddingLeft: 10,
     fontSize: 19,
   },
   textAdd: {
-    color: 'white',
+    color: colors.white,
     fontSize: 19,
   },
   addBut: {
@@ -91,15 +86,15 @@ const styles = StyleSheet.create({
     height: 50,
     margin: 10,
     borderRadius: 8,
-    backgroundColor: '#1E2234',
+    backgroundColor: colors.black,
   },
 
   bg: {
-    backgroundColor: '#161925',
+    backgroundColor: colors.black,
     flex: 1,
   },
   textLarge: {
-    color: 'white',
+    color: colors.white,
     marginTop: 10,
     paddingLeft: 10,
     fontSize: 40,

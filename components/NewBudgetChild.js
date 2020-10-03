@@ -1,13 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import {
-  ScrollView,
-  View,
-  Text,
-  FlatList,
-  StyleSheet,
-  Alert,
-} from 'react-native';
+import React from 'react';
+import { View, Text, FlatList, StyleSheet, Alert } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { colors } from '../theme';
 
 export default function ChildAccountBudgetDisplay({
   budget,
@@ -122,7 +116,9 @@ export default function ChildAccountBudgetDisplay({
           expiry: budgets[i].expiry,
           id: budgets[i].id,
         };
-      } else return null;
+      } else {
+        return null;
+      }
     }
   }
   const renderBudget = ({ item, index }) => {
@@ -131,11 +127,7 @@ export default function ChildAccountBudgetDisplay({
         <View>
           <View style={styles.listNegative}>
             <View style={styles.listContainer}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                }}>
+              <View style={styles.rowContainer}>
                 <View style={styles.budgetText}>
                   <Text
                     style={
@@ -197,12 +189,12 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   listNegative: {
-    backgroundColor: '#A34861',
+    backgroundColor: colors.plum,
     marginRight: 10,
     height: 'auto',
     borderRadius: 8,
     width: 'auto',
-    shadowColor: '#A34861',
+    shadowColor: colors.plum,
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.8,
     shadowRadius: 3,
@@ -211,33 +203,23 @@ const styles = StyleSheet.create({
   listContainer: {
     margin: 10,
   },
-  addBudgetContainer: {
-    margin: 10,
-    alignItems: 'center',
-  },
-  text: {
-    color: 'navy',
-    paddingHorizontal: 2,
-    fontSize: 18,
+  rowContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   textNegative: {
-    color: 'white',
+    color: colors.white,
     paddingHorizontal: 2,
     fontSize: 18,
   },
-  small: {
-    color: 'navy',
-    paddingHorizontal: 2,
-    fontSize: 12,
-  },
   bold: {
-    color: 'white',
+    color: colors.white,
     paddingHorizontal: 2,
     fontSize: 24,
     fontWeight: 'bold',
   },
   boldNegative: {
-    color: 'white',
+    color: colors.white,
     paddingHorizontal: 2,
     fontSize: 24,
     fontWeight: 'bold',
@@ -248,7 +230,7 @@ const styles = StyleSheet.create({
     paddingTop: 5,
   },
   negative: {
-    color: 'white',
+    color: colors.white,
     paddingHorizontal: 2,
     fontSize: 12,
   },

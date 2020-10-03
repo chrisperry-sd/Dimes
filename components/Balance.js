@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { colors } from '../theme';
 
 export default function Balance() {
   return (
@@ -21,10 +22,10 @@ const styles = StyleSheet.create({
     margin: 10,
     height: 200,
     marginTop: 30,
-    backgroundColor: 'hsl(218, 32%, 43%)',
+    backgroundColor: colors.blue,
   },
   balanceTitle: {
-    color: 'white',
+    color: colors.white,
     padding: 10,
     marginTop: 10,
     fontSize: 18,
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     fontSize: 40,
     fontFamily: 'Raleway-Regular',
-    color: 'white',
+    color: colors.white,
   },
 });
 

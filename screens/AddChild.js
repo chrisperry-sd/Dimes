@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   StatusBar,
 } from 'react-native';
+import colors from '../theme';
 
 export default function AddChild({ navigation, setChild }) {
   const [name, setName] = useState('');
@@ -25,10 +26,10 @@ export default function AddChild({ navigation, setChild }) {
         <View>
           <TextInput
             style={styles.textInput}
+            value={name}
             placeholder="Screen name"
             onChangeText={(e) => {
               setName(e);
-              console.log(name);
             }}
           />
         </View>
@@ -55,22 +56,22 @@ export default function AddChild({ navigation, setChild }) {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    color: 'white',
-    backgroundColor: '#161925',
+    color: colors.white,
+    backgroundColor: colors.black,
     flex: 1,
   },
   accountSetup: {
     marginTop: 50,
   },
   header: {
-    color: 'white',
+    color: colors.white,
     fontSize: 48,
   },
   inputContainer: {
     marginTop: 56,
   },
   btn: {
-    backgroundColor: '#A34861',
+    backgroundColor: colors.plum,
     padding: 10,
     borderRadius: 8,
     alignItems: 'center',
@@ -82,28 +83,20 @@ const styles = StyleSheet.create({
   centerbtn: {
     alignItems: 'center',
   },
-  signUp: {
-    color: 'white',
-    textDecorationLine: 'underline',
-    margin: 50,
-  },
   textInput: {
-    color: 'black',
-    borderColor: 'white',
+    color: colors.black,
+    borderColor: colors.white,
     borderWidth: 2,
     borderRadius: 8,
     padding: 10,
     width: 350,
     height: 60,
-    backgroundColor: 'white',
+    backgroundColor: colors.white,
     margin: 20,
     fontSize: 24,
   },
-  centerContent: {
-    alignItems: 'center',
-  },
   text: {
-    color: 'white',
+    color: colors.white,
     fontSize: 24,
   },
 });

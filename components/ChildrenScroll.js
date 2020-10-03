@@ -1,7 +1,7 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
-import { ScrollView, View, Text, FlatList, StyleSheet } from 'react-native';
+import { View, Text, FlatList, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { colors } from '../theme';
 
 export default function ChildrenScroll({ navigation, data, summed }) {
   return (
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   list: {
-    backgroundColor: '#A34861',
+    backgroundColor: colors.plum,
     marginRight: 10,
     height: 100,
     borderRadius: 8,
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    color: 'white',
+    color: colors.white,
     paddingHorizontal: 2,
     fontSize: 32,
   },

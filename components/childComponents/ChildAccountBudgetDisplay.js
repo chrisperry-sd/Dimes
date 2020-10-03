@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { View, Text, FlatList, StyleSheet, Alert } from 'react-native';
+import { colors } from '../../theme';
 
 export default function ChildAccountBudgetDisplay({
   budget,
@@ -30,7 +31,7 @@ export default function ChildAccountBudgetDisplay({
   const minusAlert = () =>
     Alert.alert(
       'Alert!',
-      "Looks like you've over spent, let's talk about it later",
+      'Looks like you have overspent, we can talk about it later',
       [{ text: 'OK', onPress: () => setAlertToBeTrue() }],
     );
   const expiryAlert = () =>
@@ -119,7 +120,9 @@ export default function ChildAccountBudgetDisplay({
           expiry: budgets[i].expiry,
           id: budgets[i].id,
         }; //add id
-      } else return null;
+      } else {
+        return null;
+      }
     }
   }
   const renderBudget = ({ item, index }) => {
@@ -175,30 +178,28 @@ export default function ChildAccountBudgetDisplay({
 
 const styles = StyleSheet.create({
   container: {
-    // marginTop: 10,
-    // margin: 10,
     borderRadius: 8,
     flexDirection: 'row',
   },
   list: {
-    backgroundColor: '#BBE1C3',
+    backgroundColor: colors.green,
     margin: 5,
     height: 100,
     borderRadius: 8,
     width: 187,
-    shadowColor: 'grey',
+    shadowColor: colors.grey,
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.8,
     shadowRadius: 3,
     elevation: 1,
   },
   listNegative: {
-    backgroundColor: '#A34861',
+    backgroundColor: colors.plum,
     margin: 5,
     height: 100,
     borderRadius: 8,
     width: 187,
-    shadowColor: 'grey',
+    shadowColor: colors.grey,
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.8,
     shadowRadius: 3,
@@ -208,33 +209,33 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   text: {
-    color: 'navy',
+    color: colors.black,
     paddingHorizontal: 2,
     fontSize: 18,
     fontFamily: 'Chilanka-Regular',
   },
   textNegative: {
-    color: 'white',
+    color: colors.white,
     paddingHorizontal: 2,
     fontSize: 18,
     fontFamily: 'Chilanka-Regular',
     textDecorationLine: 'line-through',
   },
   small: {
-    color: 'navy',
+    color: colors.black,
     paddingHorizontal: 2,
     fontSize: 12,
     fontFamily: 'Chilanka-Regular',
   },
   bold: {
-    color: 'navy',
+    color: colors.black,
     paddingHorizontal: 2,
     fontSize: 24,
     fontWeight: 'bold',
     fontFamily: 'Chilanka-Regular',
   },
   boldNegative: {
-    color: 'white',
+    color: colors.white,
     paddingHorizontal: 2,
     fontSize: 24,
     fontWeight: 'bold',
@@ -245,7 +246,7 @@ const styles = StyleSheet.create({
     paddingTop: 5,
   },
   negative: {
-    color: 'white',
+    color: colors.white,
     paddingHorizontal: 2,
     fontSize: 12,
     fontFamily: 'Chilanka-Regular',

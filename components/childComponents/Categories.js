@@ -1,13 +1,7 @@
 import React from 'react';
-import {
-  ScrollView,
-  View,
-  Text,
-  FlatList,
-  StyleSheet,
-  Image,
-} from 'react-native';
+import { View, Text, FlatList, StyleSheet, Image } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { colors } from '../../theme';
 
 import cash from '../../myAssets/images/cash-removebg-preview.png';
 
@@ -66,12 +60,12 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   list: {
-    backgroundColor: '#A34861',
+    backgroundColor: colors.plum,
     marginRight: 10,
     height: 100,
     borderRadius: 8,
     width: 200,
-    shadowColor: '#000',
+    shadowColor: colors.black,
     shadowOffset: { width: 1, height: 0 },
     shadowOpacity: 0.8,
     shadowRadius: 3,
@@ -81,20 +75,15 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   text: {
-    color: 'white',
+    color: colors.white,
     paddingHorizontal: 2,
     fontSize: 18,
-  },
-  textSmall: {
-    color: 'white',
-    fontSize: 12,
-    fontFamily: 'Chilanka-Regular',
   },
   budgetText: {
     paddingBottom: 8,
   },
   bold: {
-    color: 'white',
+    color: colors.white,
     paddingHorizontal: 2,
     fontSize: 24,
     fontWeight: 'bold',

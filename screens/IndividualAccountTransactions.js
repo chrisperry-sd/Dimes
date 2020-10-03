@@ -1,25 +1,14 @@
 import React from 'react';
-import {
-  ScrollView,
-  View,
-  Text,
-  FlatList,
-  StyleSheet,
-  Image,
-} from 'react-native';
+import { View, Text, FlatList, StyleSheet } from 'react-native';
 import moment from 'moment';
+import { colors } from '../theme';
 
 export default function IndividualAccountTransactions({ data }) {
   const renderCategory = ({ item }) => {
     return (
       <View style={styles.list}>
         <View style={styles.listContainer}>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}>
+          <View style={styles.itemContainer}>
             <View style={styles.budgetText}>
               <Text style={styles.bold}>{item.merchant}</Text>
             </View>
@@ -57,7 +46,12 @@ export default function IndividualAccountTransactions({ data }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#161925',
+    backgroundColor: colors.black,
+  },
+  itemContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   view: {
     margin: 10,
@@ -65,11 +59,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   list: {
-    backgroundColor: '#A34861',
+    backgroundColor: colors.plum,
     margin: 10,
     borderRadius: 8,
     width: 350,
-    shadowColor: '#000',
+    shadowColor: colors.black,
     shadowOffset: { width: 1, height: 0 },
     shadowOpacity: 0.8,
     shadowRadius: 3,
@@ -79,25 +73,21 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   text: {
-    color: 'white',
+    color: colors.white,
     paddingHorizontal: 2,
     fontSize: 18,
-  },
-  textSmall: {
-    color: 'white',
-    fontSize: 12,
   },
   budgetText: {
     paddingBottom: 8,
   },
   bold: {
-    color: 'white',
+    color: colors.white,
     paddingHorizontal: 2,
     fontSize: 24,
     fontWeight: 'bold',
   },
   boldSmall: {
-    color: 'white',
+    color: colors.white,
     paddingHorizontal: 2,
     fontSize: 16,
     fontWeight: 'bold',

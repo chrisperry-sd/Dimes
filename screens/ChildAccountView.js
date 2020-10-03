@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   RefreshControl,
 } from 'react-native';
+import { colors } from '../theme';
 
 import ChildBalance from '../components/childComponents/ChildBalance';
 import Savings from '../components/childComponents/Savings';
@@ -51,7 +52,7 @@ export default function ChildAccountView({
             <ChildBalance summed={summed} />
           </View>
           {budget.length > 0 ? (
-            <View style={{ flexDirection: 'row' }}>
+            <View style={styles.row}>
               <Text style={styles.text}>Budgets</Text>
             </View>
           ) : null}
@@ -75,7 +76,7 @@ export default function ChildAccountView({
             <Savings summed={summed} budget={budget} data={transactions} />
           </View>
           <View>
-            {thisWeeksTransactions == undefined ? (
+            {thisWeeksTransactions === undefined ? (
               <Text style={styles.text}>
                 You've spent nothing so far this week!
               </Text>
@@ -99,21 +100,24 @@ const styles = StyleSheet.create({
     margin: 10,
     padding: 10,
   },
+  row: {
+    flexDirection: 'row',
+  },
   bg: {
-    backgroundColor: '#7698B3',
+    backgroundColor: colors.purple,
     flex: 1,
   },
   textBold: {
     fontWeight: 'bold',
     fontSize: 32,
-    color: 'white',
+    color: colors.white,
     margin: 10,
   },
   categories: {
     marginTop: 20,
   },
   text: {
-    color: 'white',
+    color: colors.white,
     fontSize: 24,
     marginLeft: 10,
     marginTop: 10,

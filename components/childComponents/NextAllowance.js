@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { colors } from '../../theme';
 
 function getMonthDaysLeft() {
   const date = new Date();
@@ -13,7 +14,7 @@ const daysLeft = getMonthDaysLeft();
 
 export default function NextAllowance() {
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+    <View style={styles.rowContainer}>
       <View style={styles.container}>
         <Text style={styles.text}>{daysLeft}</Text>
       </View>
@@ -29,19 +30,24 @@ export default function NextAllowance() {
 }
 
 const styles = StyleSheet.create({
+  rowContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '80%',
+  },
   container: {
-    backgroundColor: 'hsl(218, 32%, 43%)',
-    borderColor: 'grey',
+    backgroundColor: colors.blue,
+    borderColor: colors.grey,
     borderRadius: 8,
     margin: 10,
-    shadowColor: '#000',
+    shadowColor: colors.black,
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.8,
     shadowRadius: 3,
     elevation: 1,
   },
   text: {
-    color: 'white',
+    color: colors.white,
     fontFamily: 'Chilanka-Regular',
     fontSize: 32,
     padding: 20,

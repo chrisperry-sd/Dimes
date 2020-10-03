@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { colors } from '../theme';
 
 // filter our data by the last 30 days...
 
@@ -46,7 +47,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   list: {
-    backgroundColor: '#A34861',
+    backgroundColor: colors.plum,
     marginRight: 10,
     height: 50,
     borderRadius: 8,
@@ -59,7 +60,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   text: {
-    color: 'white',
+    color: colors.white,
     paddingHorizontal: 2,
     fontSize: 18,
   },

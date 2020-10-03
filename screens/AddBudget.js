@@ -11,6 +11,7 @@ import {
   Platform,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { colors } from '../theme';
 
 export default function AddBudget({ navigation, createBudget }) {
   const [category, setCategory] = useState('');
@@ -34,8 +35,9 @@ export default function AddBudget({ navigation, createBudget }) {
   };
   function handleOnPress(event) {
     event.preventDefault();
-    if (category.length == 0 || budget.length == 0 || expiry.length == 0)
+    if (category.length === 0 || budget.length === 0 || expiry.length === 0) {
       return Alert.alert(' Input field empty/incorrect');
+    }
     createBudget(category, budget, expiry);
     setTimeout(() => {
       createAlert();
@@ -104,22 +106,22 @@ export default function AddBudget({ navigation, createBudget }) {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    color: 'white',
-    backgroundColor: '#161925',
+    color: colors.white,
+    backgroundColor: colors.black,
     flex: 1,
   },
   accountSetup: {
     marginTop: 50,
   },
   header: {
-    color: 'white',
+    color: colors.white,
     fontSize: 48,
   },
   inputContainer: {
     marginTop: 56,
   },
   btn: {
-    backgroundColor: '#A34861',
+    backgroundColor: colors.plum,
     padding: 10,
     borderRadius: 8,
     alignItems: 'center',
@@ -135,28 +137,20 @@ const styles = StyleSheet.create({
   centerbtn: {
     alignItems: 'center',
   },
-  signUp: {
-    color: 'white',
-    textDecorationLine: 'underline',
-    margin: 50,
-  },
   textInput: {
-    color: 'black',
-    borderColor: 'white',
+    color: colors.black,
+    borderColor: colors.white,
     borderWidth: 2,
     borderRadius: 8,
     padding: 10,
     width: 350,
     height: 60,
-    backgroundColor: 'white',
+    backgroundColor: colors.white,
     margin: 20,
     fontSize: 24,
   },
-  centerContent: {
-    alignItems: 'center',
-  },
   text: {
-    color: 'white',
+    color: colors.white,
     fontSize: 24,
   },
 });

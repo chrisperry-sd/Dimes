@@ -10,6 +10,7 @@ import {
   RefreshControl,
   TouchableOpacity,
 } from 'react-native';
+import { colors } from '../theme';
 
 import Spent from '../components/Spent';
 import ChildrenScroll from '../components/ChildrenScroll';
@@ -34,7 +35,7 @@ export default function ParentDashboard({
           />
         }>
         <StatusBar barStyle="light-content" />
-        <View style={styles.header}>
+        <View style={[styles.container, styles.header]}>
           <View>
             <Text style={styles.textLarge}>Children</Text>
           </View>
@@ -60,12 +61,12 @@ export default function ParentDashboard({
             thisWeeksTrans={thisWeeksTrans}
           />
         </View>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+        <View style={styles.container}>
           <View style={styles.toggleBtn}>
             <Text style={styles.text}>Childs View</Text>
             <Switch
               style={styles.toggleBtn}
-              trackColor={{ false: '#767577', true: '#A34861' }}
+              trackColor={{ false: '#767577', true: colors.plum }}
               onValueChange={() => navigation.navigate('ChildAccountView')}
             />
           </View>
@@ -76,10 +77,12 @@ export default function ParentDashboard({
 }
 
 const styles = StyleSheet.create({
-  header: {
+  container: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+  },
+  header: {
     marginRight: 20,
   },
   toggleBtn: {
@@ -87,30 +90,30 @@ const styles = StyleSheet.create({
   },
   plusBorder: {
     borderRadius: 50,
-    backgroundColor: '#A34861',
+    backgroundColor: colors.plum,
     justifyContent: 'center',
     alignItems: 'center',
     height: 50,
     width: 50,
   },
   text: {
-    color: 'white',
+    color: colors.white,
     marginTop: 10,
     paddingLeft: 10,
     fontSize: 19,
   },
   bg: {
-    backgroundColor: '#161925',
+    backgroundColor: colors.black,
     flex: 1,
   },
   textLarge: {
-    color: 'white',
+    color: colors.white,
     marginTop: 10,
     paddingLeft: 10,
     fontSize: 32,
   },
   plus: {
-    color: 'white',
+    color: colors.white,
     fontSize: 32,
   },
 });

@@ -9,6 +9,7 @@ import {
   SafeAreaView,
   StatusBar,
 } from 'react-native';
+import { colors } from '../theme';
 
 // import {CommonActions} from '@react-navigation/native';
 
@@ -61,12 +62,12 @@ export default function LogIn({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    color: 'white',
-    backgroundColor: '#161925',
+    color: colors.white,
+    backgroundColor: colors.black,
     flex: 1,
   },
   text: {
-    color: 'white',
+    color: colors.white,
     fontSize: 24,
   },
   dimesImg: {
@@ -77,7 +78,7 @@ const styles = StyleSheet.create({
     height: 120,
   },
   btn: {
-    backgroundColor: '#A34861',
+    backgroundColor: colors.plum,
     padding: 10,
     borderRadius: 8,
     alignItems: 'center',
@@ -87,17 +88,17 @@ const styles = StyleSheet.create({
     width: 250,
   },
   signUp: {
-    color: 'white',
+    color: colors.white,
     textDecorationLine: 'underline',
     margin: 50,
   },
   textInput: {
-    color: 'black',
+    color: colors.black,
     borderRadius: 8,
     padding: 10,
     width: 350,
     height: 60,
-    backgroundColor: 'white',
+    backgroundColor: colors.white,
     margin: 20,
     fontSize: 24,
   },

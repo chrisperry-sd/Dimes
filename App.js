@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useCallback } from 'react';
 import { StyleSheet } from 'react-native';
+import { colors } from './theme';
 
 import ParentDashboard from './screens/ParentDashboardOpt';
 import ChildParentView from './screens/ChildParentView';
@@ -229,10 +230,3 @@ export default function App() {
     </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  bg: {
-    backgroundColor: '#161925',
-    flex: 1,
-  },
-});
