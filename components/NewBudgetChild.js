@@ -5,7 +5,7 @@ import { colors } from '../theme';
 
 export default function NewBudgetChild({
   budget,
-  data,
+  transactions,
   deleteBudget,
   parentAlerted,
   setParentAlertToBeTrue,
@@ -23,7 +23,7 @@ export default function NewBudgetChild({
     });
   };
   const createAlert = () =>
-    Alert.alert('Alert', '0 remaining budget', [
+    Alert.alert('Alert', 'No remaining budget', [
       { text: 'OK', onPress: () => setParentAlertToBeTrue() },
     ]);
   const minusAlert = () =>
@@ -54,7 +54,7 @@ export default function NewBudgetChild({
   function filterTransByCategory(budgett) {
     for (let i = 0; i < budgett.length; i++) {
       const cat = budgett[i].category.toLowerCase();
-      const trans = data
+      const trans = transactions
         .filter((transaction) => transaction.category.toLowerCase() === cat)
         .filter(
           (transs) =>

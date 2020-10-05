@@ -20,8 +20,8 @@ export default function App() {
   const [alertExpiry, setAlertExpiry] = useState(false);
 
   const [kids, setKids] = useState([{ name: 'James' }]);
-  const [budgets, setBudgets] = useState({});
-  const [transactions, setTransactions] = useState({});
+  const [budgets, setBudgets] = useState([]);
+  const [transactions, setTransactions] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   function setAlertExpiryToTrue() {
@@ -51,7 +51,9 @@ export default function App() {
     ApiService.getBudgets().then((newBudgets) => setBudgets(newBudgets));
   }, []);
   useEffect(() => {
-    ApiService.getTransactions().then((trans) => setTransactions(trans));
+    ApiService.getTransactions().then((transactions) =>
+      setTransactions(transactions),
+    );
   }, []);
 
   function createBudget(category, budget, expiry) {
@@ -103,7 +105,7 @@ export default function App() {
         .toFixed(2);
     }
   }
-  const totalSpentThisWeek = -1 * thisWeeksSum();
+  const totalSpentThisWeek = thisWeeksSum();
 
   const options = { headerShown: false };
 
@@ -154,7 +156,7 @@ export default function App() {
               parentAlerted={parentAlerted}
               isRefreshing={isRefreshing}
               onRefresh={onRefresh}
-              data={transactions}
+              transactions={transactions}
               kids={kids}
               totalSpent={totalSpent}
               budget={budgets}

@@ -16,7 +16,7 @@ import NewBudgetChild from '../components/NewBudgetChild';
 
 export default function IndividualChildSummary({
   navigation,
-  data,
+  transactions,
   totalSpent,
   budget,
   deleteBudget,
@@ -47,7 +47,7 @@ export default function IndividualChildSummary({
           <BalanceChild
             totalSpent={totalSpent}
             navigation={navigation}
-            data={data}
+            kids={kids}
           />
         </View>
         <View>
@@ -56,8 +56,9 @@ export default function IndividualChildSummary({
         <View style={styles.budgets}>
           <NewBudgetChild
             navigation={navigation}
+            transactions={transactions}
             budget={budget}
-            data={data}
+            kids={kids}
             deleteBudget={deleteBudget}
             parentAlerted={parentAlerted}
             setParentAlertToBeTrue={setParentAlertToBeTrue}

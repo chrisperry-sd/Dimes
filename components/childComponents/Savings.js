@@ -4,11 +4,11 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import pig from '../../myAssets/images/pig1-removebg-preview.png';
 import { colors } from '../../theme';
 
-export default function Savings({ totalSpent, budget, data }) {
+export default function Savings({ totalSpent, budget }) {
   return (
     <TouchableOpacity style={styles.box}>
       <View>
-        <Text style={styles.balanceTitle}>Savings/Piggy Bank</Text>
+        <Text style={styles.balanceTitle}>Piggy Bank</Text>
       </View>
       <View>
         <Image source={pig} style={styles.chart} />
@@ -79,8 +79,9 @@ const styles = StyleSheet.create({
   },
   chart: {
     position: 'absolute',
-    width: 150,
-    height: 150,
-    marginLeft: 250,
+    width: 100,
+    height: 100,
+    marginLeft: '75%',
+    marginTop: '10%',
   },
 });

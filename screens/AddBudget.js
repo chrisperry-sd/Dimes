@@ -23,14 +23,15 @@ export default function AddBudget({ navigation, createBudget }) {
     Alert.alert('Budget Added');
   };
   const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate;
+    const end = selectedDate.length - 1;
+    const expiryDate = selectedDate.toString().slice(0, end) + '.000Z';
     setShow(Platform.OS === 'ios');
-    setExpiry(currentDate);
+    setExpiry(expiryDate);
   };
   const showMode = (currentMode) => {
     setShow(!show);
   };
-  const showDatepicker = () => {
+  const showDatePicker = () => {
     showMode('date');
   };
   function handleOnPress(event) {
@@ -72,7 +73,7 @@ export default function AddBudget({ navigation, createBudget }) {
         </View>
         <View style={styles.centerbtn}>
           <TouchableOpacity
-            onPress={showDatepicker}
+            onPress={showDatePicker}
             style={styles.dateBtnContainer}>
             <View style={styles.btn}>
               <Text style={styles.text}>Add expiry date here</Text>
