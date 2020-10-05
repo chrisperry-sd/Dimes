@@ -46,7 +46,11 @@ exports.getAllTransactions = async function (req, res) {
 exports.addTransaction = async function (req, res) {
   try {
     const { amount, merchant, category } = req.body;
-    const newTransaction = Transaction.create({ amount, merchant, category });
+    const newTransaction = await Transaction.create({
+      amount,
+      merchant,
+      category,
+    });
     res.status(201);
     res.send(newTransaction).resolve();
   } catch (error) {
