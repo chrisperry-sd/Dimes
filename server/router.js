@@ -7,5 +7,6 @@ router.delete('/budgets/:_id', controller.deleteBudget);
 
 router.get('/transactions', controller.getAllTransactions);
 router.post('/transactions', controller.addTransaction);
+router.delete('/transactions/:_id', controller.deleteTransaction);
 
 module.exports = router;
