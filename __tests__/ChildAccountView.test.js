@@ -4,52 +4,46 @@ import { toHaveTextContent } from '@testing-library/jest-native';
 expect.extend({ toHaveTextContent });
 
 import ChildAccountView from '../screens/ChildAccountView';
-import { getTransactions } from '../ApiService';
-
-jest.mock('../ApiService');
-
-const fakeTransactions = [
-  {
-    _id: 1,
-    Date: new Date(),
-    amount: -38,
-    merchant: 'Hollister',
-    category: 'Shopping',
-  },
-  {
-    _id: 2,
-    Date: new Date(),
-    amount: -9,
-    merchant: 'Starbucks',
-    category: 'Lunch',
-  },
-  {
-    _id: 3,
-    Date: new Date(),
-    amount: -5,
-    merchant: 'McDonalds',
-    category: 'Lunch',
-  },
-];
-
-getTransactions.mockResolvedValue(fakeTransactions);
+import mocks from '../mocks/mocks';
 
 describe("the child's account view", () => {
   it('loads the transactions', () => {
     const { getByTestId } = render(
       <ChildAccountView
-        transactions={fakeTransactions}
-        thisWeeksTransactions={fakeTransactions}
-        child={[{ name: 'James' }]}
-        totalSpent={10}
-        budget={[]}
+        transactions={mocks.transactions}
+        thisWeeksTransactions={mocks.transactions}
+        child={mocks.child}
+        totalSpent={mocks.totalSpent}
+        budget={mocks.budgets}
       />,
     );
 
     const transactions = getByTestId('transactions');
+    const budgets = getByTestId('budgets');
 
     expect(transactions).toHaveTextContent(
       "Look what's happened in your account this week:",
     );
+    expect(budgets).toHaveTextContent('Budgets');
+  });
+
+  it('shows message when there are no transactions to display', () => {
+    const { getByTestId } = render(
+      <ChildAccountView
+        transactions={[]}
+        thisWeeksTransactions={[]}
+        budget={[]}
+        child={mocks.child}
+        totalSpent={0}
+      />,
+    );
+
+    const transactions = getByTestId('transactions');
+    const budgets = getByTestId('budgets');
+
+    expect(transactions).toHaveTextContent(
+      "You've spent nothing so far this week!",
+    );
+    expect(budgets).not.toHaveTextContent('Budgets');
   });
 });

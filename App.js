@@ -22,7 +22,7 @@ export default function App() {
   const [parentAlerted, setParentAlerted] = useState(false);
   const [alertExpiry, setAlertExpiry] = useState(false);
 
-  const [childBudget, setChildBudget] = useState({});
+  const [budgets, setBudgets] = useState({});
   const [transactions, setTransactions] = useState({});
   const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -52,21 +52,21 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    ApiService.getBudgets().then((budgets) => setChildBudget(budgets));
+    ApiService.getBudgets().then((newBudgets) => setBudgets(newBudgets));
   }, []);
   useEffect(() => {
     ApiService.getTransactions().then((trans) => setTransactions(trans));
   }, []);
 
   function createBudget(category, budget, expiry) {
-    ApiService.postBudget({ category, budget, expiry }).then((budgets) => {
-      setChildBudget((childBudget) => [...childBudget, budgets]);
+    ApiService.postBudget({ category, budget, expiry }).then((newBudgets) => {
+      setBudgets((budgets) => [...budgets, newBudgets]);
     });
   }
   function deleteBudget(id) {
     ApiService.deleteBudget(id).then(() => {
-      setChildBudget((budgets) =>
-        budgets.filter((budget) => budget._id !== id),
+      setBudgets((newBudgets) =>
+        newBudgets.filter((budget) => budget._id !== id),
       );
     });
   }
@@ -126,7 +126,7 @@ export default function App() {
               child={child}
               {...props}
               totalSpent={totalSpent}
-              budget={childBudget}
+              budget={budgets}
               thisWeeksTransactions={thisWeeksTransactions}
             />
           )}
@@ -139,7 +139,7 @@ export default function App() {
               child={child}
               {...props}
               totalSpent={totalSpent}
-              budget={childBudget}
+              budget={budgets}
             />
           )}
         </Stack.Screen>
@@ -174,7 +174,7 @@ export default function App() {
               child={child}
               {...props}
               totalSpent={totalSpent}
-              budget={childBudget}
+              budget={budgets}
               deleteBudget={deleteBudget}
             />
           )}

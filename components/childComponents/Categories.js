@@ -46,13 +46,13 @@ export default function Categories({ data }) {
       data={thisWeeksTrans}
       keyExtractor={(item, index) => index.toString()}
       renderItem={renderCategory}
+      testID="weeklyTransactions"
     />
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    // marginHorizontal: 8,
     borderRadius: 8,
     flexDirection: 'row',
   },

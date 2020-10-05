@@ -51,11 +51,13 @@ export default function ChildAccountView({
           <View>
             <ChildBalance totalSpent={totalSpent} />
           </View>
-          {budget.length > 0 ? (
-            <View style={styles.row}>
-              <Text style={styles.text}>Budgets</Text>
-            </View>
-          ) : null}
+          <View testID="budgets">
+            {budget.length > 0 ? (
+              <View style={styles.row}>
+                <Text style={styles.text}>Budgets</Text>
+              </View>
+            ) : null}
+          </View>
           <View>
             {budget.length > 0 ? (
               <ChildAccountBudgetDisplay

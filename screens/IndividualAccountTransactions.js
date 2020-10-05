@@ -33,7 +33,7 @@ export default function IndividualAccountTransactions({ data }) {
         <FlatList
           style={styles.flatListBorder}
           data={data.sort((a, b) => {
-            return new Date(b.Date) - new Date(a.Date);
+            return new Date(b.date) - new Date(a.date);
           })}
           keyExtractor={(item, index) => index.toString()}
           renderItem={renderCategory}
