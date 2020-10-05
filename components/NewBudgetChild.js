@@ -3,12 +3,13 @@ import { View, Text, FlatList, StyleSheet, Alert } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { colors } from '../theme';
 
-export default function ChildAccountBudgetDisplay({
+export default function NewBudgetChild({
   budget,
   data,
   deleteBudget,
   parentAlerted,
   setParentAlertToBeTrue,
+  child,
 }) {
   function alertedNoBudget() {
     wait(1000).then(() => createAlert());
@@ -26,7 +27,7 @@ export default function ChildAccountBudgetDisplay({
       { text: 'OK', onPress: () => setParentAlertToBeTrue() },
     ]);
   const minusAlert = () =>
-    Alert.alert('Alert!', 'James has overspent', [
+    Alert.alert('Alert!', `${child[0].name} has overspent`, [
       { text: 'OK', onPress: () => setParentAlertToBeTrue() },
     ]);
 
@@ -100,18 +101,18 @@ export default function ChildAccountBudgetDisplay({
       if (
         sums[i].category.toLowerCase() === budgets[i].category.toLowerCase()
       ) {
-        const summd =
+        const summed =
           parseInt(budgets[i].amount, 10) + parseInt(sums[i].amount, 10);
-        if (summd === 0 && !parentAlerted) {
+        if (summed === 0 && !parentAlerted) {
           alertedNoBudget();
         }
-        if (summd < 0 && !parentAlerted) {
+        if (summed < 0 && !parentAlerted) {
           alertedMinusBudget();
         }
         budgetsArray[i] = {
           category: catName,
           amount: sum,
-          remaining: summd,
+          remaining: summed,
           display: budgets[i].display,
           expiry: budgets[i].expiry,
           id: budgets[i].id,
@@ -148,12 +149,12 @@ export default function ChildAccountBudgetDisplay({
               <View style={styles.budgetText}>
                 {item.remaining > 0 ? (
                   <Text style={styles.negative}>
-                    James has £{item.remaining} left of budget
+                    {child[0].name} has £{item.remaining} left of budget
                   </Text>
                 ) : (
                   <Text style={styles.negative}>
-                    James has spent £ {item.remaining.toString().slice(1)} too
-                    much
+                    {child[0].name} has spent £{' '}
+                    {item.remaining.toString().slice(1)} too much
                   </Text>
                 )}
               </View>

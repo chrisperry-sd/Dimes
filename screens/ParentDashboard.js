@@ -17,7 +17,7 @@ import ChildrenScroll from '../components/ChildrenScroll';
 
 export default function ParentDashboard({
   navigation,
-  data,
+  child,
   totalSpent,
   totalSpentThisWeek,
   thisWeeksTrans,
@@ -31,7 +31,7 @@ export default function ParentDashboard({
           <RefreshControl
             refreshing={isRefreshing}
             onRefresh={onRefresh}
-            tintColor="white"
+            tintColor={colors.white}
           />
         }>
         <StatusBar barStyle="light-content" />
@@ -48,7 +48,7 @@ export default function ParentDashboard({
         <View style={styles.home}>
           <ChildrenScroll
             navigation={navigation}
-            data={data}
+            child={child}
             totalSpent={totalSpent}
           />
         </View>
@@ -61,16 +61,16 @@ export default function ParentDashboard({
         <View>
           <Spent
             totalSpentThisWeek={totalSpentThisWeek}
-            data={data}
+            child={child}
             thisWeeksTrans={thisWeeksTrans}
           />
         </View>
         <View style={styles.container}>
           <View style={styles.toggleBtn}>
-            <Text style={styles.text}>Childs View</Text>
+            <Text style={styles.text}>Child&apos;s View</Text>
             <Switch
               style={styles.toggleBtn}
-              trackColor={{ false: '#767577', true: colors.plum }}
+              trackColor={{ false: colors.purple, true: colors.plum }}
               onValueChange={() => navigation.navigate('ChildAccountView')}
             />
           </View>

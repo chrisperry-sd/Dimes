@@ -104,18 +104,18 @@ export default function ChildAccountBudgetDisplay({
       if (
         sums[i].category.toLowerCase() === budgets[i].category.toLowerCase()
       ) {
-        let summd =
+        let summed =
           parseInt(budgets[i].amount, 10) + parseInt(sums[i].amount, 10);
-        if (summd === 0 && !alerted) {
+        if (summed === 0 && !alerted) {
           alertedNoBudget();
         }
-        if (summd < 0 && !alerted) {
+        if (summed < 0 && !alerted) {
           alertedMinusBudget();
         }
         budgetsArray[i] = {
           category: catName,
           amount: sum,
-          remaining: summd,
+          remaining: summed,
           display: budgets[i].display,
           expiry: budgets[i].expiry,
           id: budgets[i].id,

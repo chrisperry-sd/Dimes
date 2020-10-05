@@ -5,7 +5,7 @@ import { colors } from '../theme';
 
 // filter our data by the last 30 days...
 
-export default function SpentItems({ data, thisWeeksTrans }) {
+export default function SpentItems({ thisWeeksTrans }) {
   return (
     <View>
       <View style={styles.container}>

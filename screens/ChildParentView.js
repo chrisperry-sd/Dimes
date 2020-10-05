@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { colors } from '../theme';
 
-import BallanceChild from '../components/BalanceChild';
+import BalanceChild from '../components/BalanceChild';
 import NewBudgetChild from '../components/NewBudgetChild';
 
 export default function ChildParentView({
@@ -24,6 +24,7 @@ export default function ChildParentView({
   onRefresh,
   parentAlerted,
   setParentAlertToBeTrue,
+  child,
 }) {
   return (
     <SafeAreaView style={styles.bg}>
@@ -37,13 +38,13 @@ export default function ChildParentView({
         }>
         <StatusBar barStyle="light-content" />
         <View style={styles.centerText}>
-          <Text style={styles.textLarge}>James</Text>
+          <Text style={styles.textLarge}>{child[0].name}</Text>
         </View>
         <View>
           <Text style={styles.text}>Balances</Text>
         </View>
         <View>
-          <BallanceChild
+          <BalanceChild
             totalSpent={totalSpent}
             navigation={navigation}
             data={data}
@@ -64,7 +65,7 @@ export default function ChildParentView({
         </View>
         <View style={styles.addBut}>
           <TouchableOpacity onPress={() => navigation.navigate('AddBudget')}>
-            <Text style={styles.textAdd}>Add Budget</Text>
+            <Text style={styles.textAdd}>&rarr; Add Budget</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

@@ -1,12 +1,12 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import Items from './SpentItems';
+import SpentItems from './SpentItems';
 import { colors } from '../theme';
 
 import chart from '../myAssets/images/barchat.png';
 
-export default function Spent({ totalSpentThisWeek, data, thisWeeksTrans }) {
+export default function Spent({ totalSpentThisWeek, thisWeeksTrans }) {
   return (
     <View>
       <TouchableOpacity style={styles.box}>
@@ -19,7 +19,7 @@ export default function Spent({ totalSpentThisWeek, data, thisWeeksTrans }) {
         </View>
       </TouchableOpacity>
       <View style={styles.itemsStyleMargin}>
-        <Items data={data} thisWeeksTrans={thisWeeksTrans} />
+        <SpentItems thisWeeksTrans={thisWeeksTrans} />
       </View>
     </View>
   );

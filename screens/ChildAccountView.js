@@ -17,7 +17,7 @@ import NextAllowance from '../components/childComponents/NextAllowance';
 import ChildAccountBudgetDisplay from '../components/childComponents/ChildAccountBudgetDisplay';
 
 export default function ChildAccountView({
-  data,
+  child,
   budget,
   totalSpent,
   transactions,
@@ -36,14 +36,14 @@ export default function ChildAccountView({
         <RefreshControl
           refreshing={isRefreshing}
           onRefresh={onRefresh}
-          tintColor="white"
+          tintColor={colors.white}
         />
       }>
       <SafeAreaView style={styles.screen}>
         <StatusBar />
         <View showsVerticalScrollIndicator={false}>
           <View>
-            <Text style={styles.textBold}>Hey, {data[0].Name}</Text>
+            <Text style={styles.textBold}>Hey, {child[0].name}</Text>
           </View>
           <View>
             <NextAllowance data={transactions} />
@@ -68,7 +68,7 @@ export default function ChildAccountView({
               />
             ) : (
               <Text style={styles.text}>
-                No budgets have been set this week, see how much you can save..{' '}
+                No budgets have been set this week, see how much you can save...{' '}
               </Text>
             )}
           </View>
@@ -79,14 +79,14 @@ export default function ChildAccountView({
               data={transactions}
             />
           </View>
-          <View>
-            {thisWeeksTransactions === undefined ? (
+          <View testID="transactions">
+            {thisWeeksTransactions.length === 0 ? (
               <Text style={styles.text}>
-                You've spent nothing so far this week!
+                You&apos;ve spent nothing so far this week!
               </Text>
             ) : (
               <Text style={styles.text}>
-                Look what's happened in your account this week
+                Look what&apos;s happened in your account this week:
               </Text>
             )}
             <View style={styles.categories}>

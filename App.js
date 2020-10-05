@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
-import ParentDashboard from './screens/ParentDashboardOpt';
+import ParentDashboard from './screens/ParentDashboard';
 import ChildParentView from './screens/ChildParentView';
 import Login from './screens/LogIn';
 import AddChild from './screens/AddChild';
@@ -11,10 +13,6 @@ import Categories from './components/childComponents/Categories';
 import IndividualAccountTransactions from './screens/IndividualAccountTransactions';
 import BalanceChild from './components/BalanceChild';
 
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-
-import data from './myAssets/db';
 import ApiService from './ApiService';
 
 const Stack = createStackNavigator();
@@ -27,6 +25,8 @@ export default function App() {
   const [childBudget, setChildBudget] = useState({});
   const [transactions, setTransactions] = useState({});
   const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const [child, setChild] = useState([{ name: 'James' }]);
 
   function setAlertExpiryToTrue() {
     setAlertExpiry(true);
@@ -105,17 +105,15 @@ export default function App() {
         .toFixed(2);
     }
   }
-  const totalSpentThisWeek = thisWeeksSum();
+  const totalSpentThisWeek = -1 * thisWeeksSum();
+
+  const options = { headerShown: false };
 
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen
-          name="Login"
-          component={Login}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen name="ChildAccountView" options={{ headerShown: false }}>
+        <Stack.Screen name="Login" component={Login} options={options} />
+        <Stack.Screen name="ChildAccountView" options={options}>
           {(props) => (
             <ChildAccountView
               setAlertExpiryToTrue={setAlertExpiryToTrue}
@@ -125,7 +123,7 @@ export default function App() {
               isRefreshing={isRefreshing}
               onRefresh={onRefresh}
               transactions={transactions}
-              data={data}
+              child={child}
               {...props}
               totalSpent={totalSpent}
               budget={childBudget}
@@ -134,12 +132,11 @@ export default function App() {
           )}
         </Stack.Screen>
 
-        <Stack.Screen
-          name="ChildAccountBudgetDisplay"
-          options={{ headerShown: false }}>
+        <Stack.Screen name="ChildAccountBudgetDisplay" options={options}>
           {(props) => (
             <ChildAccountBudgetDisplay
               data={transactions}
+              child={child}
               {...props}
               totalSpent={totalSpent}
               budget={childBudget}
@@ -147,12 +144,12 @@ export default function App() {
           )}
         </Stack.Screen>
 
-        <Stack.Screen name="ParentDashboard" options={{ headerShown: false }}>
+        <Stack.Screen name="ParentDashboard" options={options}>
           {(props) => (
             <ParentDashboard
               isRefreshing={isRefreshing}
               onRefresh={onRefresh}
-              data={data}
+              child={child}
               transactions={transactions}
               {...props}
               totalSpent={totalSpent}
@@ -162,11 +159,11 @@ export default function App() {
           )}
         </Stack.Screen>
 
-        <Stack.Screen name="Categories" options={{ headerShown: false }}>
+        <Stack.Screen name="Categories" options={options}>
           {(props) => <Categories thisWeeksTrans={thisWeeksTrans} />}
         </Stack.Screen>
 
-        <Stack.Screen name="ChildParentView" options={{ headerShown: false }}>
+        <Stack.Screen name="ChildParentView" options={options}>
           {(props) => (
             <ChildParentView
               setParentAlertToBeTrue={setParentAlertToBeTrue}
@@ -174,6 +171,7 @@ export default function App() {
               isRefreshing={isRefreshing}
               onRefresh={onRefresh}
               data={transactions}
+              child={child}
               {...props}
               totalSpent={totalSpent}
               budget={childBudget}
@@ -182,13 +180,13 @@ export default function App() {
           )}
         </Stack.Screen>
 
-        <Stack.Screen name="AddChild" options={{ headerShown: false }}>
+        <Stack.Screen name="AddChild" options={options}>
           {(props) => (
             <AddChild data={transactions} {...props} totalSpent={totalSpent} />
           )}
         </Stack.Screen>
 
-        <Stack.Screen name="AddBudget" options={{ headerShown: false }}>
+        <Stack.Screen name="AddBudget" options={options}>
           {(props) => (
             <AddBudget
               data={transactions}
@@ -199,9 +197,7 @@ export default function App() {
           )}
         </Stack.Screen>
 
-        <Stack.Screen
-          name="IndividualAccountTransactions"
-          options={{ headerShown: false }}>
+        <Stack.Screen name="IndividualAccountTransactions" options={options}>
           {(props) => (
             <IndividualAccountTransactions
               data={transactions}
@@ -212,7 +208,7 @@ export default function App() {
           )}
         </Stack.Screen>
 
-        <Stack.Screen name="BalanceChild" options={{ headerShown: false }}>
+        <Stack.Screen name="BalanceChild" options={options}>
           {(props) => (
             <BalanceChild
               data={transactions}
