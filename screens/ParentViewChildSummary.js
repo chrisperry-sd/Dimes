@@ -9,12 +9,12 @@ import {
   RefreshControl,
   TouchableOpacity,
 } from 'react-native';
-import { colors } from '../theme';
+import { colors } from '../myAssets/theme';
 
-import BalanceChild from '../components/BalanceChild';
-import NewBudgetChild from '../components/NewBudgetChild';
+import ParentViewBalance from '../components/ParentViewBalance';
+import ParentViewBudgetsList from '../components/ParentViewBudgetsList';
 
-export default function IndividualChildSummary({
+export default function ParentViewChildSummary({
   navigation,
   transactions,
   totalSpent,
@@ -44,7 +44,7 @@ export default function IndividualChildSummary({
           <Text style={styles.text}>Balances</Text>
         </View>
         <View>
-          <BalanceChild
+          <ParentViewBalance
             totalSpent={totalSpent}
             navigation={navigation}
             kids={kids}
@@ -54,7 +54,7 @@ export default function IndividualChildSummary({
           <Text style={styles.text}>Budgets</Text>
         </View>
         <View style={styles.budgets}>
-          <NewBudgetChild
+          <ParentViewBudgetsList
             navigation={navigation}
             transactions={transactions}
             budget={budget}
@@ -64,14 +64,12 @@ export default function IndividualChildSummary({
             setParentAlertToBeTrue={setParentAlertToBeTrue}
           />
         </View>
-        <View style={styles.addBut}>
-          <TouchableOpacity onPress={() => navigation.navigate('AddBudget')}>
-            <Text style={styles.textAdd}>&uarr; Select a budget to edit</Text>
-          </TouchableOpacity>
+        <View style={[styles.button, styles.edit]}>
+          <Text style={styles.textAdd}>&rarr; Scroll to edit a budget</Text>
         </View>
-        <View style={styles.addBut}>
+        <View style={styles.button}>
           <TouchableOpacity onPress={() => navigation.navigate('AddBudget')}>
-            <Text style={styles.textAdd}>&rarr; Add a new budget</Text>
+            <Text style={styles.textAdd}>&darr; Click to add a budget</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -90,7 +88,7 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontSize: 19,
   },
-  addBut: {
+  button: {
     alignItems: 'center',
     justifyContent: 'center',
     width: 'auto',
@@ -99,7 +97,10 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: colors.purple,
   },
-
+  edit: {
+    backgroundColor: colors.grey,
+    color: colors.white,
+  },
   bg: {
     backgroundColor: colors.black,
     flex: 1,

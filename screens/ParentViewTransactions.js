@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 import moment from 'moment';
-import { colors } from '../theme';
+import { colors } from '../myAssets/theme';
 
-export default function IndividualAccountTransactions({ data }) {
+export default function ParentViewTransactions({ data }) {
   const renderCategory = ({ item }) => {
     return (
       <View style={styles.list}>

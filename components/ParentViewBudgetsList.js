@@ -1,14 +1,15 @@
 import React from 'react';
 import { View, Text, FlatList, StyleSheet, Alert } from 'react-native';
-import { colors } from '../../theme';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { colors } from '../myAssets/theme';
 
-export default function ChildAccountBudgetDisplay({
+export default function ParentViewBudgetsList({
   budget,
-  data,
-  alerted,
-  setAlertToBeTrue,
-  setAlertExpiryToTrue,
-  alertExpiry,
+  transactions,
+  deleteBudget,
+  parentAlerted,
+  setParentAlertToBeTrue,
+  kids,
 }) {
   function alertedNoBudget() {
     wait(1000).then(() => createAlert());
@@ -16,31 +17,22 @@ export default function ChildAccountBudgetDisplay({
   function alertedMinusBudget() {
     wait(1000).then(() => minusAlert());
   }
-  function alertedBudgetExpiry() {
-    wait(1000).then(() => expiryAlert());
-  }
   const wait = (timeout) => {
     return new Promise((resolve) => {
       setTimeout(resolve, timeout);
     });
   };
   const createAlert = () =>
-    Alert.alert('Alert', 'No budget left 😱', [
-      { text: 'OK', onPress: () => setAlertToBeTrue() },
+    Alert.alert('Alert', 'No remaining budget', [
+      { text: 'OK', onPress: () => setParentAlertToBeTrue() },
     ]);
   const minusAlert = () =>
-    Alert.alert(
-      'Alert!',
-      'Looks like you have overspent, we can talk about it later',
-      [{ text: 'OK', onPress: () => setAlertToBeTrue() }],
-    );
-  const expiryAlert = () =>
-    Alert.alert('Alert!', 'A budget has expired 😀', [
-      { text: 'OK', onPress: () => setAlertExpiryToTrue() },
+    Alert.alert('Alert!', `${kids[0].name} has overspent`, [
+      { text: 'OK', onPress: () => setParentAlertToBeTrue() },
     ]);
 
   const budgets = [];
-  budget.forEach((a) => {
+  budget.forEach(function (a) {
     if (!this[a.category]) {
       this[a.category] = {
         category: a.category,
@@ -62,7 +54,7 @@ export default function ChildAccountBudgetDisplay({
   function filterTransByCategory(budgett) {
     for (let i = 0; i < budgett.length; i++) {
       const cat = budgett[i].category.toLowerCase();
-      const trans = data
+      const trans = transactions
         .filter((transaction) => transaction.category.toLowerCase() === cat)
         .filter(
           (transs) =>
@@ -82,34 +74,39 @@ export default function ChildAccountBudgetDisplay({
   for (let i = 0; i < cats.length; i++) {
     let catName = cats[i][0].category;
     let sum = cats[i].reduce((acc, current) => acc + current.amount, 0);
-    sums[i] = { category: catName, amount: sum.toFixed(2), id: cats[i]._id };
+    sums[i] = { category: catName, amount: sum.toFixed(2) };
   }
-
+  // if budgets[i]. expiry date has expired or its a new week set display to false, else show etc...
+  // if (new Date(date.now()) - new Date(budget[i]expiry) < 0) budget[i].display = false
   const budgetsArray = [];
   for (let i = 0; i < budgets.length; i++) {
     let catName = budgets[i].category;
     let sum = budgets[i].amount;
+    if (
+      budget[i].display &&
+      new Date().getTime() - new Date(budget[i].expiry).getTime() >= 0
+    ) {
+      // if its expired and display is true
+    }
     if (!sums[i]) {
-      if (budgets[i].display) {
-        budgetsArray[i] = {
-          category: catName,
-          amount: sum,
-          remaining: sum,
-          display: budgets[i].display,
-          expiry: budgets[i].expiry,
-          id: budgets[i].id,
-        }; //add id
-      }
+      budgetsArray[i] = {
+        category: catName,
+        amount: sum,
+        remaining: sum,
+        display: budgets[i].display,
+        expiry: budgets[i].expiry,
+        id: budgets[i].id,
+      };
     } else {
       if (
         sums[i].category.toLowerCase() === budgets[i].category.toLowerCase()
       ) {
-        let summed =
+        const summed =
           parseInt(budgets[i].amount, 10) + parseInt(sums[i].amount, 10);
-        if (summed === 0 && !alerted) {
+        if (summed === 0 && !parentAlerted) {
           alertedNoBudget();
         }
-        if (summed < 0 && !alerted) {
+        if (summed < 0 && !parentAlerted) {
           alertedMinusBudget();
         }
         budgetsArray[i] = {
@@ -119,46 +116,48 @@ export default function ChildAccountBudgetDisplay({
           display: budgets[i].display,
           expiry: budgets[i].expiry,
           id: budgets[i].id,
-        }; //add id
+        };
       } else {
         return null;
       }
     }
   }
   const renderBudget = ({ item, index }) => {
-    if (
-      new Date().getTime() > new Date(item.expiry).getTime() &&
-      !alertExpiry
-    ) {
-      return alertedBudgetExpiry();
-    } else {
+    if (item.display) {
       return (
-        <View style={item.remaining > 0 ? styles.list : styles.listNegative}>
-          <View style={styles.listContainer}>
-            <View style={styles.budgetText}>
-              <Text
-                style={item.remaining > 0 ? styles.bold : styles.boldNegative}>
-                {item.category}
-              </Text>
-            </View>
-            <View style={styles.budgetText}>
-              <Text
-                style={item.remaining > 0 ? styles.text : styles.textNegative}>
-                £ {item.amount}
-              </Text>
-            </View>
-            <View style={styles.budgetText}>
-              {item.remaining > 0 ? (
-                <Text
-                  style={item.remaining > 0 ? styles.small : styles.negative}>
-                  You have £{item.remaining} left of budget
-                </Text>
-              ) : (
-                <Text
-                  style={item.remaining > 0 ? styles.small : styles.negative}>
-                  You've spent £ {item.remaining.toString().slice(1)} too much
-                </Text>
-              )}
+        <View>
+          <View style={styles.listNegative}>
+            <View style={styles.listContainer}>
+              <View style={styles.rowContainer}>
+                <View style={styles.budgetText}>
+                  <Text
+                    style={
+                      item.remaining > 0 ? styles.bold : styles.boldNegative
+                    }>
+                    {item.category}
+                  </Text>
+                </View>
+                <TouchableOpacity onPress={deleteBudget.bind(null, item.id)}>
+                  <View style={styles.budgetText}>
+                    <Text style={styles.bold}>🗑</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.budgetText}>
+                <Text style={styles.textNegative}>£ {item.amount}</Text>
+              </View>
+              <View style={styles.budgetText}>
+                {item.remaining > 0 ? (
+                  <Text style={styles.negative}>
+                    {kids[0].name} has £{item.remaining} left of budget
+                  </Text>
+                ) : (
+                  <Text style={styles.negative}>
+                    {kids[0].name} has spent £{' '}
+                    {item.remaining.toString().slice(1)} too much
+                  </Text>
+                )}
+              </View>
             </View>
           </View>
         </View>
@@ -166,40 +165,37 @@ export default function ChildAccountBudgetDisplay({
     }
   };
   return (
-    <FlatList
-      style={styles.container}
-      numColumns={2}
-      data={budgetsArray}
-      keyExtractor={(item, index) => index.toString()}
-      renderItem={renderBudget}
-    />
+    <View>
+      <View style={styles.container}>
+        <FlatList
+          style={styles.flatListBorder}
+          horizontal={true}
+          data={budgetsArray}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={renderBudget}
+        />
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: 10,
+    margin: 10,
     borderRadius: 8,
     flexDirection: 'row',
   },
-  list: {
-    backgroundColor: colors.green,
-    margin: 5,
-    height: 100,
+  flatListBorder: {
     borderRadius: 8,
-    width: 187,
-    shadowColor: colors.grey,
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.8,
-    shadowRadius: 3,
-    elevation: 1,
   },
   listNegative: {
     backgroundColor: colors.plum,
-    margin: 5,
-    height: 100,
+    marginRight: 10,
+    height: 'auto',
     borderRadius: 8,
-    width: 187,
-    shadowColor: colors.grey,
+    width: 'auto',
+    shadowColor: colors.plum,
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.8,
     shadowRadius: 3,
@@ -208,31 +204,20 @@ const styles = StyleSheet.create({
   listContainer: {
     margin: 10,
   },
-  text: {
-    color: colors.black,
-    paddingHorizontal: 2,
-    fontSize: 18,
-    fontFamily: 'Chilanka-Regular',
+  rowContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   textNegative: {
     color: colors.white,
     paddingHorizontal: 2,
     fontSize: 18,
-    fontFamily: 'Chilanka-Regular',
-    textDecorationLine: 'line-through',
-  },
-  small: {
-    color: colors.black,
-    paddingHorizontal: 2,
-    fontSize: 12,
-    fontFamily: 'Chilanka-Regular',
   },
   bold: {
-    color: colors.black,
+    color: colors.white,
     paddingHorizontal: 2,
     fontSize: 24,
     fontWeight: 'bold',
-    fontFamily: 'Chilanka-Regular',
   },
   boldNegative: {
     color: colors.white,
@@ -249,6 +234,5 @@ const styles = StyleSheet.create({
     color: colors.white,
     paddingHorizontal: 2,
     fontSize: 12,
-    fontFamily: 'Chilanka-Regular',
   },
 });

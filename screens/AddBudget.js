@@ -11,7 +11,7 @@ import {
   Platform,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { colors } from '../theme';
+import { colors } from '../myAssets/theme';
 
 export default function AddBudget({ navigation, createBudget }) {
   const [category, setCategory] = useState('');
@@ -20,14 +20,14 @@ export default function AddBudget({ navigation, createBudget }) {
   const [show, setShow] = useState(false);
 
   const createAlert = () => {
-    Alert.alert('Budget Added');
+    Alert.alert('Budget added');
   };
   const onChange = (event, selectedDate) => {
     const expiryDate = selectedDate;
     setShow(Platform.OS === 'ios');
     setExpiry(expiryDate);
   };
-  const showMode = (currentMode) => {
+  const showMode = () => {
     setShow(!show);
   };
   const showDatePicker = () => {
@@ -43,7 +43,7 @@ export default function AddBudget({ navigation, createBudget }) {
       createAlert();
     }, 500);
     setTimeout(() => {
-      navigation.navigate('IndividualChildSummary');
+      navigation.navigate('ParentViewChildSummary');
     }, 1000);
   }
 
@@ -59,7 +59,7 @@ export default function AddBudget({ navigation, createBudget }) {
             style={styles.textInput}
             placeholder="Category or Activity"
             onChangeText={(input) => setCategory(input)}
-            placeholderTextColor="grey"
+            placeholderTextColor={colors.grey}
           />
         </View>
         <View>
@@ -67,7 +67,7 @@ export default function AddBudget({ navigation, createBudget }) {
             style={styles.textInput}
             placeholder="Amount"
             onChangeText={(input) => setBudget(input)}
-            placeholderTextColor="grey"
+            placeholderTextColor={colors.grey}
           />
         </View>
         <View style={styles.centerbtn}>

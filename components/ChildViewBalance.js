@@ -1,35 +1,29 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import LottieView from 'lottie-react-native';
-import { colors } from '../../theme';
+import { colors } from '../myAssets/theme';
 
-import piggyBank from '../../myAssets/animations/28913-piggy-bank.json';
-import sadFace from '../../myAssets/animations/11865-sad-emoji.json';
+import piggyBank from '../myAssets/animations/28913-piggy-bank.json';
+import sadFace from '../myAssets/animations/11865-sad-emoji.json';
 
-export default function Balance({ transactions, totalSpent }) {
+export default function ChildViewBalance({ totalSpent }) {
   return (
-    <TouchableOpacity style={styles.box}>
+    <View>
+      <Text style={styles.balanceTitle}>Your balance</Text>
       <View style={styles.balanceCont}>
-        <LottieView
-          source={totalSpent > 0 ? piggyBank : sadFace}
-          autoPlay
-          width={150}
-          height={150}
-          style={styles.animation}
-        />
-        <View>
-          <View>
-            <Text style={styles.balanceTitle}>Balance</Text>
-          </View>
-          <View style={styles.balanceCont}>
-            <View>
-              <Text style={styles.balance}>£ {totalSpent}</Text>
-            </View>
-          </View>
+        <View style={styles.box}>
+          <Text style={styles.balance}>£ {totalSpent}</Text>
         </View>
       </View>
-    </TouchableOpacity>
+      <LottieView
+        source={totalSpent > 0 ? piggyBank : sadFace}
+        autoPlay={true}
+        loop={true}
+        width={160}
+        height={160}
+        style={styles.animation}
+      />
+    </View>
   );
 }
 const styles = StyleSheet.create({
@@ -40,7 +34,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     margin: 10,
     height: 'auto',
-    marginTop: 10,
+    width: '60%',
+    justifyContent: 'center',
     shadowColor: colors.black,
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.8,
@@ -48,7 +43,6 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     elevation: 1,
   },
-
   balanceTitle: {
     color: colors.white,
     padding: 5,
@@ -58,8 +52,8 @@ const styles = StyleSheet.create({
     fontFamily: 'Chilanka-Regular',
   },
   balance: {
-    marginBottom: 50,
     marginLeft: 20,
+    paddingVertical: 20,
     fontSize: 36,
     fontFamily: 'Chilanka-Regular',
     color: colors.white,

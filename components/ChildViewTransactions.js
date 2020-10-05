@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, Text, FlatList, StyleSheet, Image } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { colors } from '../../theme';
+import { colors } from '../myAssets/theme';
 
-import cash from '../../myAssets/images/cash-removebg-preview.png';
+import cash from '../myAssets/images/cash-removebg-preview.png';
 
-export default function Categories({ data }) {
+export default function ChildViewTransactions({ data }) {
   const trans = data;
   function getFirstDayOfWeek() {
     const curr = new Date();
@@ -58,6 +58,7 @@ const styles = StyleSheet.create({
   },
   flatListBorder: {
     borderRadius: 8,
+    marginHorizontal: 10,
   },
   list: {
     backgroundColor: colors.plum,

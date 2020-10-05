@@ -9,13 +9,11 @@ import {
   SafeAreaView,
   StatusBar,
 } from 'react-native';
-import { colors } from '../theme';
-
-// import {CommonActions} from '@react-navigation/native';
+import { colors } from '../myAssets/theme';
 
 import dimes from '../myAssets/images/logo_size_invert.jpg';
 
-export default function LogIn({ navigation }) {
+export default function Login({ navigation }) {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
@@ -27,7 +25,7 @@ export default function LogIn({ navigation }) {
           <TextInput
             style={styles.textInput}
             placeholder="Username..."
-            placeholderTextColor="grey"
+            placeholderTextColor={colors.grey}
           />
         </View>
         <View>
@@ -35,7 +33,7 @@ export default function LogIn({ navigation }) {
             style={styles.textInput}
             placeholder="Password"
             secureTextEntry={true}
-            placeholderTextColor="grey"
+            placeholderTextColor={colors.grey}
           />
         </View>
         <View>

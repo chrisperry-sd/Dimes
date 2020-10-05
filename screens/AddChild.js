@@ -8,7 +8,7 @@ import {
   SafeAreaView,
   StatusBar,
 } from 'react-native';
-import colors from '../theme';
+import colors from '../myAssets/theme';
 
 // currently a sin-up form, adapt
 

@@ -1,12 +1,15 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import SpentItems from './SpentItems';
-import { colors } from '../theme';
+import ParentViewTransactionsList from './ParentViewTransactionsList';
+import { colors } from '../myAssets/theme';
 
-import chart from '../myAssets/images/barchat.png';
+import chart from '../myAssets/images/barchart.png';
 
-export default function Spent({ totalSpentThisWeek, thisWeeksTrans }) {
+export default function ParentViewSpendingOverview({
+  totalSpentThisWeek,
+  thisWeeksTrans,
+}) {
   return (
     <View>
       <TouchableOpacity style={styles.box}>
@@ -19,7 +22,7 @@ export default function Spent({ totalSpentThisWeek, thisWeeksTrans }) {
         </View>
       </TouchableOpacity>
       <View style={styles.itemsStyleMargin}>
-        <SpentItems thisWeeksTrans={thisWeeksTrans} />
+        <ParentViewTransactionsList thisWeeksTrans={thisWeeksTrans} />
       </View>
     </View>
   );

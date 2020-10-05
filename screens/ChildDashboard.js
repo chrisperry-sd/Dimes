@@ -8,15 +8,15 @@ import {
   SafeAreaView,
   RefreshControl,
 } from 'react-native';
-import { colors } from '../theme';
+import { colors } from '../myAssets/theme';
 
-import ChildBalance from '../components/childComponents/ChildBalance';
-import Savings from '../components/childComponents/Savings';
-import Categories from '../components/childComponents/Categories';
-import NextAllowance from '../components/childComponents/NextAllowance';
-import ChildAccountBudgetDisplay from '../components/childComponents/ChildAccountBudgetDisplay';
+import ChildViewBalance from '../components/ChildViewBalance';
+import ChildViewSavings from '../components/ChildViewSavings';
+import ChildViewTransactions from '../components/ChildViewTransactions';
+import ChildViewAllowance from '../components/ChildViewAllowance';
+import ChildViewBudgets from '../components/ChildViewBudgets';
 
-export default function ChildAccountView({
+export default function ChildDashboard({
   kids,
   budget,
   totalSpent,
@@ -46,21 +46,21 @@ export default function ChildAccountView({
             <Text style={styles.textBold}>Hey, {kids[0].name}!</Text>
           </View>
           <View>
-            <NextAllowance data={transactions} />
+            <ChildViewAllowance data={transactions} />
           </View>
           <View>
-            <ChildBalance totalSpent={totalSpent} />
+            <ChildViewBalance totalSpent={totalSpent} />
           </View>
           <View testID="budgets">
             {budget.length > 0 ? (
               <View style={styles.row}>
-                <Text style={styles.text}>Budgets</Text>
+                <Text style={styles.text}>Your budgets</Text>
               </View>
             ) : null}
           </View>
           <View>
             {budget.length > 0 ? (
-              <ChildAccountBudgetDisplay
+              <ChildViewBudgets
                 alertExpiry={alertExpiry}
                 setAlertExpiryToTrue={setAlertExpiryToTrue}
                 setAlertToBeTrue={setAlertToBeTrue}
@@ -77,7 +77,7 @@ export default function ChildAccountView({
             )}
           </View>
           <View>
-            <Savings
+            <ChildViewSavings
               totalSpent={totalSpent}
               budget={budget}
               data={transactions}
@@ -89,12 +89,12 @@ export default function ChildAccountView({
                 You&apos;ve spent nothing so far this week!
               </Text>
             ) : (
-              <Text style={styles.text}>
+              <Text style={[styles.text, styles.subtitle]}>
                 Look what&apos;s happened in your account this week:
               </Text>
             )}
             <View style={styles.categories}>
-              <Categories data={transactions} />
+              <ChildViewTransactions data={transactions} />
             </View>
           </View>
         </View>
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     margin: 10,
     backgroundColor: colors.black,
-    paddingVertical: 10,
+    padding: 10,
   },
   titleBox: {
     backgroundColor: colors.white,
@@ -142,5 +142,8 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginTop: 10,
     fontFamily: 'Chilanka-Regular',
+  },
+  subtitle: {
+    fontSize: 24,
   },
 });

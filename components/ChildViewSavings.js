@@ -1,12 +1,12 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { colors } from '../../theme';
+import { colors } from '../myAssets/theme';
 
-export default function Savings({ totalSpent, budget }) {
+export default function ChildViewSavings({ totalSpent, budget }) {
   return (
     <View>
       <View>
-        <Text style={styles.balanceTitle}>Piggy bank</Text>
+        <Text style={styles.balanceTitle}>Your piggybank</Text>
       </View>
       <View style={styles.box}>
         <View style={styles.savingView}>
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
   savings: {
     marginHorizontal: 20,
     marginVertical: 20,
-    fontSize: 20,
+    fontSize: 21,
     fontFamily: 'Chilanka-Regular',
     color: colors.white,
   },

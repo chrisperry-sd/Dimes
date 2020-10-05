@@ -10,10 +10,10 @@ import {
   RefreshControl,
   TouchableOpacity,
 } from 'react-native';
-import { colors } from '../theme';
+import { colors } from '../myAssets/theme';
 
-import Spent from '../components/Spent';
-import ChildrenScroll from '../components/ChildrenScroll';
+import ParentViewSpendingOverview from '../components/ParentViewSpendingOverview';
+import ParentViewChildrenList from '../components/ParentViewChildrenList';
 
 export default function ParentDashboard({
   navigation,
@@ -46,7 +46,7 @@ export default function ParentDashboard({
           </TouchableOpacity>
         </View>
         <View style={styles.home}>
-          <ChildrenScroll
+          <ParentViewChildrenList
             navigation={navigation}
             kids={kids}
             totalSpent={totalSpent}
@@ -59,7 +59,7 @@ export default function ParentDashboard({
           <Text style={styles.text}>Spending</Text>
         </View>
         <View>
-          <Spent
+          <ParentViewSpendingOverview
             totalSpentThisWeek={totalSpentThisWeek}
             kids={kids}
             thisWeeksTrans={thisWeeksTrans}
@@ -71,7 +71,7 @@ export default function ParentDashboard({
             <Switch
               style={styles.toggleBtn}
               trackColor={{ false: colors.purple, true: colors.plum }}
-              onValueChange={() => navigation.navigate('ChildAccountView')}
+              onValueChange={() => navigation.navigate('ChildDashboard')}
             />
           </View>
         </View>

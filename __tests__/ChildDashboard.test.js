@@ -3,13 +3,13 @@ import { render } from '@testing-library/react-native';
 import { toHaveTextContent } from '@testing-library/jest-native';
 expect.extend({ toHaveTextContent });
 
-import ChildAccountView from '../screens/ChildAccountView';
+import ChildDashboard from '../screens/ChildDashboard';
 import mocks from '../mocks/mocks';
 
 describe("the child's account view", () => {
   it('loads the transactions', () => {
     const { getByTestId } = render(
-      <ChildAccountView
+      <ChildDashboard
         transactions={mocks.transactions}
         thisWeeksTransactions={mocks.transactions}
         kids={mocks.kids}
@@ -29,7 +29,7 @@ describe("the child's account view", () => {
 
   it('shows message when there are no transactions to display', () => {
     const { getByTestId } = render(
-      <ChildAccountView
+      <ChildDashboard
         transactions={[]}
         thisWeeksTransactions={[]}
         budget={[]}

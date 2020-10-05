@@ -1,25 +1,33 @@
 import React from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { colors } from '../theme';
+import { colors } from '../myAssets/theme';
 
-export default function ChildrenScroll({ navigation, kids, totalSpent }) {
+// filter our data by the last 30 days...
+
+export default function ParentViewTransactionsList({ thisWeeksTrans }) {
   return (
     <View>
       <View style={styles.container}>
         <FlatList
           style={styles.flatListBorder}
           horizontal={true}
-          data={kids}
-          keyExtractor={(item, index) => item.name}
+          data={
+            thisWeeksTrans
+              ? thisWeeksTrans.sort((a, b) => {
+                  return (
+                    new Date(b.date).getTime() - new Date(a.date).getTime()
+                  );
+                })
+              : null
+          }
+          keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) => (
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate('IndividualChildSummary', { totalSpent })
-              }>
+            <TouchableOpacity>
               <View style={styles.list}>
                 <View style={styles.listContainer}>
-                  <Text style={styles.text}>{item.name}</Text>
+                  <Text style={styles.text}>{item.merchant}</Text>
+                  <Text style={styles.text}>£{item.amount}</Text>
                 </View>
               </View>
             </TouchableOpacity>
@@ -34,16 +42,14 @@ const styles = StyleSheet.create({
   container: {
     marginHorizontal: 8,
     borderRadius: 8,
-    flexDirection: 'row',
-    margin: 20,
   },
   flatListBorder: {
     borderRadius: 8,
   },
   list: {
-    backgroundColor: colors.blue,
+    backgroundColor: colors.plum,
     marginRight: 10,
-    height: 80,
+    height: 50,
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
@@ -51,14 +57,11 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     margin: 10,
-    padding: 10,
-    width: 190,
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: 'row',
   },
   text: {
     color: colors.white,
     paddingHorizontal: 2,
-    fontSize: 26,
+    fontSize: 18,
   },
 });

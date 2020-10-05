@@ -2,13 +2,13 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import Login from './screens/LogIn';
+import Login from './screens/Login';
 import AddChild from './screens/AddChild';
 import AddBudget from './screens/AddBudget';
 import ParentDashboard from './screens/ParentDashboard';
-import ChildAccountView from './screens/ChildAccountView';
-import IndividualChildSummary from './screens/IndividualChildSummary';
-import IndividualAccountTransactions from './screens/IndividualAccountTransactions';
+import ChildDashboard from './screens/ChildDashboard';
+import ParentViewChildSummary from './screens/ParentViewChildSummary';
+import ParentViewTransactions from './screens/ParentViewTransactions';
 
 import ApiService from './ApiService';
 
@@ -113,9 +113,9 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Login" component={Login} options={options} />
-        <Stack.Screen name="ChildAccountView" options={options}>
+        <Stack.Screen name="ChildDashboard" options={options}>
           {(props) => (
-            <ChildAccountView
+            <ChildDashboard
               {...props}
               setAlertExpiryToTrue={setAlertExpiryToTrue}
               alertExpiry={alertExpiry}
@@ -148,9 +148,9 @@ export default function App() {
           )}
         </Stack.Screen>
 
-        <Stack.Screen name="IndividualChildSummary" options={options}>
+        <Stack.Screen name="ParentViewChildSummary" options={options}>
           {(props) => (
-            <IndividualChildSummary
+            <ParentViewChildSummary
               {...props}
               setParentAlertToBeTrue={setParentAlertToBeTrue}
               parentAlerted={parentAlerted}
@@ -182,9 +182,9 @@ export default function App() {
           )}
         </Stack.Screen>
 
-        <Stack.Screen name="IndividualAccountTransactions" options={options}>
+        <Stack.Screen name="ParentViewTransactions" options={options}>
           {(props) => (
-            <IndividualAccountTransactions
+            <ParentViewTransactions
               {...props}
               data={transactions}
               totalSpent={totalSpent}
