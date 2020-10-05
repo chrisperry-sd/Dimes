@@ -9,13 +9,17 @@ import {
 } from 'react-native';
 import moment from 'moment';
 
-
-export default function IndividualAccountTransactions ({ data }) {
+export default function IndividualAccountTransactions({ data }) {
   const renderCategory = ({ item }) => {
     return (
       <View style={styles.list}>
         <View style={styles.listContainer}>
-          <View style={{flexDirection: 'row', justifyContent:'space-between', alignItems: 'center'}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}>
             <View style={styles.budgetText}>
               <Text style={styles.bold}>{item.merchant}</Text>
             </View>
@@ -26,7 +30,9 @@ export default function IndividualAccountTransactions ({ data }) {
 
           <View style={styles.balAndDate}>
             <Text style={styles.text}>£ {item.amount}</Text>
-            <Text style={styles.text}>{moment(item.date).format('ddd MMM Do')}</Text>
+            <Text style={styles.text}>
+              {moment(item.date).format('ddd MMM Do')}
+            </Text>
           </View>
         </View>
       </View>
@@ -40,7 +46,7 @@ export default function IndividualAccountTransactions ({ data }) {
           data={data.sort((a, b) => {
             return new Date(b.Date) - new Date(a.Date);
           })}
-          keyExtractor={ (item, index) => index.toString() }
+          keyExtractor={(item, index) => index.toString()}
           renderItem={renderCategory}
         />
       </View>

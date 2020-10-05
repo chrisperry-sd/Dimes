@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-function getMonthDaysLeft () {
+function getMonthDaysLeft() {
   const date = new Date();
   return (
     new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate() -
@@ -11,15 +11,18 @@ function getMonthDaysLeft () {
 
 const daysLeft = getMonthDaysLeft();
 
-export default function NextAllowance () {
+export default function NextAllowance() {
   return (
-    <View style={{flexDirection: 'row', alignItems:'center'}}>
+    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
       <View style={styles.container}>
         <Text style={styles.text}>{daysLeft}</Text>
       </View>
       <View>
-      {daysLeft === 1 ? 
-      <Text  style={styles.text}>Day until your next allowance</Text> : <Text  style={styles.text}>Days until your next allowance</Text>}
+        {daysLeft === 1 ? (
+          <Text style={styles.text}>Day until your next allowance</Text>
+        ) : (
+          <Text style={styles.text}>Days until your next allowance</Text>
+        )}
       </View>
     </View>
   );

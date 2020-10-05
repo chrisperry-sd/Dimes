@@ -14,7 +14,7 @@ import {
 
 import dimes from '../myAssets/images/logo_size_invert.jpg';
 
-export default function LogIn({navigation}) {
+export default function LogIn({ navigation }) {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />

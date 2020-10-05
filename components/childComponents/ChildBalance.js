@@ -6,32 +6,30 @@ import LottieView from 'lottie-react-native';
 import piggyBank from '../../myAssets/animations/28913-piggy-bank.json';
 import sadFace from '../../myAssets/animations/11865-sad-emoji.json';
 
-export default function Balance ({ transactions, summed }) {
+export default function Balance({ transactions, summed }) {
   return (
     <TouchableOpacity style={styles.box}>
-      <View style={{flexDirection:'row'}}>
+      <View style={{ flexDirection: 'row' }}>
         <View>
-          <View style={{marginLeft: 5, width: 110 }}>
+          <View style={{ marginLeft: 5, width: 110 }}>
             <Text style={styles.balanceTitle}>Balance</Text>
           </View>
           <View style={styles.balanceCont}>
-            <View style={{ marginLeft: 32}}>
+            <View style={{ marginLeft: 32 }}>
               <Text style={styles.balance}>£ {summed}</Text>
             </View>
           </View>
         </View>
         <View style={summed > 0 ? styles.emojiHappy : styles.emojiSad}>
-          <LottieView source={summed > 0 ? piggyBank
-          : sadFace
-        } autoPlay loop />
+          <LottieView source={summed > 0 ? piggyBank : sadFace} autoPlay loop />
         </View>
       </View>
-    </TouchableOpacity >
+    </TouchableOpacity>
   );
 }
 const styles = StyleSheet.create({
   balanceCont: {
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   box: {
     borderRadius: 8,
@@ -61,14 +59,13 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   emojiHappy: {
-    width:150, 
+    width: 150,
     height: 150,
     marginLeft: 20,
-    
   },
   emojiSad: {
     marginLeft: 20,
-    width:100, 
-    height: 100
-  }
+    width: 100,
+    height: 100,
+  },
 });

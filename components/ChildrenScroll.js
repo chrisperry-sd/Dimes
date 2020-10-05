@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
-import {ScrollView, View, Text, FlatList, StyleSheet} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import { ScrollView, View, Text, FlatList, StyleSheet } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-export default function ChildrenScroll({navigation, data, summed}) {
+export default function ChildrenScroll({ navigation, data, summed }) {
   return (
     <View>
       <View style={styles.container}>
@@ -11,10 +11,12 @@ export default function ChildrenScroll({navigation, data, summed}) {
           style={styles.flatListBorder}
           horizontal={true}
           data={data}
-          keyExtractor={ (item, index) => index.toString() }
-          renderItem={({item}) => (
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => (
             <TouchableOpacity
-              onPress={() => navigation.navigate('ChildParentView', {summed})}>
+              onPress={() =>
+                navigation.navigate('ChildParentView', { summed })
+              }>
               <View style={styles.list}>
                 <View style={styles.listContainer}>
                   <Text style={styles.text}>{item.Name}</Text>

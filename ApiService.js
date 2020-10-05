@@ -1,7 +1,6 @@
-// const BASE_URL = 'http://10.153.108.242:3001';
-const BASE_URL = 'http://localhost:3001';
-// const BASE_URL = 'http://10.153.110.91:3001';
+/* eslint no-console: 0 */
 
+const BASE_URL = 'http://localhost:3001';
 
 function fetchRequest(path, options) {
   return fetch(BASE_URL + path, options)
@@ -32,10 +31,10 @@ function postBudget(body) {
   });
 }
 
-function deleteBudget (id) {
+function deleteBudget(id) {
   return fetchRequest(`/budgets/${id}`, {
-    method: 'DELETE'
-  })
+    method: 'DELETE',
+  });
 }
 
 module.exports = {

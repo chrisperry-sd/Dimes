@@ -1,11 +1,11 @@
-import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, Image } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import Items from './SpentItems';
 
 import chart from '../myAssets/images/barchat.png';
 
-export default function Spent({thisWeekSum, data, thisWeeksTrans}) {
+export default function Spent({ thisWeekSum, data, thisWeeksTrans }) {
   return (
     <View>
       <TouchableOpacity style={styles.box}>

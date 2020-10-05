@@ -8,20 +8,19 @@ import {
   SafeAreaView,
   StatusBar,
   Alert,
+  Platform,
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-export default function AddBudget ({ navigation, createBudget }) {
+export default function AddBudget({ navigation, createBudget }) {
   const [category, setCategory] = useState('');
   const [budget, setBudget] = useState('');
   const [expiry, setExpiry] = useState(Date.now());
   const [show, setShow] = useState(false);
 
   const createAlert = () => {
-    Alert.alert(
-      "Budget Added",
-    );
-  }
+    Alert.alert('Budget Added');
+  };
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
     setShow(Platform.OS === 'ios');
@@ -33,12 +32,17 @@ export default function AddBudget ({ navigation, createBudget }) {
   const showDatepicker = () => {
     showMode('date');
   };
-  function handleOnPress (event) {
+  function handleOnPress(event) {
     event.preventDefault();
-    if (category.length == 0 || budget.length == 0 || expiry.length == 0) return Alert.alert(' Input field empty/incorrect')
+    if (category.length == 0 || budget.length == 0 || expiry.length == 0)
+      return Alert.alert(' Input field empty/incorrect');
     createBudget(category, budget, expiry);
-    setTimeout(() => {createAlert()}, 500)
-    setTimeout(() => {navigation.navigate('ChildParentView')}, 1000);
+    setTimeout(() => {
+      createAlert();
+    }, 500);
+    setTimeout(() => {
+      navigation.navigate('ChildParentView');
+    }, 1000);
   }
 
   return (
@@ -65,7 +69,9 @@ export default function AddBudget ({ navigation, createBudget }) {
           />
         </View>
         <View style={styles.centerbtn}>
-          <TouchableOpacity onPress={showDatepicker} style={styles.dateBtnContainer}>
+          <TouchableOpacity
+            onPress={showDatepicker}
+            style={styles.dateBtnContainer}>
             <View style={styles.btn}>
               <Text style={styles.text}>Add expiry date here</Text>
             </View>
@@ -83,7 +89,6 @@ export default function AddBudget ({ navigation, createBudget }) {
             />
           )}
         </View>
-
       </View>
       <View style={styles.centerbtn}>
         <TouchableOpacity onPress={handleOnPress} style={styles.btnContainer}>
@@ -92,7 +97,7 @@ export default function AddBudget ({ navigation, createBudget }) {
           </View>
         </TouchableOpacity>
       </View>
-    </SafeAreaView >
+    </SafeAreaView>
   );
 }
 

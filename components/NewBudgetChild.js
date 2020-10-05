@@ -1,12 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, View, Text, FlatList, StyleSheet, Alert } from 'react-native';
+import {
+  ScrollView,
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  Alert,
+} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-export default function ChildAccountBudgetDisplay ({ budget, data, deleteBudget, parentAlerted, setParentAlertToBeTrue}) {
-  function alertedNoBudget () {
+export default function ChildAccountBudgetDisplay({
+  budget,
+  data,
+  deleteBudget,
+  parentAlerted,
+  setParentAlertToBeTrue,
+}) {
+  function alertedNoBudget() {
     wait(1000).then(() => createAlert());
   }
-  function alertedMinusBudget () {
+  function alertedMinusBudget() {
     wait(1000).then(() => minusAlert());
   }
   const wait = (timeout) => {
@@ -15,26 +28,26 @@ export default function ChildAccountBudgetDisplay ({ budget, data, deleteBudget,
     });
   };
   const createAlert = () =>
-    Alert.alert(
-      "Alert",
-      "0 remaiining budget",
-      [
-        { text: "OK", onPress: () => setParentAlertToBeTrue()}
-      ],
-    );
+    Alert.alert('Alert', '0 remaining budget', [
+      { text: 'OK', onPress: () => setParentAlertToBeTrue() },
+    ]);
   const minusAlert = () =>
-  Alert.alert(
-    "Alert!",
-    "James has over spent",
-    [
-      { text: "OK", onPress: () => setParentAlertToBeTrue() }
-    ],
-  );
+    Alert.alert('Alert!', 'James has overspent', [
+      { text: 'OK', onPress: () => setParentAlertToBeTrue() },
+    ]);
 
-  const budgets = []
+  const budgets = [];
   budget.forEach(function (a) {
     if (!this[a.category]) {
-      this[a.category] = { category: a.category, amount: 0, date: a.date, expiry: a.expiry, display: a.display, alerted: a.alerted, id: a._id };
+      this[a.category] = {
+        category: a.category,
+        amount: 0,
+        date: a.date,
+        expiry: a.expiry,
+        display: a.display,
+        alerted: a.alerted,
+        id: a._id,
+      };
       budgets.push(this[a.category]);
     }
     this[a.category].amount += a.budget;
@@ -43,7 +56,7 @@ export default function ChildAccountBudgetDisplay ({ budget, data, deleteBudget,
   // this function takes array of the budgets budgets and filters all current transactions by catgeories matching to the budget category.
   // then filters that array by all transactions that happened after the budget was set..
   const filteredTransactionsByCategory = [];
-  function filterTransByCategory (budgett) {
+  function filterTransByCategory(budgett) {
     for (let i = 0; i < budgett.length; i++) {
       const cat = budgett[i].category.toLowerCase();
       const trans = data
@@ -51,7 +64,7 @@ export default function ChildAccountBudgetDisplay ({ budget, data, deleteBudget,
         .filter(
           (transs) =>
             new Date(budgett[i].date).getTime() -
-            new Date(transs.date).getTime() <=
+              new Date(transs.date).getTime() <=
             0,
         );
       if (trans.length > 0) {
@@ -74,60 +87,89 @@ export default function ChildAccountBudgetDisplay ({ budget, data, deleteBudget,
   for (let i = 0; i < budgets.length; i++) {
     let catName = budgets[i].category;
     let sum = budgets[i].amount;
-    if (budget[i].display && new Date().getTime() - new Date(budget[i].expiry).getTime() >= 0) { // if its expired and display is true
-
+    if (
+      budget[i].display &&
+      new Date().getTime() - new Date(budget[i].expiry).getTime() >= 0
+    ) {
+      // if its expired and display is true
     }
     if (!sums[i]) {
-      
-        budgetsArray[i] = { category: catName, amount: sum, remaining: sum, display: budgets[i].display, expiry: budgets[i].expiry, id: budgets[i].id };
-      
+      budgetsArray[i] = {
+        category: catName,
+        amount: sum,
+        remaining: sum,
+        display: budgets[i].display,
+        expiry: budgets[i].expiry,
+        id: budgets[i].id,
+      };
     } else {
       if (
         sums[i].category.toLowerCase() === budgets[i].category.toLowerCase()
       ) {
-        const summd = parseInt(budgets[i].amount, 10) + parseInt(sums[i].amount, 10);
+        const summd =
+          parseInt(budgets[i].amount, 10) + parseInt(sums[i].amount, 10);
         if (summd === 0 && !parentAlerted) {
           alertedNoBudget();
         }
         if (summd < 0 && !parentAlerted) {
-          alertedMinusBudget()
+          alertedMinusBudget();
         }
-        budgetsArray[i] = { category: catName, amount: sum, remaining: summd, display: budgets[i].display, expiry: budgets[i].expiry, id: budgets[i].id };
-      }
-      else return null;
+        budgetsArray[i] = {
+          category: catName,
+          amount: sum,
+          remaining: summd,
+          display: budgets[i].display,
+          expiry: budgets[i].expiry,
+          id: budgets[i].id,
+        };
+      } else return null;
     }
-  }  
+  }
   const renderBudget = ({ item, index }) => {
     if (item.display) {
-    return (
-      <View>
-        <View style={styles.listNegative}>
-          <View style={styles.listContainer}>
-            <View style={{flexDirection:'row', justifyContent:'space-between'}}>
-              <View style={styles.budgetText}>
-                <Text style={item.remaining > 0 ? styles.bold : styles.boldNegative}>{item.category}</Text>
+      return (
+        <View>
+          <View style={styles.listNegative}>
+            <View style={styles.listContainer}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}>
+                <View style={styles.budgetText}>
+                  <Text
+                    style={
+                      item.remaining > 0 ? styles.bold : styles.boldNegative
+                    }>
+                    {item.category}
+                  </Text>
+                </View>
+                <TouchableOpacity onPress={deleteBudget.bind(null, item.id)}>
+                  <View style={styles.budgetText}>
+                    <Text style={styles.bold}>🗑</Text>
+                  </View>
+                </TouchableOpacity>
               </View>
-              <TouchableOpacity onPress={deleteBudget.bind(null, item.id)}>
               <View style={styles.budgetText}>
-                <Text style={styles.bold}>🗑</Text>
+                <Text style={styles.textNegative}>£ {item.amount}</Text>
               </View>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.budgetText}>
-              <Text style={styles.textNegative}>£ {item.amount}</Text>
-            </View>
-            <View style={styles.budgetText}>
-            {item.remaining > 0 ?
-              <Text style={styles.negative}>
-                James has £{item.remaining} left of budget
-              </Text> : <Text style={styles.negative}>
-              James has spent £ {item.remaining.toString().slice(1)} too much 
-            </Text>}
+              <View style={styles.budgetText}>
+                {item.remaining > 0 ? (
+                  <Text style={styles.negative}>
+                    James has £{item.remaining} left of budget
+                  </Text>
+                ) : (
+                  <Text style={styles.negative}>
+                    James has spent £ {item.remaining.toString().slice(1)} too
+                    much
+                  </Text>
+                )}
+              </View>
             </View>
           </View>
         </View>
-      </View>
-    )};
+      );
+    }
   };
   return (
     <View>
@@ -136,7 +178,7 @@ export default function ChildAccountBudgetDisplay ({ budget, data, deleteBudget,
           style={styles.flatListBorder}
           horizontal={true}
           data={budgetsArray}
-          keyExtractor={ (item, index) => index.toString() }
+          keyExtractor={(item, index) => index.toString()}
           renderItem={renderBudget}
         />
       </View>
@@ -200,7 +242,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     fontFamily: 'Chilanka-Regular',
-    textDecorationLine: 'line-through'
+    textDecorationLine: 'line-through',
   },
   budgetText: {
     paddingTop: 5,
@@ -209,5 +251,5 @@ const styles = StyleSheet.create({
     color: 'white',
     paddingHorizontal: 2,
     fontSize: 12,
-  }
+  },
 });

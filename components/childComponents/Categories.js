@@ -7,12 +7,11 @@ import {
   StyleSheet,
   Image,
 } from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import cash from '../../myAssets/images/cash-removebg-preview.png';
 
-export default function Categories({data}) {
-
+export default function Categories({ data }) {
   const trans = data;
   function getFirstDayOfWeek() {
     const curr = new Date();
@@ -26,10 +25,12 @@ export default function Categories({data}) {
         thisWeeksTransactions.push(trans[i]);
       }
     }
-    return thisWeeksTransactions.sort((a, b) => new Date(b.date) - new Date(a.date));
+    return thisWeeksTransactions.sort(
+      (a, b) => new Date(b.date) - new Date(a.date),
+    );
   }
   const thisWeeksTrans = showThisWeeksTransactions();
-  const renderCategory = ({item}) => {
+  const renderCategory = ({ item }) => {
     return (
       <TouchableOpacity style={styles.container}>
         <View style={styles.list}>
@@ -45,13 +46,13 @@ export default function Categories({data}) {
     );
   };
   return (
-        <FlatList
-          style={styles.flatListBorder}
-          horizontal={true}
-          data={thisWeeksTrans}
-          keyExtractor={ (item, index) => index.toString() }
-          renderItem={renderCategory}
-        />
+    <FlatList
+      style={styles.flatListBorder}
+      horizontal={true}
+      data={thisWeeksTrans}
+      keyExtractor={(item, index) => index.toString()}
+      renderItem={renderCategory}
+    />
   );
 }
 
@@ -71,7 +72,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     width: 200,
     shadowColor: '#000',
-    shadowOffset: {width: 1, height: 0},
+    shadowOffset: { width: 1, height: 0 },
     shadowOpacity: 0.8,
     shadowRadius: 3,
     elevation: 1,
