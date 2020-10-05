@@ -3,14 +3,14 @@ import { View, Text, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { colors } from '../theme';
 
-export default function BalanceChild({ navigation, summed, data }) {
+export default function BalanceChild({ navigation, totalSpent, data }) {
   return (
     <View style={styles.box}>
       <View>
         <Text style={styles.balanceTitle}>Total Balance</Text>
       </View>
       <View>
-        <Text style={styles.balance}>£ {summed}</Text>
+        <Text style={styles.balance}>£ {totalSpent}</Text>
       </View>
       <TouchableOpacity
         onPress={() =>

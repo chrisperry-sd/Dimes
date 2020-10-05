@@ -18,8 +18,8 @@ import ChildrenScroll from '../components/ChildrenScroll';
 export default function ParentDashboard({
   navigation,
   data,
-  summed,
-  thisWeekSum,
+  totalSpent,
+  totalSpentThisWeek,
   thisWeeksTrans,
   onRefresh,
   isRefreshing,
@@ -46,7 +46,11 @@ export default function ParentDashboard({
           </TouchableOpacity>
         </View>
         <View style={styles.home}>
-          <ChildrenScroll navigation={navigation} data={data} summed={summed} />
+          <ChildrenScroll
+            navigation={navigation}
+            data={data}
+            totalSpent={totalSpent}
+          />
         </View>
         <View>
           <Text style={styles.textLarge}>Overview</Text>
@@ -56,7 +60,7 @@ export default function ParentDashboard({
         </View>
         <View>
           <Spent
-            thisWeekSum={thisWeekSum}
+            totalSpentThisWeek={totalSpentThisWeek}
             data={data}
             thisWeeksTrans={thisWeeksTrans}
           />

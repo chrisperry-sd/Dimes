@@ -7,7 +7,7 @@ import { colors } from '../../theme';
 import piggyBank from '../../myAssets/animations/28913-piggy-bank.json';
 import sadFace from '../../myAssets/animations/11865-sad-emoji.json';
 
-export default function Balance({ transactions, summed }) {
+export default function Balance({ transactions, totalSpent }) {
   return (
     <TouchableOpacity style={styles.box}>
       <View style={styles.balanceCont}>
@@ -17,12 +17,16 @@ export default function Balance({ transactions, summed }) {
           </View>
           <View style={styles.balanceCont}>
             <View>
-              <Text style={styles.balance}>£ {summed}</Text>
+              <Text style={styles.balance}>£ {totalSpent}</Text>
             </View>
           </View>
         </View>
-        <View style={summed > 0 ? styles.emojiHappy : styles.emojiSad}>
-          <LottieView source={summed > 0 ? piggyBank : sadFace} autoPlay loop />
+        <View style={totalSpent > 0 ? styles.emojiHappy : styles.emojiSad}>
+          <LottieView
+            source={totalSpent > 0 ? piggyBank : sadFace}
+            autoPlay
+            loop
+          />
         </View>
       </View>
     </TouchableOpacity>

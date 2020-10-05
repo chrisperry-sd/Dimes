@@ -3,7 +3,7 @@ import { View, Text, FlatList, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { colors } from '../theme';
 
-export default function ChildrenScroll({ navigation, data, summed }) {
+export default function ChildrenScroll({ navigation, data, totalSpent }) {
   return (
     <View>
       <View style={styles.container}>
@@ -15,7 +15,7 @@ export default function ChildrenScroll({ navigation, data, summed }) {
           renderItem={({ item }) => (
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate('ChildParentView', { summed })
+                navigation.navigate('ChildParentView', { totalSpent })
               }>
               <View style={styles.list}>
                 <View style={styles.listContainer}>

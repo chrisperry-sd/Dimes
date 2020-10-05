@@ -4,7 +4,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import pig from '../../myAssets/images/pig1-removebg-preview.png';
 import { colors } from '../../theme';
 
-export default function Savings({ summed, budget, data }) {
+export default function Savings({ totalSpent, budget, data }) {
   return (
     <TouchableOpacity style={styles.box}>
       <View>
@@ -13,9 +13,9 @@ export default function Savings({ summed, budget, data }) {
       <View>
         <Image source={pig} style={styles.chart} />
         <View style={styles.savingView}>
-          {budget.length > 0 && summed > 0 ? (
+          {budget.length > 0 && totalSpent > 0 ? (
             <Text style={styles.savings}>
-              Save your remaining budget and have £ {summed}
+              Save your remaining budget and have £ {totalSpent}
             </Text>
           ) : (
             <Text style={styles.savings}>
@@ -24,9 +24,9 @@ export default function Savings({ summed, budget, data }) {
           )}
           <View style={styles.remaining}>
             {budget.length > 0 ? null : (
-              <Text style={styles.savingsLarge}> You have £{summed}</Text>
+              <Text style={styles.savingsLarge}> You have £{totalSpent}</Text>
             )}
-            {budget.length > 0 && summed > 0 ? (
+            {budget.length > 0 && totalSpent > 0 ? (
               <Text style={styles.savings}>at the end of the week..</Text>
             ) : null}
           </View>

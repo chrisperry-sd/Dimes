@@ -17,7 +17,7 @@ import NewBudgetChild from '../components/NewBudgetChild';
 export default function ChildParentView({
   navigation,
   data,
-  summed,
+  totalSpent,
   budget,
   deleteBudget,
   isRefreshing,
@@ -43,7 +43,11 @@ export default function ChildParentView({
           <Text style={styles.text}>Balances</Text>
         </View>
         <View>
-          <BallanceChild summed={summed} navigation={navigation} data={data} />
+          <BallanceChild
+            totalSpent={totalSpent}
+            navigation={navigation}
+            data={data}
+          />
         </View>
         <View>
           <Text style={styles.text}>Budgets</Text>

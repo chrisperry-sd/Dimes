@@ -19,7 +19,7 @@ import ChildAccountBudgetDisplay from '../components/childComponents/ChildAccoun
 export default function ChildAccountView({
   data,
   budget,
-  summed,
+  totalSpent,
   transactions,
   thisWeeksTransactions,
   isRefreshing,
@@ -49,7 +49,7 @@ export default function ChildAccountView({
             <NextAllowance data={transactions} />
           </View>
           <View>
-            <ChildBalance summed={summed} />
+            <ChildBalance totalSpent={totalSpent} />
           </View>
           {budget.length > 0 ? (
             <View style={styles.row}>
@@ -73,7 +73,11 @@ export default function ChildAccountView({
             )}
           </View>
           <View>
-            <Savings summed={summed} budget={budget} data={transactions} />
+            <Savings
+              totalSpent={totalSpent}
+              budget={budget}
+              data={transactions}
+            />
           </View>
           <View>
             {thisWeeksTransactions === undefined ? (

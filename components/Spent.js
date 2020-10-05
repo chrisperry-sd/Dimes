@@ -6,7 +6,7 @@ import { colors } from '../theme';
 
 import chart from '../myAssets/images/barchat.png';
 
-export default function Spent({ thisWeekSum, data, thisWeeksTrans }) {
+export default function Spent({ totalSpentThisWeek, data, thisWeeksTrans }) {
   return (
     <View>
       <TouchableOpacity style={styles.box}>
@@ -15,7 +15,7 @@ export default function Spent({ thisWeekSum, data, thisWeeksTrans }) {
           <Text style={styles.balanceTitle}>Total Spent this week</Text>
         </View>
         <View>
-          <Text style={styles.balance}>£ {thisWeekSum}</Text>
+          <Text style={styles.balance}>£ {totalSpentThisWeek}</Text>
         </View>
       </TouchableOpacity>
       <View style={styles.itemsStyleMargin}>
