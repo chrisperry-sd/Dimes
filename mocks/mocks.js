@@ -1,6 +1,6 @@
 const mocks = {};
 
-mocks.child = [{ name: 'James' }];
+mocks.kids = [{ name: 'James' }];
 mocks.totalSpent = -52.0;
 
 const today = new Date();

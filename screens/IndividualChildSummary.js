@@ -14,7 +14,7 @@ import { colors } from '../theme';
 import BalanceChild from '../components/BalanceChild';
 import NewBudgetChild from '../components/NewBudgetChild';
 
-export default function ChildParentView({
+export default function IndividualChildSummary({
   navigation,
   data,
   totalSpent,
@@ -24,7 +24,7 @@ export default function ChildParentView({
   onRefresh,
   parentAlerted,
   setParentAlertToBeTrue,
-  child,
+  kids,
 }) {
   return (
     <SafeAreaView style={styles.bg}>
@@ -33,12 +33,12 @@ export default function ChildParentView({
           <RefreshControl
             refreshing={isRefreshing}
             onRefresh={onRefresh}
-            tintColor="white"
+            tintColor={colors.white}
           />
         }>
         <StatusBar barStyle="light-content" />
         <View style={styles.centerText}>
-          <Text style={styles.textLarge}>{child[0].name}</Text>
+          <Text style={styles.textLarge}>{kids[0].name}</Text>
         </View>
         <View>
           <Text style={styles.text}>Balances</Text>

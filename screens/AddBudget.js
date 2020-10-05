@@ -43,7 +43,7 @@ export default function AddBudget({ navigation, createBudget }) {
       createAlert();
     }, 500);
     setTimeout(() => {
-      navigation.navigate('ChildParentView');
+      navigation.navigate('IndividualChildSummary');
     }, 1000);
   }
 
@@ -87,7 +87,7 @@ export default function AddBudget({ navigation, createBudget }) {
               is24Hour={true}
               display="spinner"
               onChange={onChange}
-              textColor="white"
+              textColor={colors.white}
             />
           )}
         </View>

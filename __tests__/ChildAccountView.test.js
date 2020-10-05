@@ -12,7 +12,7 @@ describe("the child's account view", () => {
       <ChildAccountView
         transactions={mocks.transactions}
         thisWeeksTransactions={mocks.transactions}
-        child={mocks.child}
+        kids={mocks.kids}
         totalSpent={mocks.totalSpent}
         budget={mocks.budgets}
       />,
@@ -33,7 +33,7 @@ describe("the child's account view", () => {
         transactions={[]}
         thisWeeksTransactions={[]}
         budget={[]}
-        child={mocks.child}
+        kids={mocks.kids}
         totalSpent={0}
       />,
     );

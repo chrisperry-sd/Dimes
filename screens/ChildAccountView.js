@@ -17,7 +17,7 @@ import NextAllowance from '../components/childComponents/NextAllowance';
 import ChildAccountBudgetDisplay from '../components/childComponents/ChildAccountBudgetDisplay';
 
 export default function ChildAccountView({
-  child,
+  kids,
   budget,
   totalSpent,
   transactions,
@@ -43,7 +43,7 @@ export default function ChildAccountView({
         <StatusBar />
         <View showsVerticalScrollIndicator={false}>
           <View>
-            <Text style={styles.textBold}>Hey, {child[0].name}</Text>
+            <Text style={styles.textBold}>Hey, {kids[0].name}</Text>
           </View>
           <View>
             <NextAllowance data={transactions} />

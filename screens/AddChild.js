@@ -10,7 +10,9 @@ import {
 } from 'react-native';
 import colors from '../theme';
 
-export default function AddChild({ navigation, setChild }) {
+// currently a sin-up form, adapt
+
+export default function AddChild({ navigation, setKids }) {
   const [name, setName] = useState('');
 
   return (

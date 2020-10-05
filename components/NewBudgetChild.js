@@ -9,7 +9,7 @@ export default function NewBudgetChild({
   deleteBudget,
   parentAlerted,
   setParentAlertToBeTrue,
-  child,
+  kids,
 }) {
   function alertedNoBudget() {
     wait(1000).then(() => createAlert());
@@ -27,7 +27,7 @@ export default function NewBudgetChild({
       { text: 'OK', onPress: () => setParentAlertToBeTrue() },
     ]);
   const minusAlert = () =>
-    Alert.alert('Alert!', `${child[0].name} has overspent`, [
+    Alert.alert('Alert!', `${kids[0].name} has overspent`, [
       { text: 'OK', onPress: () => setParentAlertToBeTrue() },
     ]);
 
@@ -149,11 +149,11 @@ export default function NewBudgetChild({
               <View style={styles.budgetText}>
                 {item.remaining > 0 ? (
                   <Text style={styles.negative}>
-                    {child[0].name} has £{item.remaining} left of budget
+                    {kids[0].name} has £{item.remaining} left of budget
                   </Text>
                 ) : (
                   <Text style={styles.negative}>
-                    {child[0].name} has spent £{' '}
+                    {kids[0].name} has spent £{' '}
                     {item.remaining.toString().slice(1)} too much
                   </Text>
                 )}

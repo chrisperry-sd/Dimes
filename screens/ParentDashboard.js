@@ -17,7 +17,7 @@ import ChildrenScroll from '../components/ChildrenScroll';
 
 export default function ParentDashboard({
   navigation,
-  child,
+  kids,
   totalSpent,
   totalSpentThisWeek,
   thisWeeksTrans,
@@ -48,7 +48,7 @@ export default function ParentDashboard({
         <View style={styles.home}>
           <ChildrenScroll
             navigation={navigation}
-            child={child}
+            kids={kids}
             totalSpent={totalSpent}
           />
         </View>
@@ -61,7 +61,7 @@ export default function ParentDashboard({
         <View>
           <Spent
             totalSpentThisWeek={totalSpentThisWeek}
-            child={child}
+            kids={kids}
             thisWeeksTrans={thisWeeksTrans}
           />
         </View>

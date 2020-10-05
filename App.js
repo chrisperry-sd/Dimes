@@ -2,16 +2,13 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import ParentDashboard from './screens/ParentDashboard';
-import ChildParentView from './screens/ChildParentView';
 import Login from './screens/LogIn';
 import AddChild from './screens/AddChild';
-import ChildAccountView from './screens/ChildAccountView';
 import AddBudget from './screens/AddBudget';
-import ChildAccountBudgetDisplay from './components/childComponents/ChildAccountBudgetDisplay';
-import Categories from './components/childComponents/Categories';
+import ParentDashboard from './screens/ParentDashboard';
+import ChildAccountView from './screens/ChildAccountView';
+import IndividualChildSummary from './screens/IndividualChildSummary';
 import IndividualAccountTransactions from './screens/IndividualAccountTransactions';
-import BalanceChild from './components/BalanceChild';
 
 import ApiService from './ApiService';
 
@@ -22,11 +19,10 @@ export default function App() {
   const [parentAlerted, setParentAlerted] = useState(false);
   const [alertExpiry, setAlertExpiry] = useState(false);
 
+  const [kids, setKids] = useState([{ name: 'James' }]);
   const [budgets, setBudgets] = useState({});
   const [transactions, setTransactions] = useState({});
   const [isRefreshing, setIsRefreshing] = useState(false);
-
-  const [child, setChild] = useState([{ name: 'James' }]);
 
   function setAlertExpiryToTrue() {
     setAlertExpiry(true);
@@ -60,7 +56,7 @@ export default function App() {
 
   function createBudget(category, budget, expiry) {
     ApiService.postBudget({ category, budget, expiry }).then((newBudgets) => {
-      setBudgets((budgets) => [...budgets, newBudgets]);
+      setBudgets((oldBudgets) => [...oldBudgets, newBudgets]);
     });
   }
   function deleteBudget(id) {
@@ -78,7 +74,9 @@ export default function App() {
         0,
       );
       return total.toFixed(2);
-    } else return 0;
+    } else {
+      return 0;
+    }
   }
   const totalSpent = sumTransactions();
 
@@ -116,6 +114,7 @@ export default function App() {
         <Stack.Screen name="ChildAccountView" options={options}>
           {(props) => (
             <ChildAccountView
+              {...props}
               setAlertExpiryToTrue={setAlertExpiryToTrue}
               alertExpiry={alertExpiry}
               alerted={alerted}
@@ -123,8 +122,7 @@ export default function App() {
               isRefreshing={isRefreshing}
               onRefresh={onRefresh}
               transactions={transactions}
-              child={child}
-              {...props}
+              kids={kids}
               totalSpent={totalSpent}
               budget={budgets}
               thisWeeksTransactions={thisWeeksTransactions}
@@ -132,26 +130,15 @@ export default function App() {
           )}
         </Stack.Screen>
 
-        <Stack.Screen name="ChildAccountBudgetDisplay" options={options}>
-          {(props) => (
-            <ChildAccountBudgetDisplay
-              data={transactions}
-              child={child}
-              {...props}
-              totalSpent={totalSpent}
-              budget={budgets}
-            />
-          )}
-        </Stack.Screen>
-
         <Stack.Screen name="ParentDashboard" options={options}>
           {(props) => (
             <ParentDashboard
+              {...props}
               isRefreshing={isRefreshing}
               onRefresh={onRefresh}
-              child={child}
+              kids={kids}
+              setKids={setKids}
               transactions={transactions}
-              {...props}
               totalSpent={totalSpent}
               totalSpentThisWeek={totalSpentThisWeek}
               thisWeeksTrans={thisWeeksTransactions}
@@ -159,20 +146,16 @@ export default function App() {
           )}
         </Stack.Screen>
 
-        <Stack.Screen name="Categories" options={options}>
-          {(props) => <Categories thisWeeksTrans={thisWeeksTrans} />}
-        </Stack.Screen>
-
-        <Stack.Screen name="ChildParentView" options={options}>
+        <Stack.Screen name="IndividualChildSummary" options={options}>
           {(props) => (
-            <ChildParentView
+            <IndividualChildSummary
+              {...props}
               setParentAlertToBeTrue={setParentAlertToBeTrue}
               parentAlerted={parentAlerted}
               isRefreshing={isRefreshing}
               onRefresh={onRefresh}
               data={transactions}
-              child={child}
-              {...props}
+              kids={kids}
               totalSpent={totalSpent}
               budget={budgets}
               deleteBudget={deleteBudget}
@@ -182,15 +165,15 @@ export default function App() {
 
         <Stack.Screen name="AddChild" options={options}>
           {(props) => (
-            <AddChild data={transactions} {...props} totalSpent={totalSpent} />
+            <AddChild {...props} data={transactions} totalSpent={totalSpent} />
           )}
         </Stack.Screen>
 
         <Stack.Screen name="AddBudget" options={options}>
           {(props) => (
             <AddBudget
-              data={transactions}
               {...props}
+              data={transactions}
               totalSpent={totalSpent}
               createBudget={createBudget}
             />
@@ -200,19 +183,8 @@ export default function App() {
         <Stack.Screen name="IndividualAccountTransactions" options={options}>
           {(props) => (
             <IndividualAccountTransactions
-              data={transactions}
               {...props}
-              totalSpent={totalSpent}
-              createBudget={createBudget}
-            />
-          )}
-        </Stack.Screen>
-
-        <Stack.Screen name="BalanceChild" options={options}>
-          {(props) => (
-            <BalanceChild
               data={transactions}
-              {...props}
               totalSpent={totalSpent}
               createBudget={createBudget}
             />

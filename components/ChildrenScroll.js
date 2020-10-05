@@ -3,19 +3,19 @@ import { View, Text, FlatList, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { colors } from '../theme';
 
-export default function ChildrenScroll({ navigation, child, totalSpent }) {
+export default function ChildrenScroll({ navigation, kids, totalSpent }) {
   return (
     <View>
       <View style={styles.container}>
         <FlatList
           style={styles.flatListBorder}
           horizontal={true}
-          data={child}
+          data={kids}
           keyExtractor={(item, index) => item.name}
           renderItem={({ item }) => (
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate('ChildParentView', { totalSpent })
+                navigation.navigate('IndividualChildSummary', { totalSpent })
               }>
               <View style={styles.list}>
                 <View style={styles.listContainer}>
