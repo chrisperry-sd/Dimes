@@ -11,6 +11,13 @@ export default function Balance({ transactions, totalSpent }) {
   return (
     <TouchableOpacity style={styles.box}>
       <View style={styles.balanceCont}>
+        <LottieView
+          source={totalSpent > 0 ? piggyBank : sadFace}
+          autoPlay
+          width={150}
+          height={150}
+          style={styles.animation}
+        />
         <View>
           <View>
             <Text style={styles.balanceTitle}>Balance</Text>
@@ -20,13 +27,6 @@ export default function Balance({ transactions, totalSpent }) {
               <Text style={styles.balance}>£ {totalSpent}</Text>
             </View>
           </View>
-        </View>
-        <View style={totalSpent > 0 ? styles.emojiHappy : styles.emojiSad}>
-          <LottieView
-            source={totalSpent > 0 ? piggyBank : sadFace}
-            autoPlay
-            loop
-          />
         </View>
       </View>
     </TouchableOpacity>
@@ -39,19 +39,21 @@ const styles = StyleSheet.create({
   box: {
     borderRadius: 8,
     margin: 10,
-    height: 100,
+    height: 'auto',
     marginTop: 10,
-    backgroundColor: colors.blue,
     shadowColor: colors.black,
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.8,
+    backgroundColor: colors.plum,
     shadowRadius: 3,
     elevation: 1,
   },
+
   balanceTitle: {
     color: colors.white,
     padding: 5,
     marginTop: 10,
+    marginLeft: 5,
     fontSize: 24,
     fontFamily: 'Chilanka-Regular',
   },
@@ -62,14 +64,8 @@ const styles = StyleSheet.create({
     fontFamily: 'Chilanka-Regular',
     color: colors.white,
   },
-  emojiHappy: {
-    width: 150,
-    height: 150,
-    marginLeft: 20,
-  },
-  emojiSad: {
-    marginLeft: 20,
-    width: 100,
-    height: 100,
+  animation: {
+    position: 'absolute',
+    marginLeft: 80,
   },
 });

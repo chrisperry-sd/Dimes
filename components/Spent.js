@@ -12,7 +12,7 @@ export default function Spent({ totalSpentThisWeek, thisWeeksTrans }) {
       <TouchableOpacity style={styles.box}>
         <View>
           <Image source={chart} style={styles.chart} />
-          <Text style={styles.balanceTitle}>Total Spent this week</Text>
+          <Text style={styles.balanceTitle}>Total spent this week</Text>
         </View>
         <View>
           <Text style={styles.balance}>£ {totalSpentThisWeek}</Text>

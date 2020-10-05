@@ -66,7 +66,12 @@ export default function IndividualChildSummary({
         </View>
         <View style={styles.addBut}>
           <TouchableOpacity onPress={() => navigation.navigate('AddBudget')}>
-            <Text style={styles.textAdd}>&rarr; Add Budget</Text>
+            <Text style={styles.textAdd}>&uarr; Select a budget to edit</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.addBut}>
+          <TouchableOpacity onPress={() => navigation.navigate('AddBudget')}>
+            <Text style={styles.textAdd}>&rarr; Add a new budget</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -88,11 +93,11 @@ const styles = StyleSheet.create({
   addBut: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: 200,
+    width: 'auto',
     height: 50,
     margin: 10,
     borderRadius: 8,
-    backgroundColor: colors.black,
+    backgroundColor: colors.purple,
   },
 
   bg: {

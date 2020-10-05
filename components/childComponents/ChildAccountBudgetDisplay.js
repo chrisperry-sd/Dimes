@@ -40,7 +40,7 @@ export default function ChildAccountBudgetDisplay({
     ]);
 
   const budgets = [];
-  budget.forEach(function (a) {
+  budget.forEach((a) => {
     if (!this[a.category]) {
       this[a.category] = {
         category: a.category,
@@ -127,7 +127,7 @@ export default function ChildAccountBudgetDisplay({
   }
   const renderBudget = ({ item, index }) => {
     if (
-      new Date().getTime() - new Date(item.expiry).getTime() >= 0 &&
+      new Date().getTime() > new Date(item.expiry).getTime() &&
       !alertExpiry
     ) {
       return alertedBudgetExpiry();

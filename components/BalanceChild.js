@@ -17,7 +17,7 @@ export default function BalanceChild({ navigation, totalSpent, data }) {
           navigation.navigate('IndividualAccountTransactions', { data })
         }>
         <View>
-          <Text style={styles.text}>View all transactions</Text>
+          <Text style={styles.text}>&rarr; View all transactions</Text>
         </View>
       </TouchableOpacity>
     </View>
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     margin: 10,
     height: 200,
     marginTop: 30,
-    backgroundColor: colors.black,
+    backgroundColor: colors.blue,
   },
   balanceTitle: {
     color: colors.white,
@@ -41,7 +41,6 @@ const styles = StyleSheet.create({
   },
   balance: {
     marginBottom: 50,
-    // marginTop: 20,
     marginLeft: 20,
     fontSize: 40,
     fontFamily: 'Raleway-Regular',
@@ -49,7 +48,6 @@ const styles = StyleSheet.create({
   },
   text: {
     marginBottom: 50,
-    // marginTop: 20,
     marginLeft: 20,
     fontSize: 20,
     fontFamily: 'Raleway-Regular',

@@ -31,6 +31,16 @@ function postBudget(body) {
   });
 }
 
+function editBudget(id, body) {
+  return fetchRequest(`/budgets/${id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  });
+}
+
 function deleteBudget(id) {
   return fetchRequest(`/budgets/${id}`, {
     method: 'DELETE',
@@ -42,4 +52,5 @@ module.exports = {
   postBudget,
   getTransactions,
   deleteBudget,
+  editBudget,
 };

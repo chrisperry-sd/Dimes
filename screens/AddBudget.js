@@ -23,8 +23,7 @@ export default function AddBudget({ navigation, createBudget }) {
     Alert.alert('Budget Added');
   };
   const onChange = (event, selectedDate) => {
-    const end = selectedDate.length - 1;
-    const expiryDate = selectedDate.toString().slice(0, end) + '.000Z';
+    const expiryDate = selectedDate;
     setShow(Platform.OS === 'ios');
     setExpiry(expiryDate);
   };
@@ -84,6 +83,7 @@ export default function AddBudget({ navigation, createBudget }) {
           {show && (
             <DateTimePicker
               testID="dateTimePicker"
+              mode="date"
               value={expiry}
               is24Hour={true}
               display="spinner"

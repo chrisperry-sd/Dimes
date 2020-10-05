@@ -47,10 +47,10 @@ export default function LogIn({ navigation }) {
             </View>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('AddChild')}>
           <View>
             <Text style={styles.signUp}>
-              Don't have an account already?? Sign up here...
+              Don't have an account? Sign up here &rarr;
             </Text>
           </View>
         </TouchableOpacity>
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     height: 120,
   },
   btn: {
-    backgroundColor: colors.plum,
+    backgroundColor: colors.blue,
     padding: 10,
     borderRadius: 8,
     alignItems: 'center',

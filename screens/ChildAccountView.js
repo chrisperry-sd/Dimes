@@ -42,8 +42,8 @@ export default function ChildAccountView({
       <SafeAreaView style={styles.screen}>
         <StatusBar />
         <View showsVerticalScrollIndicator={false}>
-          <View>
-            <Text style={styles.textBold}>Hey, {kids[0].name}</Text>
+          <View style={[styles.box, styles.titleBox]}>
+            <Text style={styles.textBold}>Hey, {kids[0].name}!</Text>
           </View>
           <View>
             <NextAllowance data={transactions} />
@@ -69,9 +69,11 @@ export default function ChildAccountView({
                 budget={budget}
               />
             ) : (
-              <Text style={styles.text}>
-                No budgets have been set this week, see how much you can save...{' '}
-              </Text>
+              <View style={styles.box}>
+                <Text style={styles.text}>
+                  No budgets set this week. Let's see how much we can save!{' '}
+                </Text>
+              </View>
             )}
           </View>
           <View>
@@ -109,15 +111,27 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
   },
+  box: {
+    borderRadius: 8,
+    margin: 10,
+    backgroundColor: colors.black,
+    paddingVertical: 10,
+  },
+  titleBox: {
+    backgroundColor: colors.white,
+  },
   bg: {
     backgroundColor: colors.purple,
     flex: 1,
   },
   textBold: {
     fontWeight: 'bold',
-    fontSize: 32,
-    color: colors.white,
+    fontSize: 38,
+    paddingTop: 10,
+    paddingLeft: 10,
+    color: colors.purple,
     margin: 10,
+    fontFamily: 'Chilanka-Regular',
   },
   categories: {
     marginTop: 20,

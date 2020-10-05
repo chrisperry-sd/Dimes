@@ -23,6 +23,28 @@ exports.createBudget = async function (req, res) {
     res.status(500);
   }
 };
+exports.editBudget = async function (req, res) {
+  try {
+    const { _id } = req.params;
+    const { category, budget, expiry } = req.body;
+    const updatedBudget = await Budget.findOneAndUpdate(
+      { _id },
+      {
+        $set: {
+          category,
+          budget,
+          expiry,
+        },
+      },
+      { new: true },
+    );
+    res.send(updatedBudget);
+    res.status(200);
+  } catch (error) {
+    console.log('---> Error editing database', error);
+    res.status(500);
+  }
+};
 exports.deleteBudget = async function (req, res) {
   try {
     const { _id } = req.params;

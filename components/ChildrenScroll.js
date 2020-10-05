@@ -41,9 +41,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   list: {
-    backgroundColor: colors.plum,
+    backgroundColor: colors.blue,
     marginRight: 10,
-    height: 100,
+    height: 80,
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
@@ -59,6 +59,6 @@ const styles = StyleSheet.create({
   text: {
     color: colors.white,
     paddingHorizontal: 2,
-    fontSize: 32,
+    fontSize: 26,
   },
 });

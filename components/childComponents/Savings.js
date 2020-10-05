@@ -1,38 +1,28 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import pig from '../../myAssets/images/pig1-removebg-preview.png';
+import { View, Text, StyleSheet } from 'react-native';
 import { colors } from '../../theme';
 
 export default function Savings({ totalSpent, budget }) {
   return (
-    <TouchableOpacity style={styles.box}>
+    <View>
       <View>
-        <Text style={styles.balanceTitle}>Piggy Bank</Text>
+        <Text style={styles.balanceTitle}>Piggy bank</Text>
       </View>
-      <View>
-        <Image source={pig} style={styles.chart} />
+      <View style={styles.box}>
         <View style={styles.savingView}>
           {budget.length > 0 && totalSpent > 0 ? (
             <Text style={styles.savings}>
-              Save your remaining budget and have £ {totalSpent}
+              Save your remaining money and have £{totalSpent} at the end of the
+              week...
             </Text>
           ) : (
             <Text style={styles.savings}>
-              Ahh, you've over spent. Try to save until your next allowance!
+              Ah, you've overspent. Try to save until your next allowance!
             </Text>
           )}
-          <View style={styles.remaining}>
-            {budget.length > 0 ? null : (
-              <Text style={styles.savingsLarge}> You have £{totalSpent}</Text>
-            )}
-            {budget.length > 0 && totalSpent > 0 ? (
-              <Text style={styles.savings}>at the end of the week..</Text>
-            ) : null}
-          </View>
         </View>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 }
 
@@ -40,7 +30,7 @@ const styles = StyleSheet.create({
   box: {
     borderRadius: 8,
     margin: 10,
-    height: 200,
+    height: 'auto',
     marginTop: 10,
     backgroundColor: colors.blue,
     shadowColor: colors.black,
@@ -53,11 +43,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     width: 350,
   },
-  remaining: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: 250,
-  },
   balanceTitle: {
     color: colors.white,
     padding: 10,
@@ -66,22 +51,10 @@ const styles = StyleSheet.create({
     fontFamily: 'Chilanka-Regular',
   },
   savings: {
-    marginLeft: 20,
-    fontSize: 24,
+    marginHorizontal: 20,
+    marginVertical: 20,
+    fontSize: 20,
     fontFamily: 'Chilanka-Regular',
-    color: colors.green,
-  },
-  savingsLarge: {
-    margin: 10,
-    fontSize: 32,
-    fontFamily: 'Chilanka-Regular',
-    color: colors.green,
-  },
-  chart: {
-    position: 'absolute',
-    width: 100,
-    height: 100,
-    marginLeft: '75%',
-    marginTop: '10%',
+    color: colors.white,
   },
 });

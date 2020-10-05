@@ -51,8 +51,8 @@ export default function App() {
     ApiService.getBudgets().then((newBudgets) => setBudgets(newBudgets));
   }, []);
   useEffect(() => {
-    ApiService.getTransactions().then((transactions) =>
-      setTransactions(transactions),
+    ApiService.getTransactions().then((newTransactions) =>
+      setTransactions(newTransactions),
     );
   }, []);
 

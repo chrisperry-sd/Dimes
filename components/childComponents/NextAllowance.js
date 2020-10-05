@@ -20,9 +20,9 @@ export default function NextAllowance() {
       </View>
       <View>
         {daysLeft === 1 ? (
-          <Text style={styles.text}>Day until your next allowance</Text>
+          <Text style={styles.text}>day until your next allowance</Text>
         ) : (
-          <Text style={styles.text}>Days until your next allowance</Text>
+          <Text style={styles.text}>days until your next allowance</Text>
         )}
       </View>
     </View>
