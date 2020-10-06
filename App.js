@@ -3,6 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import Login from './screens/Login';
+import SignUp from './screens/SignUp';
 import AddChild from './screens/AddChild';
 import AddBudget from './screens/AddBudget';
 import ParentDashboard from './screens/ParentDashboard';
@@ -19,7 +20,14 @@ export default function App() {
   const [parentAlerted, setParentAlerted] = useState(false);
   const [alertExpiry, setAlertExpiry] = useState(false);
 
-  const [kids, setKids] = useState([{ name: 'James' }]);
+  const [kids, setKids] = useState([
+    {
+      name: 'James',
+      allowanceFrequency: 'monthly',
+      allowanceAmount: 80,
+      allowanceDay: 1,
+    },
+  ]);
   const [budgets, setBudgets] = useState([]);
   const [transactions, setTransactions] = useState([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -128,6 +136,17 @@ export default function App() {
               totalSpent={totalSpent}
               budget={budgets}
               thisWeeksTransactions={thisWeeksTransactions}
+            />
+          )}
+        </Stack.Screen>
+
+        <Stack.Screen name="SignUp" options={options}>
+          {(props) => (
+            <SignUp
+              {...props}
+              data={transactions}
+              totalSpent={totalSpent}
+              setKids={setKids}
             />
           )}
         </Stack.Screen>

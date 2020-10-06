@@ -1,7 +1,7 @@
 /* eslint no-console: 0 */
 
 const express = require('express');
-const mongoose = require('mongoose');
+const mongoose = require('./model');
 const router = require('./router');
 const cors = require('cors');
 

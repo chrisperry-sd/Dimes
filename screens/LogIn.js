@@ -45,7 +45,7 @@ export default function Login({ navigation }) {
             </View>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity onPress={() => navigation.navigate('AddChild')}>
+        <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
           <View>
             <Text style={styles.signUp}>
               Don't have an account? Sign up here &rarr;

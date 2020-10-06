@@ -7,63 +7,34 @@ import {
   TextInput,
   SafeAreaView,
   StatusBar,
-  Switch,
 } from 'react-native';
 import colors from '../myAssets/theme';
 
-const initialState = {
-  name: '',
-  allowanceFrequency: 'Monthly',
-  allowanceAmount: 0,
-  allowanceDay: 1,
-};
-
-export default function AddChild({ navigation, setKids }) {
-  const [state, setState] = useState(initialState);
-
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setState((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
+export default function SignUp({ navigation, setKids }) {
+  const [name, setName] = useState('');
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar />
       <View style={styles.accountSetup}>
-        <Text style={styles.header}>Register</Text>
+        <Text style={styles.header}>Account Setup</Text>
       </View>
       <View style={styles.inputContainer}>
         <View>
-          <TextInput
-            style={styles.textInput}
-            placeholder="My child's name"
-            name="name"
-            value={state.name}
-            onChange={handleChange}
-          />
-        </View>
-        <View>
-          <Text>Allowance Frequency</Text>
-          <Switch
-            trackColor={{ false: colors.purple, true: colors.plum }}
-            name="allowanceFrequency"
-            value={state.allowanceFrequency}
-            onValueChange={handleChange}
-          />
+          <TextInput style={styles.textInput} placeholder="Full name" />
         </View>
         <View>
           <TextInput
             style={styles.textInput}
-            placeholder="Allowance amount"
-            name="allowanceAmount"
-            value={state.allowanceAmount}
-            onChange={handleChange}
-            maxLength={5}
-            keyboardType="numeric"
+            value={name}
+            placeholder="Screen name"
+            onChangeText={(e) => {
+              setName(e);
+            }}
           />
+        </View>
+        <View>
+          <TextInput style={styles.textInput} placeholder="Bank name" />
         </View>
         <View>
           <TextInput style={styles.textInput} placeholder="Account no..." />
