@@ -4,7 +4,7 @@ import { toHaveTextContent } from '@testing-library/jest-native';
 expect.extend({ toHaveTextContent });
 
 import ChildDashboard from '../screens/ChildDashboard';
-import mocks from '../mocks/mocks';
+import mocks from '../__mocks__/mocks';
 
 describe("the child's account view", () => {
   it('loads the transactions', () => {
