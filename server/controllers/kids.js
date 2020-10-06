@@ -1,3 +1,5 @@
+/* eslint no-console: 0 */
+
 const Kid = require('../models/kids');
 
 exports.getAllKids = async function (req, res) {

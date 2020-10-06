@@ -1,3 +1,5 @@
+/* eslint no-console: 0 */
+
 const User = require('../models/users');
 
 exports.getUser = async function (req, res) {
