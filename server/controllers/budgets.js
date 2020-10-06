@@ -1,3 +1,5 @@
+/* eslint no-console: 0 */
+
 const Budget = require('../models/budgets');
 
 exports.getAllBudgets = async function (req, res) {

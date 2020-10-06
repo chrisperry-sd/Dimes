@@ -1,3 +1,5 @@
+/* eslint no-console: 0 */
+
 const Transaction = require('../models/transactions');
 
 exports.getAllTransactions = async function (req, res) {

@@ -1,3 +1,5 @@
+/* eslint no-console: 0 */
+
 const User = require('../models/users');
 
 exports.loadUserDetails = async function (req, res) {
