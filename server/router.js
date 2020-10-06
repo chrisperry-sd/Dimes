@@ -1,4 +1,5 @@
 const router = require('express').Router();
+
 const budgets = require('./controllers/budgets');
 const transactions = require('./controllers/transactions');
 const users = require('./controllers/users');
@@ -11,9 +12,9 @@ router.put('/budgets/:_id', budgets.editBudget);
 router.delete('/budgets/:_id', budgets.deleteBudget);
 
 // TRANSACTIONS
-router.get('/transactions', controller.getAllTransactions);
-router.post('/transactions', controller.addTransaction);
-router.delete('/transactions/:_id', controller.deleteTransaction);
+router.get('/transactions', transactions.getAllTransactions);
+router.post('/transactions', transactions.addTransaction);
+router.delete('/transactions/:_id', transactions.deleteTransaction);
 
 // USERS
 router.post('/signup', users.signup);
@@ -25,7 +26,7 @@ router.get('/dashboard', users.loadUserDetails);
 // KIDS
 router.get('/kids', kids.getAllKids);
 router.post('/kids', kids.createKid);
-router.put('/kids/:_id', budgets.editKid);
-router.delete('/kids/:_id', budgets.deleteKid);
+router.put('/kids/:_id', kids.editKid);
+router.delete('/kids/:_id', kids.deleteKid);
 
 module.exports = router;
