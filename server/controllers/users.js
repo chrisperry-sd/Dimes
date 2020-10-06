@@ -1,16 +1,21 @@
 const User = require('../models/users');
 
-exports.getUser = async function (req, res) {
+exports.loadUserDetails = async function (req, res) {
   try {
   } catch (error) {}
 };
 
-exports.createUser = async function (req, res) {
+exports.signup = async function (req, res) {
   try {
   } catch (error) {}
 };
 
 exports.login = async function (req, res) {
+  try {
+  } catch (error) {}
+};
+
+exports.logout = async function (req, res) {
   try {
   } catch (error) {}
 };
