@@ -30,7 +30,6 @@ export default function Login({ navigation }) {
       await AsyncStorage.setItem('@accessToken', accessToken);
       navigation.navigate('ParentDashboard');
     } catch (error) {
-      console.log(error);
       alert('Your email or password is incorrect. Please try again.');
       setUsername('');
       setPassword('');

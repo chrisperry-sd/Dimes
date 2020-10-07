@@ -50,10 +50,7 @@ export default function SignUp({ navigation, setKids }) {
           />
         </View>
         <View style={styles.centerbtn}>
-          <TouchableOpacity
-            style={styles.btnContainer}
-            // onPress={() => navigation.navigate('ParentDashboard')}>
-            onPress={handleClick}>
+          <TouchableOpacity style={styles.btnContainer} onPress={handleClick}>
             <View style={styles.btn}>
               <Text style={styles.text}>Create Account</Text>
             </View>

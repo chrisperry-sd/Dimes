@@ -12,10 +12,12 @@ import {
   RefreshControl,
   TouchableOpacity,
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { colors } from '../myAssets/theme';
 
 import ParentViewSpendingOverview from '../components/ParentViewSpendingOverview';
 import ParentViewChildrenList from '../components/ParentViewChildrenList';
+import ApiService from '../ApiService';
 
 export default function ParentDashboard({ navigation }) {
   const { state, setState } = useContext(ParentContext);
@@ -59,11 +61,24 @@ export default function ParentDashboard({ navigation }) {
             <Switch
               style={styles.toggleBtn}
               trackColor={{ false: colors.purple, true: colors.plum }}
-              onValueChange={() => navigation.navigate('ChildDashboard')}
+              onValueChange={() => {
+                navigation.navigate('ChildDashboard');
+              }}
             />
           </View>
         </View>
       </ScrollView>
+      <TouchableOpacity
+        style={styles.btnContainer}
+        onPress={async () => {
+          const accessToken = await AsyncStorage.getItem('@accessToken');
+          ApiService.logout(accessToken);
+          navigation.navigate('Login');
+        }}>
+        <View style={styles.btn}>
+          <Text>Logout</Text>
+        </View>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
@@ -107,5 +122,15 @@ const styles = StyleSheet.create({
   plus: {
     color: colors.white,
     fontSize: 32,
+  },
+  btn: {
+    backgroundColor: colors.blue,
+    padding: 10,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  btnContainer: {
+    width: 150,
+    alignSelf: 'center',
   },
 });
