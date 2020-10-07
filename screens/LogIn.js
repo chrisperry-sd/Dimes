@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -9,11 +9,33 @@ import {
   SafeAreaView,
   StatusBar,
 } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import { colors } from '../myAssets/theme';
 
 import dimes from '../myAssets/images/logo_size_invert.jpg';
+import ApiService from '../ApiService';
 
 export default function Login({ navigation }) {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleClick = async () => {
+    const user = {
+      username: username,
+      password: password,
+    };
+    const result = await ApiService.login(user);
+    try {
+      const { accessToken } = result;
+      await AsyncStorage.setItem('@accessToken', accessToken);
+      navigation.navigate('ParentDashboard');
+    } catch (error) {
+      console.log(error);
+      alert('Your email or password is incorrect. Please try again.');
+      setUsername('');
+      setPassword('');
+    }
+  };
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
@@ -24,22 +46,28 @@ export default function Login({ navigation }) {
         <View>
           <TextInput
             style={styles.textInput}
-            placeholder="Username..."
+            value={username}
+            placeholder="Username"
             placeholderTextColor={colors.grey}
+            onChangeText={(e) => {
+              setUsername(e);
+            }}
           />
         </View>
         <View>
           <TextInput
             style={styles.textInput}
+            value={password}
             placeholder="Password"
-            secureTextEntry={true}
             placeholderTextColor={colors.grey}
+            secureTextEntry={true}
+            onChangeText={(e) => {
+              setPassword(e);
+            }}
           />
         </View>
         <View>
-          <TouchableOpacity
-            style={styles.btnContainer}
-            onPress={() => navigation.navigate('ParentDashboard')}>
+          <TouchableOpacity style={styles.btnContainer} onPress={handleClick}>
             <View style={styles.btn}>
               <Text style={styles.text}>Login</Text>
             </View>

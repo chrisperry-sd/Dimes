@@ -20,6 +20,21 @@ async function getBudgets() {
 async function getTransactions() {
   return await fetchRequest('/transactions');
 }
+// async function getKids() {
+//   return await fetchRequest('/kids');
+// }
+
+async function getKids(accessToken) {
+  return await fetchRequest('/kids', {
+    method: 'GET',
+    credentials: 'include',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+}
 
 function postBudget(body) {
   return fetchRequest('/budgets', {
@@ -47,10 +62,22 @@ function deleteBudget(id) {
   });
 }
 
+function login(user) {
+  return fetchRequest('/login', {
+    method: 'POST',
+    credentials: 'include',
+    mode: 'cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(user),
+  });
+}
+
 module.exports = {
   getBudgets,
   postBudget,
   getTransactions,
   deleteBudget,
   editBudget,
+  getKids,
+  login,
 };

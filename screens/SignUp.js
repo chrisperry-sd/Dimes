@@ -11,7 +11,16 @@ import {
 import colors from '../myAssets/theme';
 
 export default function SignUp({ navigation, setKids }) {
-  const [name, setName] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleClick = () => {
+    const newUser = {
+      username: username,
+      password: password,
+    };
+    navigation.navigate('ParentDashboard');
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -21,28 +30,30 @@ export default function SignUp({ navigation, setKids }) {
       </View>
       <View style={styles.inputContainer}>
         <View>
-          <TextInput style={styles.textInput} placeholder="Full name" />
-        </View>
-        <View>
           <TextInput
             style={styles.textInput}
-            value={name}
-            placeholder="Screen name"
+            value={username}
+            placeholder="Username"
             onChangeText={(e) => {
-              setName(e);
+              setUsername(e);
             }}
           />
         </View>
         <View>
-          <TextInput style={styles.textInput} placeholder="Bank name" />
-        </View>
-        <View>
-          <TextInput style={styles.textInput} placeholder="Account no..." />
+          <TextInput
+            style={styles.textInput}
+            value={password}
+            placeholder="Password"
+            onChangeText={(e) => {
+              setPassword(e);
+            }}
+          />
         </View>
         <View style={styles.centerbtn}>
           <TouchableOpacity
             style={styles.btnContainer}
-            onPress={() => navigation.navigate('ParentDashboard')}>
+            // onPress={() => navigation.navigate('ParentDashboard')}>
+            onPress={handleClick}>
             <View style={styles.btn}>
               <Text style={styles.text}>Create Account</Text>
             </View>
