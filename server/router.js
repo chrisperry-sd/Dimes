@@ -4,6 +4,7 @@ const budgets = require('./controllers/budgets');
 const transactions = require('./controllers/transactions');
 const users = require('./controllers/users');
 const kids = require('./controllers/kids');
+const { authenticateToken } = require('./middleware/authenticateToken');
 
 // BUDGETS
 router.get('/budgets', budgets.getAllBudgets);
@@ -20,7 +21,7 @@ router.delete('/transactions/:_id', transactions.deleteTransaction);
 router.post('/signup', users.signup);
 router.post('/login', users.login);
 router.post('/logout', users.logout);
-router.get('/dashboard', users.loadUserDetails);
+router.get('/dashboard', authenticateToken, users.loadUserDetails);
 // router.put('/:_id/:field', users.editUserDetails);
 
 // KIDS

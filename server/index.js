@@ -1,4 +1,5 @@
 /* eslint no-console: 0 */
+require('dotenv').config();
 
 const express = require('express');
 const mongoose = require('./models/index');

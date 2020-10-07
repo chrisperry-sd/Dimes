@@ -21,7 +21,7 @@ exports.addTransaction = async function (req, res) {
       category,
     });
     res.status(201);
-    res.send(newTransaction).resolve();
+    res.send(newTransaction);
   } catch (error) {
     console.log('error: ', error);
     res.status(500);
