@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { ParentContext } from '../ParentContext';
+
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { colors } from '../myAssets/theme';
 
-// filter our data by the last 30 days...
+// ADD DATA/CONDITIONAL STYLING TO INDICATE WHICH CHILD MADE EACH TRANSACTION
 
-export default function ParentViewTransactionsList({ thisWeeksTrans }) {
+export default function ParentViewTransactionsList({}) {
+  const { state, setState } = useContext(ParentContext);
+
   return (
     <View>
       <View style={styles.container}>
@@ -13,21 +17,29 @@ export default function ParentViewTransactionsList({ thisWeeksTrans }) {
           style={styles.flatListBorder}
           horizontal={true}
           data={
-            thisWeeksTrans
-              ? thisWeeksTrans.sort((a, b) => {
+            state.transactions
+              ? state.transactions.sort((a, b) => {
                   return (
-                    new Date(b.date).getTime() - new Date(a.date).getTime()
+                    new Date(b.transactionDate).getTime() -
+                    new Date(a.transactionDate).getTime()
                   );
                 })
               : null
           }
-          keyExtractor={(item, index) => index.toString()}
+          keyExtractor={(item, index) => item._id}
           renderItem={({ item }) => (
             <TouchableOpacity>
               <View style={styles.list}>
                 <View style={styles.listContainer}>
-                  <Text style={styles.text}>{item.merchant}</Text>
-                  <Text style={styles.text}>£{item.amount}</Text>
+                  <Text style={styles.text}>
+                    {item.amount < 0
+                      ? `${state.kids[item.kidId].name} spent £${
+                          -1 * item.amount
+                        } at ${item.merchant}`
+                      : `${state.kids[item.kidId].name} recieved £${
+                          item.amount
+                        } from ${item.merchant}`}
+                  </Text>
                 </View>
               </View>
             </TouchableOpacity>

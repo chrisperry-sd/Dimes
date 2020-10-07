@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { ParentContext } from '../ParentContext';
 
 import { View, Text, StyleSheet, Image } from 'react-native';
@@ -10,14 +10,16 @@ import chart from '../myAssets/images/barchart.png';
 
 export default function ParentViewSpendingOverview({}) {
   const { state, setState } = useContext(ParentContext);
+  const [weekSpending, setWeekSpending] = useState(0);
 
   useEffect(() => {
-    const kidSpendingThisWeek = state.transactions.reduce(
-      (acc, transaction) => {
-        if (transaction.amount < 0) return acc + transaction.amount * -1;
-      },
-      0,
-    );
+    const totalWeekSpending = state.transactions.reduce((acc, transaction) => {
+      if (transaction.amount < 0) {
+        console.log('---> acc and new amount', acc, transaction.amount);
+        return acc - transaction.amount;
+      } else return acc;
+    }, 0);
+    setWeekSpending(totalWeekSpending);
   }, [state.transactions]);
 
   return (
@@ -25,10 +27,10 @@ export default function ParentViewSpendingOverview({}) {
       <TouchableOpacity style={styles.box}>
         <View>
           <Image source={chart} style={styles.chart} />
-          <Text style={styles.balanceTitle}>Total spent this week</Text>
+          <Text style={styles.balanceTitle}>Total spending this week:</Text>
         </View>
         <View>
-          <Text style={styles.balance}>£ {kidSpendingThisWeek}</Text>
+          <Text style={styles.balance}>£ {weekSpending}</Text>
         </View>
       </TouchableOpacity>
       <View style={styles.itemsStyleMargin}>

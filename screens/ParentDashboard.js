@@ -17,6 +17,8 @@ import { colors } from '../myAssets/theme';
 import ParentViewSpendingOverview from '../components/ParentViewSpendingOverview';
 import ParentViewChildrenList from '../components/ParentViewChildrenList';
 
+//UPDATE TO HAVE ONE SWITCH FOR EACH CHILD"S VIEW
+
 export default function ParentDashboard({ navigation }) {
   const { state, setState } = useContext(ParentContext);
 

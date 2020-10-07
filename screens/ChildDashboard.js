@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { ParentContext } from '../ParentContext';
 import {
   View,
   Text,
@@ -9,6 +10,7 @@ import {
   RefreshControl,
 } from 'react-native';
 import { colors } from '../myAssets/theme';
+import moment from 'moment';
 
 import ChildViewBalance from '../components/ChildViewBalance';
 import ChildViewSavings from '../components/ChildViewSavings';
@@ -16,26 +18,31 @@ import ChildViewTransactions from '../components/ChildViewTransactions';
 import ChildViewAllowance from '../components/ChildViewAllowance';
 import ChildViewBudgets from '../components/ChildViewBudgets';
 
-export default function ChildDashboard({
-  kids,
-  budget,
-  totalSpent,
-  transactions,
-  thisWeeksTransactions,
-  isRefreshing,
-  onRefresh,
-  alerted,
-  setAlertToBeTrue,
-  alertExpiry,
-  setAlertExpiryToTrue,
-}) {
+// FILTER DATA FOR SELECTED CHILD'S name
+
+export default function ChildDashboard({ name }) {
+  const { state, setState } = useContext(ParentContext);
+  const [transactionsThisWeek, setTransactionsThisWeek] = useState([]);
+
+  //this weeks transactions
+
+  useEffect(() => {
+    const today = new Date();
+    const oneWeekAgo = moment(today).subtract(7, 'days').getTime();
+    const recentSpending = state.transactions.filter(
+      (transaction) =>
+        new Date(transaction.transactionDate).getTime >= oneWeekAgo,
+    );
+    setTransactionsThisWeek(recentSpending);
+  }, []);
+
   return (
     <ScrollView
       style={styles.bg}
       refreshControl={
         <RefreshControl
-          refreshing={isRefreshing}
-          onRefresh={onRefresh}
+          // refreshing={isRefreshing}
+          // onRefresh={onRefresh}
           tintColor={colors.white}
         />
       }>
@@ -43,31 +50,24 @@ export default function ChildDashboard({
         <StatusBar />
         <View showsVerticalScrollIndicator={false}>
           <View style={[styles.box, styles.titleBox]}>
-            <Text style={styles.textBold}>Hey, {kids[0].name}!</Text>
+            <Text style={styles.textBold}>Hey, {state.kids[name].name}!</Text>
           </View>
           <View>
-            <ChildViewAllowance data={transactions} />
+            <ChildViewAllowance />
           </View>
           <View>
-            <ChildViewBalance totalSpent={totalSpent} />
+            <ChildViewBalance />
           </View>
           <View testID="budgets">
-            {budget.length > 0 ? (
+            {budgets.length > 0 ? (
               <View style={styles.row}>
                 <Text style={styles.text}>Your budgets</Text>
               </View>
             ) : null}
           </View>
           <View>
-            {budget.length > 0 ? (
-              <ChildViewBudgets
-                alertExpiry={alertExpiry}
-                setAlertExpiryToTrue={setAlertExpiryToTrue}
-                setAlertToBeTrue={setAlertToBeTrue}
-                alerted={alerted}
-                data={transactions}
-                budget={budget}
-              />
+            {budgets.length > 0 ? (
+              <ChildViewBudgets />
             ) : (
               <View style={styles.box}>
                 <Text style={styles.text}>
@@ -77,14 +77,10 @@ export default function ChildDashboard({
             )}
           </View>
           <View>
-            <ChildViewSavings
-              totalSpent={totalSpent}
-              budget={budget}
-              data={transactions}
-            />
+            <ChildViewSavings />
           </View>
           <View testID="transactions">
-            {thisWeeksTransactions.length === 0 ? (
+            {transactionsThisWeek.length === 0 ? (
               <Text style={styles.text}>
                 You&apos;ve spent nothing so far this week!
               </Text>
@@ -94,7 +90,7 @@ export default function ChildDashboard({
               </Text>
             )}
             <View style={styles.categories}>
-              <ChildViewTransactions data={transactions} />
+              <ChildViewTransactions />
             </View>
           </View>
         </View>

@@ -70,6 +70,7 @@ export default function App() {
             const allKids = {};
             newKids.forEach((kid) => {
               const {
+                _id,
                 name,
                 userId,
                 parentId,
@@ -77,7 +78,8 @@ export default function App() {
                 allowanceFrequency,
                 allowanceDate,
               } = kid;
-              allKids[name] = {
+              allKids[_id] = {
+                _id,
                 name,
                 userId,
                 parentId,
@@ -95,44 +97,44 @@ export default function App() {
       console.log('---> state.transactions', state.transactions);
       console.log('---> state.budgets', state.budgets);
     }
-  }, [state.user._id, accessToken]);
+  }, [state.user._id]);
 
-  function sumTransactions() {
-    if (state.transactions.length) {
-      const total = state.transactions.reduce(
-        (accumulator, current) => accumulator + current.amount,
-        0,
-      );
-      return total.toFixed(2);
-    }
-  }
-  const totalSpent = sumTransactions() || 0;
+  // function sumTransactions() {
+  //   if (state.transactions.length) {
+  //     const total = state.transactions.reduce(
+  //       (accumulator, current) => accumulator + current.amount,
+  //       0,
+  //     );
+  //     return total.toFixed(2);
+  //   }
+  // }
+  // const totalSpent = sumTransactions() || 0;
 
-  function getFirstDayOfWeek() {
-    const curr = new Date();
-    const firstday = new Date(curr.setDate(curr.getDate() - curr.getDay()));
-    return firstday.getTime();
-  }
+  // function getFirstDayOfWeek() {
+  //   const curr = new Date();
+  //   const firstday = new Date(curr.setDate(curr.getDate() - curr.getDay()));
+  //   return firstday.getTime();
+  // }
 
-  function thisWeeksTrans() {
-    if (state.transactions.length) {
-      return state.transactions.filter(
-        (transaction) =>
-          new Date(transaction.date).getTime() >= getFirstDayOfWeek(),
-      );
-    }
-  }
-  const thisWeeksTransactions = thisWeeksTrans();
+  // function thisWeeksTrans() {
+  //   if (state.transactions.length) {
+  //     return state.transactions.filter(
+  //       (transaction) =>
+  //         new Date(transaction.date).getTime() >= getFirstDayOfWeek(),
+  //     );
+  //   }
+  // }
+  // const thisWeeksTransactions = thisWeeksTrans();
 
-  function thisWeeksSum() {
-    if (thisWeeksTransactions) {
-      return thisWeeksTransactions
-        .filter((trans) => trans.merchant !== 'Bank')
-        .reduce((accumulator, current) => accumulator + current.amount, 0)
-        .toFixed(2);
-    }
-  }
-  const totalSpentThisWeek = thisWeeksSum();
+  // function thisWeeksSum() {
+  //   if (thisWeeksTransactions) {
+  //     return thisWeeksTransactions
+  //       .filter((trans) => trans.merchant !== 'Bank')
+  //       .reduce((accumulator, current) => accumulator + current.amount, 0)
+  //       .toFixed(2);
+  //   }
+  // }
+  // const totalSpentThisWeek = thisWeeksSum();
 
   return (
     <NavigationContainer>

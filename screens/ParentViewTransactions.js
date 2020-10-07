@@ -7,7 +7,7 @@ import { colors } from '../myAssets/theme';
 
 export default function ParentViewTransactions() {
   const { state, setState } = useContext(ParentContext);
-  const renderCategory = ({ item }) => {
+  const renderTransaction = ({ item }) => {
     return (
       <View style={styles.list}>
         <View style={styles.listContainer}>
@@ -38,8 +38,8 @@ export default function ParentViewTransactions() {
           data={state.transactions.sort((a, b) => {
             return new Date(b.date) - new Date(a.date);
           })}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={renderCategory}
+          keyExtractor={(item, index) => item._id}
+          renderItem={renderTransaction}
         />
       </View>
     </View>
