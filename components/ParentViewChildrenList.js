@@ -23,7 +23,7 @@ export default function ParentViewChildrenList({ navigation }) {
               }>
               <View style={styles.list}>
                 <View style={styles.listContainer}>
-                  <Text style={styles.text}>{item}</Text>
+                  <Text style={styles.text}>{state.kids[item].name}</Text>
                 </View>
               </View>
             </TouchableOpacity>

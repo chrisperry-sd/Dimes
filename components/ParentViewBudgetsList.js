@@ -1,59 +1,60 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { ParentContext } from '../ParentContext';
+
+import ApiService from '../ApiService';
+
 import { View, Text, FlatList, StyleSheet, Alert } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { colors } from '../myAssets/theme';
 
-export default function ParentViewBudgetsList({
-  budget,
-  transactions,
-  parentAlerted,
-  setParentAlertToBeTrue,
-  kids,
-}) {
-  function alertedNoBudget() {
-    wait(1000).then(() => createAlert());
-  }
-  function alertedMinusBudget() {
-    wait(1000).then(() => minusAlert());
-  }
-  const wait = (timeout) => {
-    return new Promise((resolve) => {
-      setTimeout(resolve, timeout);
-    });
-  };
-  const createAlert = () =>
-    Alert.alert('Alert', 'No remaining budget', [
-      { text: 'OK', onPress: () => setParentAlertToBeTrue() },
-    ]);
-  const minusAlert = () =>
-    Alert.alert('Alert!', `${kids[0].name} has overspent`, [
-      { text: 'OK', onPress: () => setParentAlertToBeTrue() },
-    ]);
+// THIS STILL NEEDS LOTS OF REFACTORING __ HAVEN'T ADJUSTED
+
+export default function ParentViewBudgetsList({}) {
+  const { state, setState } = useContext(ParentContext);
+
+  // function alertedNoBudget() {
+  //   wait(1000).then(() => createAlert());
+  // }
+  // function alertedMinusBudget() {
+  //   wait(1000).then(() => minusAlert());
+  // }
+  // const wait = (timeout) => {
+  //   return new Promise((resolve) => {
+  //     setTimeout(resolve, timeout);
+  //   });
+  // };
+  // const createAlert = () =>
+  //   Alert.alert('Alert', 'No remaining budget', [
+  //     { text: 'OK', onPress: () => setParentAlertToBeTrue() },
+  //   ]);
+  // const minusAlert = () =>
+  //   Alert.alert('Alert!', `${kids[0].name} has overspent`, [
+  //     { text: 'OK', onPress: () => setParentAlertToBeTrue() },
+  //   ]);
 
   function deleteBudget(id) {
-    ApiService.deleteBudget(id).then(() => {
-      setBudgets((newBudgets) =>
-        newBudgets.filter((budget) => budget._id !== id),
-      );
-    });
+    ApiService.deleteBudget(id).catch((error) =>
+      console.log('---> error deleting budget', error),
+    );
   }
 
-  const budgets = [];
-  budget.forEach(function (a) {
-    if (!this[a.category]) {
-      this[a.category] = {
-        category: a.category,
-        amount: 0,
-        date: a.date,
-        expiry: a.expiry,
-        display: a.display,
-        alerted: a.alerted,
-        id: a._id,
-      };
-      budgets.push(this[a.category]);
-    }
-    this[a.category].amount += a.budget;
-  }, Object.create(null));
+  // REWORK THIS SO YOU CAN'T CREATE MULTIPLE BUDGETS FOR TEH SAME CATEGORY
+  // const categorisedBudgets = [];
+  // state.budgets.forEach(function (a) {
+  //   if (!this[a.category]) {
+  //     this[a.category] = {
+  //       category: a.category,
+  //       amount: 0,
+  //       date: a.date,
+  //       expiry: a.expiry,
+  //       display: a.display,
+  //       alerted: a.alerted,
+  //       id: a._id,
+  //     };
+  //     categorisedBudgets.push(this[a.category]);
+  //   }
+  //   this[a.category].amount += a.budget;
+  // }, Object.create(null));
 
   // this function takes array of the budgets budgets and filters all current transactions by catgeories matching to the budget category.
   // then filters that array by all transactions that happened after the budget was set..
