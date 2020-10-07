@@ -6,17 +6,17 @@ import { colors } from '../myAssets/theme';
 import piggyBank from '../myAssets/animations/28913-piggy-bank.json';
 import sadFace from '../myAssets/animations/11865-sad-emoji.json';
 
-export default function ChildViewBalance({ totalSpent }) {
+export default function ChildViewBalance({ balance }) {
   return (
     <View>
       <Text style={styles.balanceTitle}>Your balance</Text>
       <View style={styles.balanceCont}>
         <View style={styles.box}>
-          <Text style={styles.balance}>£ {totalSpent}</Text>
+          <Text style={styles.balance}>£{balance}</Text>
         </View>
       </View>
       <LottieView
-        source={totalSpent > 0 ? piggyBank : sadFace}
+        source={balance > 0 ? piggyBank : sadFace}
         autoPlay={true}
         loop={true}
         width={160}

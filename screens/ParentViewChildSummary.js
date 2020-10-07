@@ -43,7 +43,7 @@ export default function ParentViewChildSummary({ navigation }) {
           <Text style={styles.text}>Budgets</Text>
         </View>
         <View style={styles.budgets}>
-          <ParentViewBudgetsList navigation={navigation} />
+          {/* <ParentViewBudgetsList navigation={navigation} /> */}
         </View>
         <View style={[styles.button, styles.edit]}>
           <Text style={styles.textAdd}>&rarr; Scroll to edit a budget</Text>

@@ -8,7 +8,7 @@ import { colors } from '../myAssets/theme';
 // ADD DATA/CONDITIONAL STYLING TO INDICATE WHICH CHILD MADE EACH TRANSACTION
 
 export default function ParentViewTransactionsList({}) {
-  const { state, setState } = useContext(ParentContext);
+  const { state } = useContext(ParentContext);
 
   return (
     <View>

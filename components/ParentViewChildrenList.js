@@ -6,7 +6,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { colors } from '../myAssets/theme';
 
 export default function ParentViewChildrenList({ navigation }) {
-  const { state, setState } = useContext(ParentContext);
+  const { state } = useContext(ParentContext);
 
   return (
     <View>

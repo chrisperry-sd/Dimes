@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { ParentContext } from '../ParentContext';
 import {
   View,
@@ -8,7 +8,6 @@ import {
   TextInput,
   SafeAreaView,
   StatusBar,
-  Alert,
 } from 'react-native';
 import { colors } from '../myAssets/theme';
 import ApiService from '../ApiService';
@@ -21,11 +20,14 @@ export default function AddBudget({ navigation }) {
 
   function findExpiryDate(frequency, allowance) {
     let expiry;
-    if (frequency === 'monthly') expiry = moment(allowance).add(1, 'months');
-    else if (frequency === 'fortnightly')
+    if (frequency === 'monthly') {
+      expiry = moment(allowance).add(1, 'months');
+    } else if (frequency === 'fortnightly') {
       expiry = moment(allowance).add(14, 'days');
-    else expiry = moment(allowance).add(7, 'days');
-    return expiry.getDate();
+    } else {
+      expiry = moment(allowance).add(7, 'days');
+    }
+    return expiry.toDate();
   }
 
   function createBudget(category, amount) {
@@ -126,10 +128,6 @@ const styles = StyleSheet.create({
   btnContainer: {
     margin: 50,
     width: 250,
-  },
-  dateBtnContainer: {
-    margin: 10,
-    width: 350,
   },
   centerbtn: {
     alignItems: 'center',
