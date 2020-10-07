@@ -4,9 +4,10 @@ const Transaction = require('../models/transactions');
 
 exports.getAllTransactions = async function (req, res) {
   try {
-    const transaction = await Transaction.find();
+    const { parentId } = req.params;
+    const transactions = await Transaction.find({ parentId });
     res.status(200);
-    res.send(transaction);
+    res.send(transactions);
   } catch (error) {
     console.log('get all budgets error: ', error);
     res.status(500);

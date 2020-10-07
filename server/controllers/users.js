@@ -5,8 +5,9 @@ const jwt = require('jsonwebtoken');
 
 exports.loadUserDetails = async function (req, res) {
   try {
-    const users = await User.find();
-    res.json(users.filter((user) => user.username === req.user.username));
+    const { username } = req.user;
+    const user = await User.findOne({ username });
+    res.send(user);
   } catch (error) {
     console.log('error: ', error);
     res.status(500);
@@ -15,10 +16,11 @@ exports.loadUserDetails = async function (req, res) {
 
 exports.signup = async function (req, res) {
   try {
-    const { username, password } = req.body;
+    const { username, password, isKid } = req.body;
     const hashedPassword = await argon2.hash(password);
     const newUser = await User.create({
-      username: username,
+      username,
+      isKid,
       password: hashedPassword,
     });
     res.status(201);
@@ -32,7 +34,7 @@ exports.signup = async function (req, res) {
 exports.login = async function (req, res) {
   try {
     const { username, password } = req.body;
-    const user = await User.findOne({ username: username });
+    const user = await User.findOne({ username });
 
     if (!user) {
       res.send({

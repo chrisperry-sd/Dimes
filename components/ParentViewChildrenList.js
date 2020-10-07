@@ -1,29 +1,29 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { ParentContext } from '../ParentContext';
+
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { colors } from '../myAssets/theme';
 
-export default function ParentViewChildrenList({
-  navigation,
-  kids,
-  totalSpent,
-}) {
+export default function ParentViewChildrenList({ navigation }) {
+  const { state, setState } = useContext(ParentContext);
+
   return (
     <View>
       <View style={styles.container}>
         <FlatList
           style={styles.flatListBorder}
           horizontal={true}
-          data={kids}
-          keyExtractor={(item, index) => item.name}
+          data={Object.keys(state.kids)}
+          keyExtractor={(item, index) => item}
           renderItem={({ item }) => (
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate('ParentViewChildSummary', { totalSpent })
+                navigation.navigate('ParentViewChildSummary', { item })
               }>
               <View style={styles.list}>
                 <View style={styles.listContainer}>
-                  <Text style={styles.text}>{item.name}</Text>
+                  <Text style={styles.text}>{item}</Text>
                 </View>
               </View>
             </TouchableOpacity>

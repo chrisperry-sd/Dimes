@@ -14,18 +14,19 @@ function fetchRequest(path, options) {
     });
 }
 
-async function getBudgets() {
-  return await fetchRequest('/budgets');
+async function getBudgets(id) {
+  return await fetchRequest(`/budgets/${id}`);
 }
-async function getTransactions() {
-  return await fetchRequest('/transactions');
+async function getTransactions(id) {
+  return await fetchRequest(`/transactions/${id}`);
 }
-// async function getKids() {
-//   return await fetchRequest('/kids');
-// }
 
-async function getKids(accessToken) {
-  return await fetchRequest('/kids', {
+async function getKids(id) {
+  return await fetchRequest(`/kids/${id}`);
+}
+
+async function loadUserDetails(accessToken) {
+  return await fetchRequest('/dashboard', {
     method: 'GET',
     credentials: 'include',
     mode: 'cors',
@@ -72,6 +73,16 @@ function login(user) {
   });
 }
 
+function signup(user) {
+  return fetchRequest('/signup', {
+    method: 'POST',
+    credentials: 'include',
+    mode: 'cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(user),
+  });
+}
+
 module.exports = {
   getBudgets,
   postBudget,
@@ -80,4 +91,6 @@ module.exports = {
   editBudget,
   getKids,
   login,
+  signup,
+  loadUserDetails,
 };
