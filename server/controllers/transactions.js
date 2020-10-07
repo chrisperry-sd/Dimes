@@ -14,14 +14,16 @@ exports.getAllTransactions = async function (req, res) {
 };
 exports.addTransaction = async function (req, res) {
   try {
-    const { amount, merchant, category } = req.body;
+    const { amount, merchant, budgetCategory, kidId, parentId } = req.body;
     const newTransaction = await Transaction.create({
+      budgetCategory,
       amount,
       merchant,
-      category,
+      kidId,
+      parentId,
     });
     res.status(201);
-    res.send(newTransaction).resolve();
+    res.send(newTransaction);
   } catch (error) {
     console.log('error: ', error);
     res.status(500);

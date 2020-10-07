@@ -19,13 +19,13 @@ export default function App() {
   const [alerted, setAlerted] = useState(false);
   const [parentAlerted, setParentAlerted] = useState(false);
   const [alertExpiry, setAlertExpiry] = useState(false);
-
+  const [user, setUser] = useState('');
   const [kids, setKids] = useState([
     {
       name: 'James',
       allowanceFrequency: 'monthly',
       allowanceAmount: 80,
-      allowanceDay: 1,
+      allowanceDate: new Date(),
     },
   ]);
   const [budgets, setBudgets] = useState([]);
@@ -64,11 +64,6 @@ export default function App() {
     );
   }, []);
 
-  function createBudget(category, budget, expiry) {
-    ApiService.postBudget({ category, budget, expiry }).then((newBudgets) => {
-      setBudgets((oldBudgets) => [...oldBudgets, newBudgets]);
-    });
-  }
   function deleteBudget(id) {
     ApiService.deleteBudget(id).then(() => {
       setBudgets((newBudgets) =>
@@ -115,13 +110,11 @@ export default function App() {
   }
   const totalSpentThisWeek = thisWeeksSum();
 
-  const options = { headerShown: false };
-
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Login" component={Login} options={options} />
-        <Stack.Screen name="ChildDashboard" options={options}>
+      <Stack.Navigator headerMode="none">
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="ChildDashboard">
           {(props) => (
             <ChildDashboard
               {...props}
@@ -140,7 +133,7 @@ export default function App() {
           )}
         </Stack.Screen>
 
-        <Stack.Screen name="SignUp" options={options}>
+        <Stack.Screen name="SignUp">
           {(props) => (
             <SignUp
               {...props}
@@ -151,7 +144,7 @@ export default function App() {
           )}
         </Stack.Screen>
 
-        <Stack.Screen name="ParentDashboard" options={options}>
+        <Stack.Screen name="ParentDashboard">
           {(props) => (
             <ParentDashboard
               {...props}
@@ -167,7 +160,7 @@ export default function App() {
           )}
         </Stack.Screen>
 
-        <Stack.Screen name="ParentViewChildSummary" options={options}>
+        <Stack.Screen name="ParentViewChildSummary">
           {(props) => (
             <ParentViewChildSummary
               {...props}
@@ -184,30 +177,30 @@ export default function App() {
           )}
         </Stack.Screen>
 
-        <Stack.Screen name="AddChild" options={options}>
+        <Stack.Screen name="AddChild">
           {(props) => (
             <AddChild {...props} data={transactions} totalSpent={totalSpent} />
           )}
         </Stack.Screen>
 
-        <Stack.Screen name="AddBudget" options={options}>
+        <Stack.Screen name="AddBudget">
           {(props) => (
             <AddBudget
               {...props}
+              kids={kids}
               data={transactions}
               totalSpent={totalSpent}
-              createBudget={createBudget}
+              setBudgets={setBudgets}
             />
           )}
         </Stack.Screen>
 
-        <Stack.Screen name="ParentViewTransactions" options={options}>
+        <Stack.Screen name="ParentViewTransactions">
           {(props) => (
             <ParentViewTransactions
               {...props}
               data={transactions}
               totalSpent={totalSpent}
-              createBudget={createBudget}
             />
           )}
         </Stack.Screen>

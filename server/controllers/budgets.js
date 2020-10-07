@@ -14,8 +14,14 @@ exports.getAllBudgets = async function (req, res) {
 };
 exports.createBudget = async function (req, res) {
   try {
-    const { category, budget, expiry } = req.body;
-    const newBudget = await Budget.create({ category, budget, expiry });
+    const { category, amount, expiryDate, kidId, parentId } = req.body;
+    const newBudget = await Budget.create({
+      category,
+      amount,
+      expiryDate,
+      kidId,
+      parentId,
+    });
     res.status(201);
     res.send(newBudget);
   } catch (error) {
@@ -26,14 +32,15 @@ exports.createBudget = async function (req, res) {
 exports.editBudget = async function (req, res) {
   try {
     const { _id } = req.params;
-    const { category, budget, expiry } = req.body;
+    const { category, amount, expiryDate } = req.body;
     const updatedBudget = await Budget.findOneAndUpdate(
       { _id },
       {
         $set: {
           category,
-          budget,
-          expiry,
+          amount,
+          expiryDate,
+          updatedAt: Date.now(),
         },
       },
       { new: true },
