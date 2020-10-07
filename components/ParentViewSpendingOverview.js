@@ -9,15 +9,16 @@ import { colors } from '../myAssets/theme';
 import chart from '../myAssets/images/barchart.png';
 
 export default function ParentViewSpendingOverview({}) {
-  const { state, setState } = useContext(ParentContext);
+  const { state } = useContext(ParentContext);
   const [weekSpending, setWeekSpending] = useState(0);
 
   useEffect(() => {
     const totalWeekSpending = state.transactions.reduce((acc, transaction) => {
       if (transaction.amount < 0) {
-        console.log('---> acc and new amount', acc, transaction.amount);
         return acc - transaction.amount;
-      } else return acc;
+      } else {
+        return acc;
+      }
     }, 0);
     setWeekSpending(totalWeekSpending);
   }, [state.transactions]);

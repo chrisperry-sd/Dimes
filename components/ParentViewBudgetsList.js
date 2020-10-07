@@ -62,8 +62,10 @@ export default function ParentViewBudgetsList({}) {
   function filterTransByCategory(budgett) {
     for (let i = 0; i < budgett.length; i++) {
       const cat = budgett[i].category.toLowerCase();
-      const trans = transactions
-        .filter((transaction) => transaction.category.toLowerCase() === cat)
+      const trans = state.transactions
+        .filter(
+          (transaction) => transaction.budgetCategory.toLowerCase() === cat,
+        )
         .filter(
           (transs) =>
             new Date(budgett[i].date).getTime() -

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { colors } from '../myAssets/theme';
 
-export default function ChildViewSavings({ totalSpent, budget }) {
+export default function ChildViewSavings({ balance }) {
   return (
     <View>
       <View>
@@ -10,9 +10,9 @@ export default function ChildViewSavings({ totalSpent, budget }) {
       </View>
       <View style={styles.box}>
         <View style={styles.savingView}>
-          {budget.length > 0 && totalSpent > 0 ? (
+          {balance > 0 ? (
             <Text style={styles.savings}>
-              Save your remaining money and have £{totalSpent} at the end of the
+              Save your remaining money and have £{balance} at the end of the
               week...
             </Text>
           ) : (

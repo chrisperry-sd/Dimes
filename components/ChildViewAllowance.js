@@ -7,23 +7,26 @@ import { colors } from '../myAssets/theme';
 import moment from 'moment';
 
 export default function ChildViewAllowance() {
-  const { state, setState } = useContext(ParentContext);
+  const { state } = useContext(ParentContext);
 
   function findAllowanceDate(frequency, date) {
     let allowance;
-    if (frequency === 'monthly') allowance = moment(date).add(1, 'months');
-    else if (frequency === 'fortnightly')
+    if (frequency === 'monthly') {
+      allowance = moment(date).add(1, 'months');
+    } else if (frequency === 'fortnightly') {
       allowance = moment(date).add(14, 'days');
-    else allowance = moment(date).add(7, 'days');
-    return allowance.getDate();
+    } else {
+      allowance = moment(date).add(7, 'days');
+    }
+    return allowance.toDate();
   }
 
   var nextAllowance = findAllowanceDate(
-    state.kids.allowanceFrequency,
-    state.kids.allowanceDate,
+    state.kids['5f7dca79ac51601ad2d33d3e'].allowanceFrequency,
+    state.kids['5f7dca79ac51601ad2d33d3e'].allowanceDate,
   );
   var today = moment();
-  const daysLeft = nextAllowance.diff(today, 'days');
+  const daysLeft = moment(nextAllowance).diff(today, 'days');
 
   return (
     <View style={styles.rowContainer}>

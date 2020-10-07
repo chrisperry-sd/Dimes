@@ -23,17 +23,27 @@ import ChildViewBudgets from '../components/ChildViewBudgets';
 export default function ChildDashboard({ name }) {
   const { state, setState } = useContext(ParentContext);
   const [transactionsThisWeek, setTransactionsThisWeek] = useState([]);
+  const [balance, setBalance] = useState(0);
 
   //this weeks transactions
 
   useEffect(() => {
     const today = new Date();
-    const oneWeekAgo = moment(today).subtract(7, 'days').getTime();
-    const recentSpending = state.transactions.filter(
-      (transaction) =>
-        new Date(transaction.transactionDate).getTime >= oneWeekAgo,
-    );
+    const oneWeekAgo = moment(today).subtract(7, 'days').toDate();
+    const recentSpending = state.transactions
+      .filter(
+        (transaction) =>
+          new Date(transaction.transactionDate).getTime() >= oneWeekAgo,
+      )
+      .sort((a, b) => {
+        new Date(b.transactionDate) - new Date(a.transactionDate);
+      });
     setTransactionsThisWeek(recentSpending);
+    const currentBalance = state.transactions.reduce(
+      (acc, transaction) => acc + transaction.amount,
+      0,
+    );
+    setBalance(currentBalance);
   }, []);
 
   return (
@@ -50,25 +60,25 @@ export default function ChildDashboard({ name }) {
         <StatusBar />
         <View showsVerticalScrollIndicator={false}>
           <View style={[styles.box, styles.titleBox]}>
-            <Text style={styles.textBold}>Hey, {state.kids[name].name}!</Text>
+            <Text style={styles.textBold}>
+              Hey, {state.kids['5f7dca79ac51601ad2d33d3e'].name}!
+            </Text>
           </View>
           <View>
             <ChildViewAllowance />
           </View>
           <View>
-            <ChildViewBalance />
+            <ChildViewBalance balance={balance} />
           </View>
           <View testID="budgets">
-            {budgets.length > 0 ? (
+            {state.budgets.length > 0 ? (
               <View style={styles.row}>
                 <Text style={styles.text}>Your budgets</Text>
               </View>
             ) : null}
           </View>
           <View>
-            {budgets.length > 0 ? (
-              <ChildViewBudgets />
-            ) : (
+            {state.budgets.length > 0 /* <ChildViewBudgets /> */ ? null : (
               <View style={styles.box}>
                 <Text style={styles.text}>
                   No budgets set this week. Let's see how much we can save!{' '}
@@ -77,7 +87,7 @@ export default function ChildDashboard({ name }) {
             )}
           </View>
           <View>
-            <ChildViewSavings />
+            <ChildViewSavings balance={balance} />
           </View>
           <View testID="transactions">
             {transactionsThisWeek.length === 0 ? (
@@ -90,7 +100,9 @@ export default function ChildDashboard({ name }) {
               </Text>
             )}
             <View style={styles.categories}>
-              <ChildViewTransactions />
+              <ChildViewTransactions
+                transactionsThisWeek={transactionsThisWeek}
+              />
             </View>
           </View>
         </View>

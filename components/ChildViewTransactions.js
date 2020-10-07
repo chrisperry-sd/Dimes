@@ -1,30 +1,13 @@
 import React from 'react';
+
 import { View, Text, FlatList, StyleSheet, Image } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { colors } from '../myAssets/theme';
 
 import cash from '../myAssets/images/cash-removebg-preview.png';
 
-export default function ChildViewTransactions({ data }) {
-  const trans = data;
-  function getFirstDayOfWeek() {
-    const curr = new Date();
-    const firstday = new Date(curr.setDate(curr.getDate() - curr.getDay()));
-    return firstday.getTime();
-  }
-  function showThisWeeksTransactions() {
-    const thisWeeksTransactions = [];
-    for (let i = 0; i < trans.length; i++) {
-      if (getFirstDayOfWeek() - new Date(trans[i].date).getTime() <= 0) {
-        thisWeeksTransactions.push(trans[i]);
-      }
-    }
-    return thisWeeksTransactions.sort(
-      (a, b) => new Date(b.date) - new Date(a.date),
-    );
-  }
-  const thisWeeksTrans = showThisWeeksTransactions();
-  const renderCategory = ({ item }) => {
+export default function ChildViewTransactions({ transactionsThisWeek }) {
+  const renderTransaction = ({ item }) => {
     return (
       <TouchableOpacity style={styles.container}>
         <View style={styles.list}>
@@ -32,7 +15,9 @@ export default function ChildViewTransactions({ data }) {
             <View style={styles.budgetText}>
               <Text style={styles.bold}>{item.merchant}</Text>
             </View>
-            <Text style={styles.text}>£ {item.amount}</Text>
+            <Text style={styles.text}>
+              {item.amount > 0 ? `+ £${item.amount}` : `- £${-1 * item.amount}`}
+            </Text>
             <Image source={cash} style={styles.img} />
           </View>
         </View>
@@ -43,9 +28,9 @@ export default function ChildViewTransactions({ data }) {
     <FlatList
       style={styles.flatListBorder}
       horizontal={true}
-      data={thisWeeksTrans}
-      keyExtractor={(item, index) => index.toString()}
-      renderItem={renderCategory}
+      data={transactionsThisWeek}
+      keyExtractor={(item, index) => item._id}
+      renderItem={renderTransaction}
       testID="weeklyTransactions"
     />
   );
