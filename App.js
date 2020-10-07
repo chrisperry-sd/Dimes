@@ -31,12 +31,14 @@ export default function App() {
   const retrieveUserInfo = async () => {
     try {
       const accessToken = await AsyncStorage.getItem('@accessToken');
-      const userInfo = await ApiService.loadUserDetails(accessToken);
-      const { _id, username, isKid } = userInfo;
-      setState((prevState) => ({
-        ...prevState,
-        user: { _id, username, isKid },
-      }));
+      if (accessToken) {
+        const userInfo = await ApiService.loadUserDetails(accessToken);
+        const { _id, username, isKid } = userInfo;
+        setState((prevState) => ({
+          ...prevState,
+          user: { _id, username, isKid },
+        }));
+      }
     } catch (error) {
       console.log(
         '---> Unable to retrieve access token and/or user data',

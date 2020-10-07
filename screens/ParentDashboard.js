@@ -73,8 +73,7 @@ export default function ParentDashboard({ navigation }) {
       <TouchableOpacity
         style={styles.btnContainer}
         onPress={async () => {
-          const accessToken = await AsyncStorage.getItem('@accessToken');
-          ApiService.logout(accessToken);
+          await AsyncStorage.removeItem('@accessToken');
           navigation.navigate('Login');
         }}>
         <View style={styles.btn}>

@@ -25,14 +25,14 @@ export default function Login({ navigation }) {
       password: password,
     };
     const result = await ApiService.login(user);
+    setUsername('');
+    setPassword('');
     try {
       const { accessToken } = result;
       await AsyncStorage.setItem('@accessToken', accessToken);
       navigation.navigate('ParentDashboard');
     } catch (error) {
       alert('Your email or password is incorrect. Please try again.');
-      setUsername('');
-      setPassword('');
     }
   };
   return (

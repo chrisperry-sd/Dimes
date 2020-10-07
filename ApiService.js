@@ -83,6 +83,16 @@ function signup(user) {
   });
 }
 
+async function logout() {
+  try {
+    await AsyncStorage.removeItem('@accessToken');
+  } catch (e) {
+    console.log(e);
+  }
+
+  console.log('Logged out');
+}
+
 module.exports = {
   getBudgets,
   postBudget,
@@ -93,4 +103,5 @@ module.exports = {
   login,
   signup,
   loadUserDetails,
+  logout,
 };
