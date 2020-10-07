@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
+import { ParentContext } from '../ParentContext';
 import {
   View,
   Text,
@@ -8,23 +9,15 @@ import {
   SafeAreaView,
   StatusBar,
   Alert,
-  // Platform,
 } from 'react-native';
 import { colors } from '../myAssets/theme';
 import ApiService from '../ApiService';
 import moment from 'moment';
-import User from '../server/models/users';
-// import DateTimePicker from '@react-native-community/datetimepicker';
 
-export default function AddBudget({ navigation, setBudgets, kid, user }) {
-  // SEND ONLY SPECIFIC KID DETAILS WHEN YOU CLICK ON THEIR SUMMARY
-
+export default function AddBudget({ navigation }) {
+  const { state, setState } = useContext(ParentContext);
   const [category, setCategory] = useState('');
   const [amount, setAmount] = useState('');
-  // const [expiry, setExpiry] = useState(Date.now());
-  // const [show, setShow] = useState(false);
-
-  //need to update allowance date automatically, each month
 
   function findExpiryDate(frequency, allowance) {
     let expiry;
@@ -39,34 +32,30 @@ export default function AddBudget({ navigation, setBudgets, kid, user }) {
     const newBudget = {
       category,
       amount,
-      expiryDate: findExpiryDate(kid.allowanceFrequency, kid.allowanceDate),
-      kidId: kid.kidId,
-      parentId: user.Id,
+      expiryDate: findExpiryDate(
+        state.kids.allowanceFrequency,
+        state.kids.allowanceDate,
+      ),
+      kidId: state.kids.kidId,
+      parentId: state.user._id,
     };
     ApiService.postBudget(newBudget).then((newBudget) => {
-      setBudgets((oldBudgets) => [...oldBudgets, newBudget]);
+      setState((prevState) => ({
+        ...prevState,
+        budgets: [...budgets, newBudget],
+      }));
     });
   }
 
-  const createAlert = () => {
-    Alert.alert('Budget added successfully');
-  };
-  // const onChange = (event, selectedDate) => {
-  //   const expiryDate = selectedDate;
-  //   setShow(Platform.OS === 'ios');
-  //   setExpiry(expiryDate);
+  // const createAlert = () => {
+  //   Alert.alert('Budget added successfully');
   // };
-  // const showMode = () => {
-  //   setShow(!show);
-  // };
-  // const showDatePicker = () => {
-  //   showMode('date');
-  // };
+
   function handleOnPress(event) {
     event.preventDefault();
-    if (category.length === 0 || budget.length === 0 || expiry.length === 0) {
-      return Alert.alert(' Input field empty/incorrect');
-    }
+    // if (category.length === 0 || budget.length === 0 || expiry.length === 0) {
+    //   return Alert.alert(' Input field empty/incorrect');
+    // }
     createBudget(category, amount);
     setTimeout(() => {
       createAlert();
@@ -99,29 +88,6 @@ export default function AddBudget({ navigation, setBudgets, kid, user }) {
             placeholderTextColor={colors.grey}
           />
         </View>
-        {/* DATETIME PICKER IF NEEDED
-         <View style={styles.centerbtn}>
-          <TouchableOpacity
-            onPress={showDatePicker}
-            style={styles.dateBtnContainer}>
-            <View style={styles.btn}>
-              <Text style={styles.text}>Add expiry date here</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <View>
-          {show && (
-            <DateTimePicker
-              testID="dateTimePicker"
-              mode="date"
-              value={expiry}
-              is24Hour={true}
-              display="spinner"
-              onChange={onChange}
-              textColor={colors.white}
-            />
-          )}
-        </View> */}
       </View>
       <View style={styles.centerbtn}>
         <TouchableOpacity onPress={handleOnPress} style={styles.btnContainer}>

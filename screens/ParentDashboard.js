@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { ParentContext } from '../ParentContext';
+
 import {
   View,
   Text,
@@ -15,22 +17,16 @@ import { colors } from '../myAssets/theme';
 import ParentViewSpendingOverview from '../components/ParentViewSpendingOverview';
 import ParentViewChildrenList from '../components/ParentViewChildrenList';
 
-export default function ParentDashboard({
-  navigation,
-  kids,
-  totalSpent,
-  totalSpentThisWeek,
-  thisWeeksTrans,
-  onRefresh,
-  isRefreshing,
-}) {
+export default function ParentDashboard({ navigation }) {
+  const { state, setState } = useContext(ParentContext);
+
   return (
     <SafeAreaView style={styles.bg}>
       <ScrollView
         refreshControl={
           <RefreshControl
-            refreshing={isRefreshing}
-            onRefresh={onRefresh}
+            // refreshing={isRefreshing}
+            // onRefresh={onRefresh}
             tintColor={colors.white}
           />
         }>
@@ -46,11 +42,7 @@ export default function ParentDashboard({
           </TouchableOpacity>
         </View>
         <View style={styles.home}>
-          <ParentViewChildrenList
-            navigation={navigation}
-            kids={kids}
-            totalSpent={totalSpent}
-          />
+          <ParentViewChildrenList navigation={navigation} />
         </View>
         <View>
           <Text style={styles.textLarge}>Overview</Text>
@@ -59,11 +51,7 @@ export default function ParentDashboard({
           <Text style={styles.text}>Spending</Text>
         </View>
         <View>
-          <ParentViewSpendingOverview
-            totalSpentThisWeek={totalSpentThisWeek}
-            kids={kids}
-            thisWeeksTrans={thisWeeksTrans}
-          />
+          <ParentViewSpendingOverview />
         </View>
         <View style={styles.container}>
           <View style={styles.toggleBtn}>

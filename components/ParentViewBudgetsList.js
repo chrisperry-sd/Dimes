@@ -6,7 +6,6 @@ import { colors } from '../myAssets/theme';
 export default function ParentViewBudgetsList({
   budget,
   transactions,
-  deleteBudget,
   parentAlerted,
   setParentAlertToBeTrue,
   kids,
@@ -30,6 +29,14 @@ export default function ParentViewBudgetsList({
     Alert.alert('Alert!', `${kids[0].name} has overspent`, [
       { text: 'OK', onPress: () => setParentAlertToBeTrue() },
     ]);
+
+  function deleteBudget(id) {
+    ApiService.deleteBudget(id).then(() => {
+      setBudgets((newBudgets) =>
+        newBudgets.filter((budget) => budget._id !== id),
+      );
+    });
+  }
 
   const budgets = [];
   budget.forEach(function (a) {

@@ -1,18 +1,30 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { ParentContext } from '../ParentContext';
+
 import { View, Text, StyleSheet } from 'react-native';
 import { colors } from '../myAssets/theme';
 
-function getMonthDaysLeft() {
-  const date = new Date();
-  return (
-    new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate() -
-    date.getDate()
-  );
-}
-
-const daysLeft = getMonthDaysLeft();
+import moment from 'moment';
 
 export default function ChildViewAllowance() {
+  const { state, setState } = useContext(ParentContext);
+
+  function findAllowanceDate(frequency, date) {
+    let allowance;
+    if (frequency === 'monthly') allowance = moment(date).add(1, 'months');
+    else if (frequency === 'fortnightly')
+      allowance = moment(date).add(14, 'days');
+    else allowance = moment(date).add(7, 'days');
+    return allowance.getDate();
+  }
+
+  var nextAllowance = findAllowanceDate(
+    state.kids.allowanceFrequency,
+    state.kids.allowanceDate,
+  );
+  var today = moment();
+  const daysLeft = nextAllowance.diff(today, 'days');
+
   return (
     <View style={styles.rowContainer}>
       <View style={styles.container}>

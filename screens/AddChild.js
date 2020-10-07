@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { ParentContext } from '../ParentContext';
+
 import {
   View,
   Text,
@@ -18,12 +20,14 @@ const initialState = {
   allowanceDate: new Date(),
 };
 
-export default function AddChild({ navigation, setKids }) {
-  const [state, setState] = useState(initialState);
+export default function AddChild({ navigation }) {
+  const { state, setState } = useContext(ParentContext);
+
+  const [tempState, setTempState] = useState(initialState);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setState((prevState) => ({
+    setTempState((prevState) => ({
       ...prevState,
       [name]: value,
     }));
@@ -41,7 +45,7 @@ export default function AddChild({ navigation, setKids }) {
             style={styles.textInput}
             placeholder="My child's name"
             name="name"
-            value={state.name}
+            value={tempState.name}
             onChange={handleChange}
           />
         </View>
@@ -50,7 +54,7 @@ export default function AddChild({ navigation, setKids }) {
           <Switch
             trackColor={{ false: colors.purple, true: colors.plum }}
             name="allowanceFrequency"
-            value={state.allowanceFrequency}
+            value={tempState.allowanceFrequency}
             onValueChange={handleChange}
           />
         </View>
@@ -59,7 +63,7 @@ export default function AddChild({ navigation, setKids }) {
             style={styles.textInput}
             placeholder="Allowance amount"
             name="allowanceAmount"
-            value={state.allowanceAmount}
+            value={tempState.allowanceAmount}
             onChange={handleChange}
             maxLength={5}
             keyboardType="numeric"

@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { ParentContext } from '../ParentContext';
+
 import {
   View,
   Text,
@@ -14,55 +16,34 @@ import { colors } from '../myAssets/theme';
 import ParentViewBalance from '../components/ParentViewBalance';
 import ParentViewBudgetsList from '../components/ParentViewBudgetsList';
 
-export default function ParentViewChildSummary({
-  navigation,
-  transactions,
-  totalSpent,
-  budget,
-  deleteBudget,
-  isRefreshing,
-  onRefresh,
-  parentAlerted,
-  setParentAlertToBeTrue,
-  kids,
-}) {
+export default function ParentViewChildSummary({ navigation }) {
+  const { state, setState } = useContext(ParentContext);
+
   return (
     <SafeAreaView style={styles.bg}>
       <ScrollView
         refreshControl={
           <RefreshControl
-            refreshing={isRefreshing}
-            onRefresh={onRefresh}
+            // refreshing={isRefreshing}
+            // onRefresh={onRefresh}
             tintColor={colors.white}
           />
         }>
         <StatusBar barStyle="light-content" />
         <View style={styles.centerText}>
-          <Text style={styles.textLarge}>{kids[0].name}</Text>
+          <Text style={styles.textLarge}>{state.kids.name}</Text>
         </View>
         <View>
           <Text style={styles.text}>Balances</Text>
         </View>
         <View>
-          <ParentViewBalance
-            totalSpent={totalSpent}
-            navigation={navigation}
-            kids={kids}
-          />
+          <ParentViewBalance navigation={navigation} />
         </View>
         <View>
           <Text style={styles.text}>Budgets</Text>
         </View>
         <View style={styles.budgets}>
-          <ParentViewBudgetsList
-            navigation={navigation}
-            transactions={transactions}
-            budget={budget}
-            kids={kids}
-            deleteBudget={deleteBudget}
-            parentAlerted={parentAlerted}
-            setParentAlertToBeTrue={setParentAlertToBeTrue}
-          />
+          <ParentViewBudgetsList navigation={navigation} />
         </View>
         <View style={[styles.button, styles.edit]}>
           <Text style={styles.textAdd}>&rarr; Scroll to edit a budget</Text>

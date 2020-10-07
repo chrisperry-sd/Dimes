@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { ParentContext } from '../ParentContext';
+
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 import moment from 'moment';
 import { colors } from '../myAssets/theme';
 
-export default function ParentViewTransactions({ data }) {
+export default function ParentViewTransactions() {
+  const { state, setState } = useContext(ParentContext);
   const renderCategory = ({ item }) => {
     return (
       <View style={styles.list}>
@@ -32,7 +35,7 @@ export default function ParentViewTransactions({ data }) {
       <View style={styles.view}>
         <FlatList
           style={styles.flatListBorder}
-          data={data.sort((a, b) => {
+          data={state.transactions.sort((a, b) => {
             return new Date(b.date) - new Date(a.date);
           })}
           keyExtractor={(item, index) => index.toString()}
