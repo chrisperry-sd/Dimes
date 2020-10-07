@@ -8,37 +8,66 @@ import {
   SafeAreaView,
   StatusBar,
   Alert,
-  Platform,
+  // Platform,
 } from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import { colors } from '../myAssets/theme';
+import ApiService from '../ApiService';
+import moment from 'moment';
+import User from '../server/models/users';
+// import DateTimePicker from '@react-native-community/datetimepicker';
 
-export default function AddBudget({ navigation, createBudget }) {
+export default function AddBudget({ navigation, setBudgets, kid, user }) {
+  // SEND ONLY SPECIFIC KID DETAILS WHEN YOU CLICK ON THEIR SUMMARY
+
   const [category, setCategory] = useState('');
-  const [budget, setBudget] = useState('');
-  const [expiry, setExpiry] = useState(Date.now());
-  const [show, setShow] = useState(false);
+  const [amount, setAmount] = useState('');
+  // const [expiry, setExpiry] = useState(Date.now());
+  // const [show, setShow] = useState(false);
+
+  //need to update allowance date automatically, each month
+
+  function findExpiryDate(frequency, allowance) {
+    let expiry;
+    if (frequency === 'monthly') expiry = moment(allowance).add(1, 'months');
+    else if (frequency === 'fortnightly')
+      expiry = moment(allowance).add(14, 'days');
+    else expiry = moment(allowance).add(7, 'days');
+    return expiry.getDate();
+  }
+
+  function createBudget(category, amount) {
+    const newBudget = {
+      category,
+      amount,
+      expiryDate: findExpiryDate(kid.allowanceFrequency, kid.allowanceDate),
+      kidId: kid.kidId,
+      parentId: user.Id,
+    };
+    ApiService.postBudget(newBudget).then((newBudget) => {
+      setBudgets((oldBudgets) => [...oldBudgets, newBudget]);
+    });
+  }
 
   const createAlert = () => {
-    Alert.alert('Budget added');
+    Alert.alert('Budget added successfully');
   };
-  const onChange = (event, selectedDate) => {
-    const expiryDate = selectedDate;
-    setShow(Platform.OS === 'ios');
-    setExpiry(expiryDate);
-  };
-  const showMode = () => {
-    setShow(!show);
-  };
-  const showDatePicker = () => {
-    showMode('date');
-  };
+  // const onChange = (event, selectedDate) => {
+  //   const expiryDate = selectedDate;
+  //   setShow(Platform.OS === 'ios');
+  //   setExpiry(expiryDate);
+  // };
+  // const showMode = () => {
+  //   setShow(!show);
+  // };
+  // const showDatePicker = () => {
+  //   showMode('date');
+  // };
   function handleOnPress(event) {
     event.preventDefault();
     if (category.length === 0 || budget.length === 0 || expiry.length === 0) {
       return Alert.alert(' Input field empty/incorrect');
     }
-    createBudget(category, budget, expiry);
+    createBudget(category, amount);
     setTimeout(() => {
       createAlert();
     }, 500);
@@ -57,7 +86,7 @@ export default function AddBudget({ navigation, createBudget }) {
         <View>
           <TextInput
             style={styles.textInput}
-            placeholder="Category or Activity"
+            placeholder="Budget category"
             onChangeText={(input) => setCategory(input)}
             placeholderTextColor={colors.grey}
           />
@@ -65,12 +94,13 @@ export default function AddBudget({ navigation, createBudget }) {
         <View>
           <TextInput
             style={styles.textInput}
-            placeholder="Amount"
-            onChangeText={(input) => setBudget(input)}
+            placeholder="Budget amount"
+            onChangeText={(input) => setAmount(input)}
             placeholderTextColor={colors.grey}
           />
         </View>
-        <View style={styles.centerbtn}>
+        {/* DATETIME PICKER IF NEEDED
+         <View style={styles.centerbtn}>
           <TouchableOpacity
             onPress={showDatePicker}
             style={styles.dateBtnContainer}>
@@ -91,12 +121,12 @@ export default function AddBudget({ navigation, createBudget }) {
               textColor={colors.white}
             />
           )}
-        </View>
+        </View> */}
       </View>
       <View style={styles.centerbtn}>
         <TouchableOpacity onPress={handleOnPress} style={styles.btnContainer}>
           <View style={styles.btn}>
-            <Text style={styles.text}>Add Budget</Text>
+            <Text style={styles.text}>Add budget</Text>
           </View>
         </TouchableOpacity>
       </View>

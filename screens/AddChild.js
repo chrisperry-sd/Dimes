@@ -15,7 +15,7 @@ const initialState = {
   name: '',
   allowanceFrequency: 'Monthly',
   allowanceAmount: 0,
-  allowanceDay: 1,
+  allowanceDate: new Date(),
 };
 
 export default function AddChild({ navigation, setKids }) {
