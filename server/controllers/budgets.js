@@ -4,9 +4,10 @@ const Budget = require('../models/budgets');
 
 exports.getAllBudgets = async function (req, res) {
   try {
-    const budget = await Budget.find();
+    const { parentId } = req.params;
+    const budgets = await Budget.find({ parentId });
     res.status(200);
-    res.send(budget);
+    res.send(budgets);
   } catch (error) {
     console.log('get all budgets error: ', error);
     res.status(500);

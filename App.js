@@ -1,6 +1,10 @@
-import React, { useState, useEffect, useCallback } from 'react';
+/* eslint no-console: 0 */
+import React, { useState, useEffect, useMemo } from 'react';
+
+import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+const Stack = createStackNavigator();
 
 import Login from './screens/Login';
 import SignUp from './screens/SignUp';
@@ -12,87 +16,107 @@ import ParentViewChildSummary from './screens/ParentViewChildSummary';
 import ParentViewTransactions from './screens/ParentViewTransactions';
 
 import ApiService from './ApiService';
-
-const Stack = createStackNavigator();
+import { ParentContext } from './ParentContext';
 
 export default function App() {
-  const [alerted, setAlerted] = useState(false);
-  const [parentAlerted, setParentAlerted] = useState(false);
-  const [alertExpiry, setAlertExpiry] = useState(false);
-  const [user, setUser] = useState('');
-  const [kids, setKids] = useState([
-    {
-      name: 'James',
-      allowanceFrequency: 'monthly',
-      allowanceAmount: 80,
-      allowanceDate: new Date(),
-    },
-  ]);
-  const [budgets, setBudgets] = useState([]);
-  const [transactions, setTransactions] = useState([]);
-  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [state, setState] = useState({
+    user: {},
+    kids: {},
+    budgets: [],
+    transactions: [],
+  });
 
-  function setAlertExpiryToTrue() {
-    setAlertExpiry(true);
-  }
-  function setAlertToBeTrue() {
-    setAlerted(true);
-  }
-  function setParentAlertToBeTrue() {
-    setParentAlerted(true);
-  }
-  const wait = (timeout) => {
-    return new Promise((resolve) => {
-      setTimeout(resolve, timeout);
-    });
-  };
-  const onRefresh = useCallback(async () => {
-    setIsRefreshing(true);
-    wait(2000).then(() =>
-      ApiService.getTransactions()
-        .then((trans) => setTransactions(trans))
-        .then(() => setIsRefreshing(false)),
-    );
-  }, []);
+  const providerValue = useMemo(() => ({ state, setState }), [state, setState]);
 
-  useEffect(() => {
-    ApiService.getBudgets().then((newBudgets) => setBudgets(newBudgets));
-  }, []);
-  useEffect(() => {
-    ApiService.getTransactions().then((newTransactions) =>
-      setTransactions(newTransactions),
-    );
-  }, []);
-
-  function deleteBudget(id) {
-    ApiService.deleteBudget(id).then(() => {
-      setBudgets((newBudgets) =>
-        newBudgets.filter((budget) => budget._id !== id),
+  const retrieveUserInfo = async () => {
+    try {
+      const accessToken = await AsyncStorage.getItem('@accessToken');
+      const userInfo = await ApiService.loadUserDetails(accessToken);
+      const { _id, username, isKid } = userInfo;
+      setState((prevState) => ({
+        ...prevState,
+        user: { _id, username, isKid },
+      }));
+    } catch (error) {
+      console.log(
+        '---> Unable to retrieve access token and/or user data',
+        error,
       );
-    });
-  }
+    }
+  };
+
+  useEffect(() => {
+    retrieveUserInfo();
+    const id = state.user._id;
+    if (id) {
+      ApiService.getBudgets(id)
+        .then((newBudgets) =>
+          setState((prevState) => ({ ...prevState, budgets: newBudgets })),
+        )
+        .catch((error) => console.log('---> Error loading budget data', error));
+      ApiService.getTransactions(id)
+        .then((newTransactions) =>
+          setState((prevState) => ({
+            ...prevState,
+            transactions: newTransactions,
+          })),
+        )
+        .catch((error) =>
+          console.log('---> Error loading transaction data', error),
+        );
+      if (!state.user.isKid) {
+        ApiService.getKids(id)
+          .then((newKids) => {
+            const allKids = {};
+            newKids.forEach((kid) => {
+              const {
+                name,
+                userId,
+                parentId,
+                allowanceAmount,
+                allowanceFrequency,
+                allowanceDate,
+              } = kid;
+              allKids[name] = {
+                name,
+                userId,
+                parentId,
+                allowanceAmount,
+                allowanceFrequency,
+                allowanceDate,
+              };
+            });
+            setState((prevState) => ({ ...prevState, kids: allKids }));
+          })
+          .catch((error) => console.log('---> Error loading kids data', error));
+      }
+      console.log('---> state.user', state.user);
+      console.log('---> state.kids', state.kids);
+      console.log('---> state.transactions', state.transactions);
+      console.log('---> state.budgets', state.budgets);
+    }
+  }, [state.user._id, accessToken]);
 
   function sumTransactions() {
-    if (transactions.length) {
-      const total = transactions.reduce(
+    if (state.transactions.length) {
+      const total = state.transactions.reduce(
         (accumulator, current) => accumulator + current.amount,
         0,
       );
       return total.toFixed(2);
-    } else {
-      return 0;
     }
   }
-  const totalSpent = sumTransactions();
+  const totalSpent = sumTransactions() || 0;
 
   function getFirstDayOfWeek() {
     const curr = new Date();
     const firstday = new Date(curr.setDate(curr.getDate() - curr.getDay()));
     return firstday.getTime();
   }
+
   function thisWeeksTrans() {
-    if (transactions.length) {
-      return transactions.filter(
+    if (state.transactions.length) {
+      return state.transactions.filter(
         (transaction) =>
           new Date(transaction.date).getTime() >= getFirstDayOfWeek(),
       );
@@ -112,99 +136,52 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator headerMode="none">
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="ChildDashboard">
-          {(props) => (
-            <ChildDashboard
-              {...props}
-              setAlertExpiryToTrue={setAlertExpiryToTrue}
-              alertExpiry={alertExpiry}
-              alerted={alerted}
-              setAlertToBeTrue={setAlertToBeTrue}
-              isRefreshing={isRefreshing}
-              onRefresh={onRefresh}
-              transactions={transactions}
-              kids={kids}
-              totalSpent={totalSpent}
-              budget={budgets}
-              thisWeeksTransactions={thisWeeksTransactions}
-            />
-          )}
-        </Stack.Screen>
-
-        <Stack.Screen name="SignUp">
-          {(props) => (
-            <SignUp
-              {...props}
-              data={transactions}
-              totalSpent={totalSpent}
-              setKids={setKids}
-            />
-          )}
-        </Stack.Screen>
-
-        <Stack.Screen name="ParentDashboard">
-          {(props) => (
-            <ParentDashboard
-              {...props}
-              isRefreshing={isRefreshing}
-              onRefresh={onRefresh}
-              kids={kids}
-              setKids={setKids}
-              transactions={transactions}
-              totalSpent={totalSpent}
-              totalSpentThisWeek={totalSpentThisWeek}
-              thisWeeksTrans={thisWeeksTransactions}
-            />
-          )}
-        </Stack.Screen>
-
-        <Stack.Screen name="ParentViewChildSummary">
-          {(props) => (
-            <ParentViewChildSummary
-              {...props}
-              setParentAlertToBeTrue={setParentAlertToBeTrue}
-              parentAlerted={parentAlerted}
-              isRefreshing={isRefreshing}
-              onRefresh={onRefresh}
-              transactions={transactions}
-              kids={kids}
-              totalSpent={totalSpent}
-              budget={budgets}
-              deleteBudget={deleteBudget}
-            />
-          )}
-        </Stack.Screen>
-
-        <Stack.Screen name="AddChild">
-          {(props) => (
-            <AddChild {...props} data={transactions} totalSpent={totalSpent} />
-          )}
-        </Stack.Screen>
-
-        <Stack.Screen name="AddBudget">
-          {(props) => (
-            <AddBudget
-              {...props}
-              kids={kids}
-              data={transactions}
-              totalSpent={totalSpent}
-              setBudgets={setBudgets}
-            />
-          )}
-        </Stack.Screen>
-
-        <Stack.Screen name="ParentViewTransactions">
-          {(props) => (
-            <ParentViewTransactions
-              {...props}
-              data={transactions}
-              totalSpent={totalSpent}
-            />
-          )}
-        </Stack.Screen>
-      </Stack.Navigator>
+      <ParentContext.Provider value={providerValue}>
+        <Stack.Navigator headerMode="none">
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="SignUp" component={SignUp} />
+          <Stack.Screen name="AddChild" component={AddChild} />
+          <Stack.Screen name="AddBudget" component={AddBudget} />
+          <Stack.Screen name="ParentDashboard" component={ParentDashboard} />
+          <Stack.Screen
+            name="ParentViewChildSummary"
+            component={ParentViewChildSummary}
+          />
+          <Stack.Screen
+            name="ParentViewTransactions"
+            component={ParentViewTransactions}
+          />
+          <Stack.Screen name="ChildDashboard" component={ChildDashboard} />
+        </Stack.Navigator>
+      </ParentContext.Provider>
     </NavigationContainer>
   );
 }
+
+//  const [alerted, setAlerted] = useState(false);
+// const [parentAlerted, setParentAlerted] = useState(false);
+// const [alertExpiry, setAlertExpiry] = useState(false);
+// const [isRefreshing, setIsRefreshing] = useState(false);
+
+// function setAlertExpiryToTrue() {
+//   setAlertExpiry(true);
+// }
+// function setAlertToBeTrue() {
+//   setAlerted(true);
+// }
+// function setParentAlertToBeTrue() {
+//   setParentAlerted(true);
+// }
+// const wait = (timeout) => {
+//   return new Promise((resolve) => {
+//     setTimeout(resolve, timeout);
+//   });
+// };
+// const onRefresh = useCallback(async () => {
+//   setIsRefreshing(true);
+//   wait(2000).then(() =>
+//     ApiService.getTransactions()
+//       .then((trans) => setTransactions(trans))
+//       .then(() => setIsRefreshing(false)),
+//   );
+// }, []);

@@ -4,7 +4,8 @@ const Kid = require('../models/kids');
 
 exports.getAllKids = async function (req, res) {
   try {
-    const kids = await Kid.find();
+    const { parentId } = req.params;
+    const kids = await Kid.find({ parentId });
     res.status(200);
     res.send(kids);
   } catch (error) {
@@ -15,6 +16,7 @@ exports.getAllKids = async function (req, res) {
 
 exports.createKid = async function (req, res) {
   try {
+    const { parentId } = req.params;
     const kid = req.body;
     const newKid = await Kid.create(kid);
     res.status(201);
