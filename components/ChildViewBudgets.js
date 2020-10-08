@@ -1,180 +1,115 @@
-import React from 'react';
-import { View, Text, FlatList, StyleSheet, Alert } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { ParentContext } from '../ParentContext';
+
+import { View, Text, FlatList, StyleSheet } from 'react-native';
 import { colors } from '../myAssets/theme';
 
-export default function ChildViewBudgets({
-  budget,
-  data,
-  alerted,
-  setAlertToBeTrue,
-  setAlertExpiryToTrue,
-  alertExpiry,
-}) {
-  function alertedNoBudget() {
-    wait(1000).then(() => createAlert());
-  }
-  function alertedMinusBudget() {
-    wait(1000).then(() => minusAlert());
-  }
-  function alertedBudgetExpiry() {
-    wait(1000).then(() => expiryAlert());
-  }
-  const wait = (timeout) => {
-    return new Promise((resolve) => {
-      setTimeout(resolve, timeout);
-    });
-  };
-  const createAlert = () =>
-    Alert.alert('Alert', 'No budget left 😱', [
-      { text: 'OK', onPress: () => setAlertToBeTrue() },
-    ]);
-  const minusAlert = () =>
-    Alert.alert(
-      'Alert!',
-      'Looks like you have overspent, we can talk about it later',
-      [{ text: 'OK', onPress: () => setAlertToBeTrue() }],
+export default function ChildViewBudgets({ kidId }) {
+  const { state } = useContext(ParentContext);
+  const [detailedBudgets, setDetailedBudgets] = useState([]);
+
+  useEffect(() => {
+    // create local array of budgets for current allowance period
+    const currentBudgets = state.budgets.filter(
+      (budget) =>
+        budget.kidId === kidId && new Date() <= new Date(budget.expiryDate),
     );
-  const expiryAlert = () =>
-    Alert.alert('Alert!', 'A budget has expired 😀', [
-      { text: 'OK', onPress: () => setAlertExpiryToTrue() },
-    ]);
 
-  const budgets = [];
-  budget.forEach((a) => {
-    if (!this[a.category]) {
-      this[a.category] = {
-        category: a.category,
-        amount: 0,
-        date: a.date,
-        expiry: a.expiry,
-        display: a.display,
-        alerted: a.alerted,
-        id: a._id,
-      };
-      budgets.push(this[a.category]);
-    }
-    this[a.category].amount += a.budget;
-  }, Object.create(null));
-
-  // this function takes array of the budgets budgets and filters all current transactions by catgeories matching to the budget category.
-  // then filters that array by all transactions that happened after the budget was set..
-  const filteredTransactionsByCategory = [];
-  function filterTransByCategory(budgett) {
-    for (let i = 0; i < budgett.length; i++) {
-      const cat = budgett[i].category.toLowerCase();
-      const trans = data
-        .filter((transaction) => transaction.category.toLowerCase() === cat)
-        .filter(
-          (transs) =>
-            new Date(budgett[i].date).getTime() -
-              new Date(transs.date).getTime() <=
-            0,
-        );
-      if (trans.length > 0) {
-        filteredTransactionsByCategory.push(trans);
-      }
-    }
-    return filteredTransactionsByCategory;
-  }
-  const cats = filterTransByCategory(budgets); // this holds an array of transaction objects that took place after the budget was set..
-
-  const sums = []; // sum of all the transaction that took place after the budget was set
-  for (let i = 0; i < cats.length; i++) {
-    let catName = cats[i][0].category;
-    let sum = cats[i].reduce((acc, current) => acc + current.amount, 0);
-    sums[i] = { category: catName, amount: sum.toFixed(2), id: cats[i]._id };
-  }
-
-  const budgetsArray = [];
-  for (let i = 0; i < budgets.length; i++) {
-    let catName = budgets[i].category;
-    let sum = budgets[i].amount;
-    if (!sums[i]) {
-      if (budgets[i].display) {
-        budgetsArray[i] = {
-          category: catName,
-          amount: sum,
-          remaining: sum,
-          display: budgets[i].display,
-          expiry: budgets[i].expiry,
-          id: budgets[i].id,
-        }; //add id
-      }
-    } else {
-      if (
-        sums[i].category.toLowerCase() === budgets[i].category.toLowerCase()
-      ) {
-        let summed =
-          parseInt(budgets[i].amount, 10) + parseInt(sums[i].amount, 10);
-        if (summed === 0 && !alerted) {
-          alertedNoBudget();
+    // determine transaction spending in each category
+    const totalSpentByCategory = {};
+    state.transactions
+      .filter((transaction) => transaction.kidId === kidId)
+      .forEach((transaction) => {
+        if (totalSpentByCategory[transaction.budgetCategory]) {
+          totalSpentByCategory[transaction.budgetCategory] +=
+            transaction.amount;
+        } else {
+          totalSpentByCategory[transaction.budgetCategory] = transaction.amount;
         }
-        if (summed < 0 && !alerted) {
-          alertedMinusBudget();
-        }
-        budgetsArray[i] = {
-          category: catName,
-          amount: sum,
-          remaining: summed,
-          display: budgets[i].display,
-          expiry: budgets[i].expiry,
-          id: budgets[i].id,
-        }; //add id
+      });
+
+    // add a property to track transaction overspending for each budget
+    currentBudgets.forEach((budget) => {
+      if (totalSpentByCategory[budget.category] < 0) {
+        budget.remaining =
+          budget.amount + totalSpentByCategory[budget.category];
       } else {
-        return null;
+        budget.remaining = budget.amount;
       }
-    }
-  }
+    });
+    setDetailedBudgets(currentBudgets);
+  }, []);
+
   const renderBudget = ({ item, index }) => {
-    if (
-      new Date().getTime() > new Date(item.expiry).getTime() &&
-      !alertExpiry
-    ) {
-      return alertedBudgetExpiry();
-    } else {
-      return (
-        <View style={item.remaining > 0 ? styles.list : styles.listNegative}>
-          <View style={styles.listContainer}>
-            <View style={styles.budgetText}>
-              <Text
-                style={item.remaining > 0 ? styles.bold : styles.boldNegative}>
-                {item.category}
+    return (
+      <View style={item.remaining > 0 ? styles.list : styles.listNegative}>
+        <View style={styles.listContainer}>
+          <View style={styles.budgetText}>
+            <Text
+              style={item.remaining > 0 ? styles.bold : styles.boldNegative}>
+              {item.category}
+            </Text>
+          </View>
+          <View style={styles.budgetText}>
+            <Text
+              style={item.remaining > 0 ? styles.text : styles.textNegative}>
+              £ {item.amount}
+            </Text>
+          </View>
+          <View style={styles.budgetText}>
+            {item.remaining > 0 ? (
+              <Text style={item.remaining > 0 ? styles.small : styles.negative}>
+                You have £{item.remaining} left of budget
               </Text>
-            </View>
-            <View style={styles.budgetText}>
-              <Text
-                style={item.remaining > 0 ? styles.text : styles.textNegative}>
-                £ {item.amount}
+            ) : (
+              <Text style={item.remaining > 0 ? styles.small : styles.negative}>
+                You've spent £ {item.remaining.toString().slice(1)} too much
               </Text>
-            </View>
-            <View style={styles.budgetText}>
-              {item.remaining > 0 ? (
-                <Text
-                  style={item.remaining > 0 ? styles.small : styles.negative}>
-                  You have £{item.remaining} left of budget
-                </Text>
-              ) : (
-                <Text
-                  style={item.remaining > 0 ? styles.small : styles.negative}>
-                  You've spent £ {item.remaining.toString().slice(1)} too much
-                </Text>
-              )}
-            </View>
+            )}
           </View>
         </View>
-      );
-    }
+      </View>
+    );
   };
   return (
     <FlatList
       style={styles.container}
       numColumns={2}
-      data={budgetsArray}
+      data={detailedBudgets}
       keyExtractor={(item, index) => index.toString()}
       renderItem={renderBudget}
     />
   );
 }
+
+// function alertedNoBudget() {
+//   wait(1000).then(() => createAlert());
+// }
+// function alertedMinusBudget() {
+//   wait(1000).then(() => minusAlert());
+// }
+// function alertedBudgetExpiry() {
+//   wait(1000).then(() => expiryAlert());
+// }
+// const wait = (timeout) => {
+//   return new Promise((resolve) => {
+//     setTimeout(resolve, timeout);
+//   });
+// };
+// const createAlert = () =>
+//   Alert.alert('Alert', 'No budget left 😱', [
+//     { text: 'OK', onPress: () => setAlertToBeTrue() },
+//   ]);
+// const minusAlert = () =>
+//   Alert.alert(
+//     'Alert!',
+//     'Looks like you have overspent, we can talk about it later',
+//     [{ text: 'OK', onPress: () => setAlertToBeTrue() }],
+//   );
+// const expiryAlert = () =>
+//   Alert.alert('Alert!', 'A budget has expired 😀', [
+//     { text: 'OK', onPress: () => setAlertExpiryToTrue() },
+//   ]);
 
 const styles = StyleSheet.create({
   container: {

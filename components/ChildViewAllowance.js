@@ -6,7 +6,7 @@ import { colors } from '../myAssets/theme';
 
 import moment from 'moment';
 
-export default function ChildViewAllowance() {
+export default function ChildViewAllowance({ kidId }) {
   const { state } = useContext(ParentContext);
 
   function findAllowanceDate(frequency, date) {
@@ -22,8 +22,8 @@ export default function ChildViewAllowance() {
   }
 
   var nextAllowance = findAllowanceDate(
-    state.kids['5f7dca79ac51601ad2d33d3e'].allowanceFrequency,
-    state.kids['5f7dca79ac51601ad2d33d3e'].allowanceDate,
+    state.kids[kidId].allowanceFrequency,
+    state.kids[kidId].allowanceDate,
   );
   var today = moment();
   const daysLeft = moment(nextAllowance).diff(today, 'days');

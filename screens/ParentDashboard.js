@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { ParentContext } from '../ParentContext';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import {
   View,
@@ -63,7 +64,7 @@ export default function ParentDashboard({ navigation }) {
 
           {Object.keys(state.kids).map((kid) => (
             <View style={styles.toggleSection} key={kid}>
-              <Text style={styles.text}>
+              <Text style={styles.btnText}>
                 {state.kids[kid].name}&apos;s dashboard
               </Text>
               <Switch
@@ -76,23 +77,25 @@ export default function ParentDashboard({ navigation }) {
             </View>
           ))}
         </View>
-      </ScrollView>
-      <TouchableOpacity
-        style={styles.btnContainer}
-        onPress={async () => {
-          await AsyncStorage.removeItem('@accessToken');
-          setState({
-            user: {},
-            kids: {},
-            budgets: [],
-            transactions: [],
-          });
-          navigation.navigate('Login');
-        }}>
-        <View style={styles.btn}>
-          <Text>Logout</Text>
+        <View style={styles.logout}>
+          <TouchableOpacity
+            style={styles.btnContainer}
+            onPress={async () => {
+              await AsyncStorage.removeItem('@accessToken');
+              setState({
+                user: {},
+                kids: {},
+                budgets: [],
+                transactions: [],
+              });
+              navigation.navigate('LogIn');
+            }}>
+            <View style={styles.btn}>
+              <Text style={styles.btnText}>Logout</Text>
+            </View>
+          </TouchableOpacity>
         </View>
-      </TouchableOpacity>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -151,5 +154,28 @@ const styles = StyleSheet.create({
   plus: {
     color: colors.white,
     fontSize: 32,
+  },
+  btn: {
+    backgroundColor: colors.blue,
+    padding: 5,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  btnText: {
+    color: colors.white,
+    fontSize: 18,
+    padding: 10,
+  },
+  logout: {
+    height: '10%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 20,
+  },
+  btnContainer: {
+    width: '60%',
+    alignSelf: 'center',
+    justifyContent: 'center',
   },
 });

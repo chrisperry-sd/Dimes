@@ -18,6 +18,7 @@ exports.createKid = async function (req, res) {
   try {
     const { parentId } = req.params;
     const kid = req.body;
+    kid.parentId = parentId;
     const newKid = await Kid.create(kid);
     res.status(201);
     res.send(newKid);
@@ -27,12 +28,6 @@ exports.createKid = async function (req, res) {
   }
 };
 
-exports.editKid = async function (req, res) {
-  try {
-  } catch (error) {}
-};
+exports.editKid = async function (req, res) {};
 
-exports.deleteKid = async function (req, res) {
-  try {
-  } catch (error) {}
-};
+exports.deleteKid = async function (req, res) {};

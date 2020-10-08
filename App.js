@@ -6,7 +6,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 const Stack = createStackNavigator();
 
-import Login from './screens/Login';
+import LogIn from './screens/LogIn';
 import SignUp from './screens/SignUp';
 import AddChild from './screens/AddChild';
 import AddBudget from './screens/AddBudget';
@@ -105,7 +105,7 @@ export default function App() {
     <NavigationContainer>
       <ParentContext.Provider value={providerValue}>
         <Stack.Navigator headerMode="none">
-          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="LogIn" component={LogIn} />
           <Stack.Screen name="SignUp" component={SignUp} />
           <Stack.Screen name="AddChild" component={AddChild} />
           <Stack.Screen name="AddBudget" component={AddBudget} />

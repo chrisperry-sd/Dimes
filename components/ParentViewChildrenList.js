@@ -19,7 +19,7 @@ export default function ParentViewChildrenList({ navigation }) {
           renderItem={({ item }) => (
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate('ParentViewChildSummary', { item })
+                navigation.navigate('ParentViewChildSummary', { kidId: item })
               }>
               <View style={styles.list}>
                 <View style={styles.listContainer}>

@@ -5,9 +5,7 @@ import { View, Text, FlatList, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { colors } from '../myAssets/theme';
 
-// ADD DATA/CONDITIONAL STYLING TO INDICATE WHICH CHILD MADE EACH TRANSACTION
-
-export default function ParentViewTransactionsList({}) {
+export default function ParentViewTransactionsList() {
   const { state } = useContext(ParentContext);
 
   return (
@@ -16,16 +14,16 @@ export default function ParentViewTransactionsList({}) {
         <FlatList
           style={styles.flatListBorder}
           horizontal={true}
-          data={
-            state.transactions
-              ? state.transactions.sort((a, b) => {
-                  return (
-                    new Date(b.transactionDate).getTime() -
-                    new Date(a.transactionDate).getTime()
-                  );
-                })
-              : null
-          }
+          data={state.transactions
+            .filter((transaction) => {
+              return transaction.parentId === state.user._id;
+            })
+            .sort((a, b) => {
+              return (
+                new Date(b.transactionDate).getTime() -
+                new Date(a.transactionDate).getTime()
+              );
+            })}
           keyExtractor={(item, index) => item._id}
           renderItem={({ item }) => (
             <TouchableOpacity>

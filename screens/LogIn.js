@@ -16,8 +16,8 @@ import { ParentContext } from '../ParentContext';
 import dimes from '../myAssets/images/logo_size_invert.jpg';
 import ApiService from '../ApiService';
 
-export default function Login({ navigation }) {
-  const { state, setState } = useContext(ParentContext);
+export default function LogIn({ navigation }) {
+  const { setState } = useContext(ParentContext);
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -27,7 +27,7 @@ export default function Login({ navigation }) {
       username: username,
       password: password,
     };
-    const result = await ApiService.login(user);
+    const result = await ApiService.LogIn(user);
     setUsername('');
     setPassword('');
     try {
@@ -35,14 +35,14 @@ export default function Login({ navigation }) {
       await AsyncStorage.setItem('@accessToken', accessToken);
 
       const userInfo = await ApiService.loadUserDetails(accessToken);
-      const { _id, username, isKid } = userInfo;
+      const { _id, username: dbUsername, isKid } = userInfo;
       setState((prevState) => ({
         ...prevState,
-        user: { _id, username, isKid },
+        user: { _id, isKid, username: dbUsername },
       }));
       navigation.navigate('ParentDashboard');
     } catch (error) {
-      alert('Your email or password is incorrect. Please try again.');
+      console.log('---> incorrect username or password', error);
     }
   };
   return (

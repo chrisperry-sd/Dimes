@@ -63,7 +63,7 @@ function deleteBudget(id) {
   });
 }
 
-function login(user) {
+function LogIn(user) {
   return fetchRequest('/login', {
     method: 'POST',
     credentials: 'include',
@@ -100,7 +100,7 @@ module.exports = {
   deleteBudget,
   editBudget,
   getKids,
-  login,
+  LogIn,
   signup,
   loadUserDetails,
   logout,

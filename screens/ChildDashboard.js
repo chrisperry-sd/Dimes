@@ -63,7 +63,7 @@ export default function ChildDashboard({ route }) {
             <Text style={styles.textBold}>Hey, {state.kids[kidId].name}!</Text>
           </View>
           <View>
-            <ChildViewAllowance />
+            <ChildViewAllowance kidId={kidId} />
           </View>
           <View>
             <ChildViewBalance balance={balance} />
@@ -76,7 +76,9 @@ export default function ChildDashboard({ route }) {
             ) : null}
           </View>
           <View>
-            {state.budgets.length > 0 /* <ChildViewBudgets /> */ ? null : (
+            {state.budgets.length > 0 ? (
+              <ChildViewBudgets kidId={kidId} />
+            ) : (
               <View style={styles.box}>
                 <Text style={styles.text}>
                   No budgets set this week. Let's see how much we can save!{' '}

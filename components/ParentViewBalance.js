@@ -5,16 +5,14 @@ import { View, Text, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { colors } from '../myAssets/theme';
 
-export default function ParentViewBalance({ navigation }) {
-  const { state, setState } = useContext(ParentContext);
-
+export default function ParentViewBalance({ navigation, kidId }) {
+  const { state } = useContext(ParentContext);
   const [balance, setBalance] = useState(0);
 
   useEffect(() => {
-    const currentBalance = state.transactions.reduce(
-      (acc, transaction) => acc + transaction.amount,
-      0,
-    );
+    const currentBalance = state.transactions
+      .filter((transaction) => transaction.kidId === kidId)
+      .reduce((acc, transaction) => acc + transaction.amount, 0);
     setBalance(currentBalance);
   }, []);
   return (
@@ -26,7 +24,9 @@ export default function ParentViewBalance({ navigation }) {
         <Text style={styles.balance}>£ {balance}</Text>
       </View>
       <TouchableOpacity
-        onPress={() => navigation.navigate('ParentViewTransactions')}>
+        onPress={() =>
+          navigation.navigate('ParentViewTransactions', { kidId: kidId })
+        }>
         <View>
           <Text style={styles.text}>&rarr; View all transactions</Text>
         </View>
@@ -40,14 +40,14 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     margin: 10,
     height: 200,
-    marginTop: 30,
+    marginTop: 15,
     backgroundColor: colors.blue,
   },
   balanceTitle: {
     color: colors.white,
     padding: 10,
     marginTop: 10,
-    fontSize: 18,
+    fontSize: 24,
     fontFamily: 'Raleway-Regular',
   },
   balance: {
@@ -60,8 +60,7 @@ const styles = StyleSheet.create({
   text: {
     marginBottom: 50,
     marginLeft: 20,
-    fontSize: 20,
-    fontFamily: 'Raleway-Regular',
+    fontSize: 16,
     color: colors.white,
   },
 });

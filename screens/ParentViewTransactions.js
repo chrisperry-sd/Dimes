@@ -5,8 +5,10 @@ import { View, Text, FlatList, StyleSheet } from 'react-native';
 import moment from 'moment';
 import { colors } from '../myAssets/theme';
 
-export default function ParentViewTransactions() {
-  const { state, setState } = useContext(ParentContext);
+export default function ParentViewTransactions({ route }) {
+  const { kidId } = route.params;
+  const { state } = useContext(ParentContext);
+
   const renderTransaction = ({ item }) => {
     return (
       <View style={styles.list}>
@@ -21,7 +23,9 @@ export default function ParentViewTransactions() {
           </View>
 
           <View style={styles.balAndDate}>
-            <Text style={styles.text}>£ {item.amount}</Text>
+            <Text style={styles.text}>
+              {item.amount > 0 ? `+ £${item.amount}` : `- £${-1 * item.amount}`}
+            </Text>
             <Text style={styles.text}>
               {moment(item.date).format('ddd MMM Do')}
             </Text>
@@ -35,9 +39,11 @@ export default function ParentViewTransactions() {
       <View style={styles.view}>
         <FlatList
           style={styles.flatListBorder}
-          data={state.transactions.sort((a, b) => {
-            return new Date(b.date) - new Date(a.date);
-          })}
+          data={state.transactions
+            .filter((transaction) => transaction.kidId === kidId)
+            .sort((a, b) => {
+              return new Date(b.date) - new Date(a.date);
+            })}
           keyExtractor={(item, index) => item._id}
           renderItem={renderTransaction}
         />
