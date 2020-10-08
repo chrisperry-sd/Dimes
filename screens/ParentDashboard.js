@@ -74,6 +74,12 @@ export default function ParentDashboard({ navigation }) {
         style={styles.btnContainer}
         onPress={async () => {
           await AsyncStorage.removeItem('@accessToken');
+          setState({
+            user: {},
+            kids: {},
+            budgets: [],
+            transactions: [],
+          });
           navigation.navigate('Login');
         }}>
         <View style={styles.btn}>

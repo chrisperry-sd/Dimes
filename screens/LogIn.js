@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   View,
   Text,
@@ -11,11 +11,14 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { colors } from '../myAssets/theme';
+import { ParentContext } from '../ParentContext';
 
 import dimes from '../myAssets/images/logo_size_invert.jpg';
 import ApiService from '../ApiService';
 
 export default function Login({ navigation }) {
+  const { state, setState } = useContext(ParentContext);
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -30,6 +33,13 @@ export default function Login({ navigation }) {
     try {
       const { accessToken } = result;
       await AsyncStorage.setItem('@accessToken', accessToken);
+
+      const userInfo = await ApiService.loadUserDetails(accessToken);
+      const { _id, username, isKid } = userInfo;
+      setState((prevState) => ({
+        ...prevState,
+        user: { _id, username, isKid },
+      }));
       navigation.navigate('ParentDashboard');
     } catch (error) {
       alert('Your email or password is incorrect. Please try again.');
