@@ -12,12 +12,11 @@ import {
   RefreshControl,
   TouchableOpacity,
 } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
 import { colors } from '../myAssets/theme';
 
-import ParentViewSpendingOverview from '../components/ParentViewSpendingOverview';
 import ParentViewChildrenList from '../components/ParentViewChildrenList';
-import ApiService from '../ApiService';
+import ParentViewSpendingOverview from '../components/ParentViewSpendingOverview';
+import ParentViewTransactionsList from '../components/ParentViewTransactionsList';
 
 //UPDATE TO HAVE ONE SWITCH FOR EACH CHILD"S VIEW
 
@@ -53,33 +52,31 @@ export default function ParentDashboard({ navigation }) {
         </View>
         <View>
           <Text style={styles.text}>Spending</Text>
-        </View>
-        <View>
           <ParentViewSpendingOverview />
         </View>
-        <View style={styles.container}>
-          <View style={styles.toggleBtn}>
-            <Text style={styles.text}>Child&apos;s View</Text>
-            <Switch
-              style={styles.toggleBtn}
-              trackColor={{ false: colors.purple, true: colors.plum }}
-              onValueChange={() => {
-                navigation.navigate('ChildDashboard');
-              }}
-            />
-          </View>
+        <View>
+          <Text style={styles.text}>Transactions</Text>
+          <ParentViewTransactionsList />
+        </View>
+        <View style={styles.dashContainer}>
+          <Text style={styles.textLarge}>Child&apos;s view</Text>
+
+          {Object.keys(state.kids).map((kid) => (
+            <View style={styles.toggleSection} key={kid}>
+              <Text style={styles.text}>
+                {state.kids[kid].name}&apos;s dashboard
+              </Text>
+              <Switch
+                style={styles.toggleBtn}
+                trackColor={{ false: colors.purple, true: colors.plum }}
+                onValueChange={() =>
+                  navigation.navigate('ChildDashboard', { kidId: kid })
+                }
+              />
+            </View>
+          ))}
         </View>
       </ScrollView>
-      <TouchableOpacity
-        style={styles.btnContainer}
-        onPress={async () => {
-          await AsyncStorage.removeItem('@accessToken');
-          navigation.navigate('Login');
-        }}>
-        <View style={styles.btn}>
-          <Text>Logout</Text>
-        </View>
-      </TouchableOpacity>
     </SafeAreaView>
   );
 }
@@ -90,11 +87,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
+  dashContainer: {
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-start',
+  },
   header: {
     marginRight: 20,
   },
-  toggleBtn: {
+  toggleSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderRadius: 8,
     margin: 10,
+    backgroundColor: colors.purple,
+    width: '95%',
+  },
+  toggleBtn: {
+    margin: 15,
+    backgroundColor: colors.purple,
   },
   plusBorder: {
     borderRadius: 50,
@@ -116,22 +128,12 @@ const styles = StyleSheet.create({
   },
   textLarge: {
     color: colors.white,
-    marginTop: 10,
+    marginTop: 20,
     paddingLeft: 10,
     fontSize: 32,
   },
   plus: {
     color: colors.white,
     fontSize: 32,
-  },
-  btn: {
-    backgroundColor: colors.blue,
-    padding: 10,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  btnContainer: {
-    width: 150,
-    alignSelf: 'center',
   },
 });

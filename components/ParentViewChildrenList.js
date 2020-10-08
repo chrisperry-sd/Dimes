@@ -55,8 +55,9 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     margin: 10,
-    padding: 10,
-    width: 190,
+    paddingVertical: 10,
+    paddingHorizontal: 30,
+    width: 'auto',
     justifyContent: 'center',
     alignItems: 'center',
   },

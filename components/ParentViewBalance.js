@@ -1,19 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import { ParentContext } from '../ParentContext';
+
 import { View, Text, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { colors } from '../myAssets/theme';
 
-export default function ParentViewBalance({ navigation, totalSpent, data }) {
+export default function ParentViewBalance({ navigation }) {
+  const { state, setState } = useContext(ParentContext);
+
+  const [balance, setBalance] = useState(0);
+
+  useEffect(() => {
+    const currentBalance = state.transactions.reduce(
+      (acc, transaction) => acc + transaction.amount,
+      0,
+    );
+    setBalance(currentBalance);
+  }, []);
   return (
     <View style={styles.box}>
       <View>
         <Text style={styles.balanceTitle}>Total balance</Text>
       </View>
       <View>
-        <Text style={styles.balance}>£ {totalSpent}</Text>
+        <Text style={styles.balance}>£ {balance}</Text>
       </View>
       <TouchableOpacity
-        onPress={() => navigation.navigate('ParentViewTransactions', { data })}>
+        onPress={() => navigation.navigate('ParentViewTransactions')}>
         <View>
           <Text style={styles.text}>&rarr; View all transactions</Text>
         </View>

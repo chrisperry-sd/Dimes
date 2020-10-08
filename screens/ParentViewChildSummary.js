@@ -31,7 +31,9 @@ export default function ParentViewChildSummary({ navigation }) {
         }>
         <StatusBar barStyle="light-content" />
         <View style={styles.centerText}>
-          <Text style={styles.textLarge}>{state.kids.name}</Text>
+          <Text style={styles.textLarge}>
+            {state.kids['5f7dca79ac51601ad2d33d3e'].name}
+          </Text>
         </View>
         <View>
           <Text style={styles.text}>Balances</Text>

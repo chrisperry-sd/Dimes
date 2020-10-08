@@ -3,7 +3,6 @@ import { ParentContext } from '../ParentContext';
 
 import { View, Text, StyleSheet, Image } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import ParentViewTransactionsList from './ParentViewTransactionsList';
 import { colors } from '../myAssets/theme';
 
 import chart from '../myAssets/images/barchart.png';
@@ -34,9 +33,6 @@ export default function ParentViewSpendingOverview({}) {
           <Text style={styles.balance}>£ {weekSpending}</Text>
         </View>
       </TouchableOpacity>
-      <View style={styles.itemsStyleMargin}>
-        <ParentViewTransactionsList />
-      </View>
     </View>
   );
 }
@@ -46,7 +42,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     margin: 10,
     height: 200,
-    marginTop: 30,
     backgroundColor: colors.purple,
   },
   balanceTitle: {

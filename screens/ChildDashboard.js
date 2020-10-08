@@ -20,17 +20,18 @@ import ChildViewBudgets from '../components/ChildViewBudgets';
 
 // FILTER DATA FOR SELECTED CHILD'S name
 
-export default function ChildDashboard({ name }) {
-  const { state, setState } = useContext(ParentContext);
+export default function ChildDashboard({ route }) {
+  const { kidId } = route.params;
+
+  const { state } = useContext(ParentContext);
   const [transactionsThisWeek, setTransactionsThisWeek] = useState([]);
   const [balance, setBalance] = useState(0);
-
-  //this weeks transactions
 
   useEffect(() => {
     const today = new Date();
     const oneWeekAgo = moment(today).subtract(7, 'days').toDate();
     const recentSpending = state.transactions
+      .filter((transaction) => transaction.kidId === kidId)
       .filter(
         (transaction) =>
           new Date(transaction.transactionDate).getTime() >= oneWeekAgo,
@@ -39,10 +40,9 @@ export default function ChildDashboard({ name }) {
         new Date(b.transactionDate) - new Date(a.transactionDate);
       });
     setTransactionsThisWeek(recentSpending);
-    const currentBalance = state.transactions.reduce(
-      (acc, transaction) => acc + transaction.amount,
-      0,
-    );
+    const currentBalance = state.transactions
+      .filter((transaction) => transaction.kidId === kidId)
+      .reduce((acc, transaction) => acc + transaction.amount, 0);
     setBalance(currentBalance);
   }, []);
 
@@ -60,9 +60,7 @@ export default function ChildDashboard({ name }) {
         <StatusBar />
         <View showsVerticalScrollIndicator={false}>
           <View style={[styles.box, styles.titleBox]}>
-            <Text style={styles.textBold}>
-              Hey, {state.kids['5f7dca79ac51601ad2d33d3e'].name}!
-            </Text>
+            <Text style={styles.textBold}>Hey, {state.kids[kidId].name}!</Text>
           </View>
           <View>
             <ChildViewAllowance />

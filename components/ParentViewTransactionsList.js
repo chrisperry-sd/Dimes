@@ -52,7 +52,8 @@ export default function ParentViewTransactionsList({}) {
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 8,
+    margin: 10,
+    marginBottom: 30,
     borderRadius: 8,
   },
   flatListBorder: {
