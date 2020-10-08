@@ -77,6 +77,22 @@ export default function ParentDashboard({ navigation }) {
           ))}
         </View>
       </ScrollView>
+      <TouchableOpacity
+        style={styles.btnContainer}
+        onPress={async () => {
+          await AsyncStorage.removeItem('@accessToken');
+          setState({
+            user: {},
+            kids: {},
+            budgets: [],
+            transactions: [],
+          });
+          navigation.navigate('Login');
+        }}>
+        <View style={styles.btn}>
+          <Text>Logout</Text>
+        </View>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
