@@ -14,6 +14,10 @@ They're incentivised by seeing what they will have left if they manage to save t
 
 ## Screenshots
 
+<p align="center">
+  <img src="./myAssets/images/Screenshot 2020-10-24 at 14.25.39.png" />
+</p>
+
 ## Getting Started 
 
 * Except for the regular suspects; git, Node, npm, you need these things to work on the Dimes. Follow the instructions supplied below them or on their links to get them up and running before you continue with Installation.
