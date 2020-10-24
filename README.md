@@ -15,7 +15,7 @@ They're incentivised by seeing what they will have left if they manage to save t
 ## Screenshots
 
 <p align="center" height='75%' width='75%'>
-  <img src="./myAssets/images/Screenshot 2020-10-24 at 15.35.33.png" />
+  <img src="./myAssets/images/Screenshot 2020-10-24 at 15.41.35.png" />
 </p>
 
 ## Getting Started 
