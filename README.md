@@ -36,7 +36,7 @@ Install dependencies.
 ```bash
 npm install
 cd ios			# ! Change into the ios folder !
-npod install
+pod install
 react-native run-ios
 ```
 Run the **_dimes.xcworkspace_** file in Xcode.
