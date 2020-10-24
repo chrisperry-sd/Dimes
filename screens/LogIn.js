@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import {
   View,
   Text,
@@ -9,12 +9,42 @@ import {
   SafeAreaView,
   StatusBar,
 } from 'react-native';
-
-// import {CommonActions} from '@react-navigation/native';
+import AsyncStorage from '@react-native-community/async-storage';
+import { colors } from '../myAssets/theme';
+import { ParentContext } from '../ParentContext';
 
 import dimes from '../myAssets/images/logo_size_invert.jpg';
+import ApiService from '../ApiService';
 
-export default function LogIn({navigation}) {
+export default function LogIn({ navigation }) {
+  const { setState } = useContext(ParentContext);
+
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleClick = async () => {
+    const user = {
+      username: username,
+      password: password,
+    };
+    const result = await ApiService.LogIn(user);
+    setUsername('');
+    setPassword('');
+    try {
+      const { accessToken } = result;
+      await AsyncStorage.setItem('@accessToken', accessToken);
+
+      const userInfo = await ApiService.loadUserDetails(accessToken);
+      const { _id, username: dbUsername, isKid } = userInfo;
+      setState((prevState) => ({
+        ...prevState,
+        user: { _id, isKid, username: dbUsername },
+      }));
+      navigation.navigate('ParentDashboard');
+    } catch (error) {
+      console.log('---> incorrect username or password', error);
+    }
+  };
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
@@ -25,31 +55,37 @@ export default function LogIn({navigation}) {
         <View>
           <TextInput
             style={styles.textInput}
-            placeholder="Username..."
-            placeholderTextColor="grey"
+            value={username}
+            placeholder="Username"
+            placeholderTextColor={colors.grey}
+            onChangeText={(e) => {
+              setUsername(e);
+            }}
           />
         </View>
         <View>
           <TextInput
             style={styles.textInput}
+            value={password}
             placeholder="Password"
+            placeholderTextColor={colors.grey}
             secureTextEntry={true}
-            placeholderTextColor="grey"
+            onChangeText={(e) => {
+              setPassword(e);
+            }}
           />
         </View>
         <View>
-          <TouchableOpacity
-            style={styles.btnContainer}
-            onPress={() => navigation.navigate('ParentDashboard')}>
+          <TouchableOpacity style={styles.btnContainer} onPress={handleClick}>
             <View style={styles.btn}>
               <Text style={styles.text}>Login</Text>
             </View>
           </TouchableOpacity>
         </View>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
           <View>
             <Text style={styles.signUp}>
-              Don't have an account already?? Sign up here...
+              Don't have an account? Sign up here &rarr;
             </Text>
           </View>
         </TouchableOpacity>
@@ -61,12 +97,12 @@ export default function LogIn({navigation}) {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    color: 'white',
-    backgroundColor: '#161925',
+    color: colors.white,
+    backgroundColor: colors.black,
     flex: 1,
   },
   text: {
-    color: 'white',
+    color: colors.white,
     fontSize: 24,
   },
   dimesImg: {
@@ -77,7 +113,7 @@ const styles = StyleSheet.create({
     height: 120,
   },
   btn: {
-    backgroundColor: '#A34861',
+    backgroundColor: colors.blue,
     padding: 10,
     borderRadius: 8,
     alignItems: 'center',
@@ -87,17 +123,17 @@ const styles = StyleSheet.create({
     width: 250,
   },
   signUp: {
-    color: 'white',
+    color: colors.white,
     textDecorationLine: 'underline',
     margin: 50,
   },
   textInput: {
-    color: 'black',
+    color: colors.black,
     borderRadius: 8,
     padding: 10,
     width: 350,
     height: 60,
-    backgroundColor: 'white',
+    backgroundColor: colors.white,
     margin: 20,
     fontSize: 24,
   },
