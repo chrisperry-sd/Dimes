@@ -3,15 +3,29 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "eslintIgnore": [
+    "*.test.js"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "format": "prettier --write \"**/*.{js,jsx}\"",
+    "lint": "eslint \"**/*.{js,jsx}\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "argon2": "^0.27.0",
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.6"
+  },
+  "devDependencies": {
+    "eslint": "^7.10.0",
+    "faker": "^5.1.0",
+    "jest": "^26.4.2",
+    "prettier": "^2.1.2"
   }
 }

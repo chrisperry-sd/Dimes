@@ -1,7 +1,6 @@
-// const BASE_URL = 'http://10.153.108.242:3001';
-const BASE_URL = 'http://localhost:3001';
-// const BASE_URL = 'http://10.153.110.91:3001';
+/* eslint no-console: 0 */
 
+const BASE_URL = 'http://localhost:3001';
 
 function fetchRequest(path, options) {
   return fetch(BASE_URL + path, options)
@@ -15,11 +14,27 @@ function fetchRequest(path, options) {
     });
 }
 
-async function getBudgets() {
-  return await fetchRequest('/budgets');
+async function getBudgets(id) {
+  return await fetchRequest(`/budgets/${id}`);
 }
-async function getTransactions() {
-  return await fetchRequest('/transactions');
+async function getTransactions(id) {
+  return await fetchRequest(`/transactions/${id}`);
+}
+
+async function getKids(id) {
+  return await fetchRequest(`/kids/${id}`);
+}
+
+async function loadUserDetails(accessToken) {
+  return await fetchRequest('/dashboard', {
+    method: 'GET',
+    credentials: 'include',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
 }
 
 function postBudget(body) {
@@ -32,10 +47,50 @@ function postBudget(body) {
   });
 }
 
-function deleteBudget (id) {
+function editBudget(id, body) {
   return fetchRequest(`/budgets/${id}`, {
-    method: 'DELETE'
-  })
+    method: 'PUT',
+    headers: {
+      'Content-type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  });
+}
+
+function deleteBudget(id) {
+  return fetchRequest(`/budgets/${id}`, {
+    method: 'DELETE',
+  });
+}
+
+function LogIn(user) {
+  return fetchRequest('/login', {
+    method: 'POST',
+    credentials: 'include',
+    mode: 'cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(user),
+  });
+}
+
+function signup(user) {
+  return fetchRequest('/signup', {
+    method: 'POST',
+    credentials: 'include',
+    mode: 'cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(user),
+  });
+}
+
+async function logout() {
+  try {
+    await AsyncStorage.removeItem('@accessToken');
+  } catch (e) {
+    console.log(e);
+  }
+
+  console.log('Logged out');
 }
 
 module.exports = {
@@ -43,4 +98,10 @@ module.exports = {
   postBudget,
   getTransactions,
   deleteBudget,
+  editBudget,
+  getKids,
+  LogIn,
+  signup,
+  loadUserDetails,
+  logout,
 };

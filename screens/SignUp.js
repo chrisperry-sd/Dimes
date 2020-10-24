@@ -1,6 +1,4 @@
-import React, { useState, useContext } from 'react';
-import { ParentContext } from '../ParentContext';
-
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -9,73 +7,50 @@ import {
   TextInput,
   SafeAreaView,
   StatusBar,
-  Switch,
 } from 'react-native';
 import colors from '../myAssets/theme';
 
-const initialState = {
-  name: '',
-  allowanceFrequency: 'Monthly',
-  allowanceAmount: 0,
-  allowanceDate: new Date(),
-};
+export default function SignUp({ navigation, setKids }) {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
-export default function AddChild({ navigation }) {
-  const { state, setState } = useContext(ParentContext);
-
-  const [tempState, setTempState] = useState(initialState);
-
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setTempState((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+  const handleClick = () => {
+    const newUser = {
+      username: username,
+      password: password,
+    };
+    navigation.navigate('ParentDashboard');
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar />
       <View style={styles.accountSetup}>
-        <Text style={styles.header}>Register</Text>
+        <Text style={styles.header}>Account Setup</Text>
       </View>
       <View style={styles.inputContainer}>
         <View>
           <TextInput
             style={styles.textInput}
-            placeholder="My child's name"
-            name="name"
-            value={tempState.name}
-            onChange={handleChange}
-          />
-        </View>
-        <View>
-          <Text>Allowance Frequency</Text>
-          <Switch
-            trackColor={{ false: colors.purple, true: colors.plum }}
-            name="allowanceFrequency"
-            value={tempState.allowanceFrequency}
-            onValueChange={handleChange}
+            value={username}
+            placeholder="Username"
+            onChangeText={(e) => {
+              setUsername(e);
+            }}
           />
         </View>
         <View>
           <TextInput
             style={styles.textInput}
-            placeholder="Allowance amount"
-            name="allowanceAmount"
-            value={tempState.allowanceAmount}
-            onChange={handleChange}
-            maxLength={5}
-            keyboardType="numeric"
+            value={password}
+            placeholder="Password"
+            onChangeText={(e) => {
+              setPassword(e);
+            }}
           />
         </View>
-        <View>
-          <TextInput style={styles.textInput} placeholder="Account no..." />
-        </View>
         <View style={styles.centerbtn}>
-          <TouchableOpacity
-            style={styles.btnContainer}
-            onPress={() => navigation.navigate('ParentDashboard')}>
+          <TouchableOpacity style={styles.btnContainer} onPress={handleClick}>
             <View style={styles.btn}>
               <Text style={styles.text}>Create Account</Text>
             </View>

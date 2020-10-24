@@ -13,7 +13,9 @@ import { colors } from '../myAssets/theme';
 import ApiService from '../ApiService';
 import moment from 'moment';
 
-export default function AddBudget({ navigation }) {
+export default function AddBudget({ navigation, route }) {
+  const { _id } = route.params; // THIS IS THE TARGET BUDGET ID TO EDIT/DELETE
+
   const { state, setState } = useContext(ParentContext);
   const [category, setCategory] = useState('');
   const [amount, setAmount] = useState('');
@@ -49,15 +51,8 @@ export default function AddBudget({ navigation }) {
     });
   }
 
-  // const createAlert = () => {
-  //   Alert.alert('Budget added successfully');
-  // };
-
   function handleOnPress(event) {
     event.preventDefault();
-    // if (category.length === 0 || budget.length === 0 || expiry.length === 0) {
-    //   return Alert.alert(' Input field empty/incorrect');
-    // }
     createBudget(category, amount);
     setTimeout(() => {
       createAlert();
@@ -71,7 +66,7 @@ export default function AddBudget({ navigation }) {
     <SafeAreaView style={styles.container}>
       <StatusBar />
       <View style={styles.accountSetup}>
-        <Text style={styles.header}>Add Budget</Text>
+        <Text style={styles.header}>Edit Budget</Text>
       </View>
       <View style={styles.inputContainer}>
         <View>
