@@ -16,10 +16,10 @@ They're incentivised by seeing what they will have left if they manage to save t
 
 # Getting Started 
 
-Except for the regular suspects; git, Node, npm, you need these things to work on the Dimes. Follow the instructions supplied below them or on their links to get them up and running before you continue with Installation.
+* Except for the regular suspects; git, Node, npm, you need these things to work on the Dimes. Follow the instructions supplied below them or on their links to get them up and running before you continue with Installation.
 
-Xcode (latest version, at least >9.3). Install from App Store.
-Cocoapods - a dependency manager for Swift and Objective-C Cocoa projects. sudo gem install cocoapods.
+* Xcode (latest version, at least >9.3). Install from App Store.
+* Cocoapods - a dependency manager for Swift and Objective-C Cocoa projects. sudo gem install cocoapods.
 
 # Recommended 
 
@@ -28,16 +28,16 @@ React Native Debugger - a debugger built on the Chrome debugger, including React
 # Installation
 
 Installation
-Clone this repo and enter!
+* Clone this repo and enter!
 
-git clone https://github.com/chrisperry-sd/Dimes.git
-cd dimes
+* git clone https://github.com/chrisperry-sd/Dimes.git
+* cd dimes
 Install dependencies.
 
-npm install
-cd ios			# ! Change into the ios folder !
-pod install
-react-native run-ios
+* npm install
+* cd ios			# ! Change into the ios folder !
+* npod install
+* react-native run-ios
 
 Run the dimes.xcworkspace file in Xcode.
 
@@ -47,8 +47,8 @@ Build the app! (click the Play-button in the top left corner when you have picke
 
 # Tech Stack
 
-React native
-MongoDB
+* React native
+* MongoDB
 
 # Developers
 
