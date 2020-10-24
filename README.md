@@ -1,7 +1,7 @@
 # Dimes
 
 
-Dimes is a mobile app aimed at helping teach children the importance of money managemnt. Users can connect to their childrens bank account to oversee spending and set budgets for their children.
+Dimes is a mobile app aimed at helping teach children the importance of money management. Users can connect to their childrens bank account to oversee spending and set budgets for their children.
 
 ## The way the app works..
 
