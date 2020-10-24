@@ -56,9 +56,9 @@ Build the app! (click the Play-button in the top left corner when you have picke
 
 ## Developers
 
-* Chris Perry GitHub](https://github.com/chrisperry-sd) | [LinkedIn](https://www.linkedin.com/in/chrisdperry-sd/)
-* Jill Masters GitHub](https://github.com/jillmasters) | [LinkedIn](https://www.linkedin.com/in/jillianchuahmasters/)
-* Stephen Matthews GitHub](https://github.com/smatthews5) | [LinkedIn](https://www.linkedin.com/in/stephen-matthews5/)
+* Chris Perry [GitHub](https://github.com/chrisperry-sd) | [LinkedIn](https://www.linkedin.com/in/chrisdperry-sd/)
+* Jill Masters [GitHub](https://github.com/jillmasters) | [LinkedIn](https://www.linkedin.com/in/jillianchuahmasters/)
+* Stephen Matthews [GitHub](https://github.com/smatthews5) | [LinkedIn](https://www.linkedin.com/in/stephen-matthews5/)
 
 ## Stretch Goals
 
