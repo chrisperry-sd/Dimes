@@ -3,15 +3,19 @@
 
 Dimes is a mobile app aimed at helping teach children the importance of money management. Users can connect to their childrens bank account to oversee spending and set budgets for their children.
 
+This app is aimed at a childs first bank account, to set them up for a future of sound money management.
+
 ## The way the app works..
 
-Parents create an account for themselves and their children. The parent user connects to the childrens bank account. The parent can then set budgets for a set time period for whatever they like (lunch, shopping, app store etc.). The parent can view whats been spent and when, and will be alerted of any over spending.
-The parent gets 2 views, their own dashboard of all their children where they can see a detailed view of spending, a place where they can add budgets as well as seeing the childs view.
+* Parents create an account for themselves and their children and then connect to the childrens bank account.
 
-For the child, they see a reduced view with account balance, what they've spent money on, what budgets have been set for them and how much left of budget they have.
+* They can then set budgets for a set time period for whatever they like (lunch, shopping, app store etc.) and they can view what their child has spent and when, and will be alerted of any over spending.
 
-They're incentivised by seeing what they will have left if they manage to save their remaining budgets after receiving an allowance. This app is aimed at a childs first bank account, to set them up for a future of sound money management.
+* The parent gets 2 views, their own dashboard of all their children where they can see a detailed view of spending, a place where they can add budgets as well as seeing the childs view.
 
+* For the child, they see a reduced view with account balance, what they've spent money on, what budgets have been set for them and how much left of budget they have.
+
+* They're incentivised by seeing what they will have left if they manage to save their remaining budgets after receiving an allowance.
 ## Screenshots
 
 <p align="center" height='75%' width='75%'>
