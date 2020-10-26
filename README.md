@@ -63,6 +63,10 @@ Set up an Identity for the app under General in Xcode. You will need to pick a b
 
 Build the app! (click the Play-button in the top left corner when you have picked your target in the drop-down to the right of it.)
 
+![https://reactjs.org](https://img.shields.io/badge/react-%5E16.3.1-%2361DAFB?style=flat-square&logo=react)
+![https://www.typescriptlang.org](https://img.shields.io/badge/TypeScript-%5E3.7.5-%23007ACC?style=flat-square&logo=typescript)
+![https://www.mongodb.com](https://img.shields.io/badge/MongoDB-%5E3.6.0-%2347A248?style=flat-square&logo=mongodb)
+
 ## Tech Stack
 
 * React native
