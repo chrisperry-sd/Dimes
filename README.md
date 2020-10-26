@@ -24,10 +24,13 @@ This app is aimed at a childs first bank account, to set them up for a future of
 
 ## Getting Started 
 
-* Except for the regular suspects; git, Node, npm, you need these things to work on the Dimes. Follow the instructions supplied below them or on their links to get them up and running before you continue with Installation.
+* Except for the regular suspects; git, Node, npm, you need these things below to work on Dimes. Follow the instructions supplied below to get them up and running before you continue with Installation.
 
 * Xcode (latest version, at least >9.3). Install from App Store.
-* Cocoapods - a dependency manager for Swift and Objective-C Cocoa projects. sudo gem install cocoapods.
+* Cocoapods - a dependency manager for Swift and Objective-C Cocoa projects. 
+```bash
+sudo gem install cocoapods.
+```
 
 ## Recommended 
 
@@ -57,6 +60,9 @@ Build the app! (click the Play-button in the top left corner when you have picke
 
 * React native
 * MongoDB
+* Node
+* Jest
+* Express
 
 ## Developers
 
