@@ -72,4 +72,4 @@ Build the app! (click the Play-button in the top left corner when you have picke
 
 ## Stretch Goals
 
-Connect to a bank account throught the [plaid Link](https://plaid.com/uk/)
+Connect to a bank account throught the [plaid Link](https://plaid.com/uk/).
