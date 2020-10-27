@@ -38,7 +38,7 @@ React Native Debugger - a debugger built on the Chrome debugger, including React
 
 ## Installation
 
-* Clone this repo and enter!
+* Clone this repo and enter the following in the command line
 ```bash
 git clone https://github.com/chrisperry-sd/Dimes.git
 cd kidsbudgetingapp
