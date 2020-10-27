@@ -15,7 +15,7 @@ This app is aimed at a childs first bank account, to set them up for a future of
 
 * For the child, they see a reduced view with account balance, what they've spent money on, what budgets have been set for them and how much left of budget they have.
 
-* They're incentivised by seeing what they will have left if they manage to save their remaining budgets after receiving an allowance.
+* Children are incentivised by seeing what they will have left if they manage to save their remaining budgets after receiving an allowance.
 ## Screenshots
 
 <p align="center" height='75%' width='75%'>
