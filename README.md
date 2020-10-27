@@ -1,4 +1,4 @@
-<img src="./myAssets/images/dimesCoverPhoto.png" align='center'/>
+<img src="./myAssets/images/dimesCoverPhotoThinText.png" align='center'/>
 
 # Dimes
 
