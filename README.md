@@ -1,5 +1,6 @@
-# Dimes
+<img src="./myAssets/images/dimesCoverPhoto.png" align='center'/>
 
+# Dimes
 
 Dimes is a mobile app aimed at helping teach children the importance of money management. Users can connect to their childrens bank account to oversee spending and set budgets for them.
 
@@ -16,11 +17,6 @@ This app is aimed at a childs first bank account, to set them up for a future of
 * For the child, they see a reduced view with account balance, what they've spent money on, what budgets have been set for them and how much left of budget they have.
 
 * Children are incentivised by seeing what they will have left if they manage to save their remaining budgets after receiving an allowance.
-## Screenshots
-
-<p align="center" height='75%' width='75%'>
-  <img src="./myAssets/images/Screenshot 2020-10-24 at 15.41.35.png" />
-</p>
 
 ## Getting Started 
 
